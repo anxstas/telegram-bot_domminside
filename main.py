@@ -1241,5 +1241,6 @@ def handle_start(message):
     bot.send_message(message.chat.id, "Привет! Я бот, и я работаю через Webhook 🤖")
 
 if __name__ == "__main__":
+    print(">>> Устанавливаем webhook:", f"{WEBHOOK_URL}/bot{BOT_TOKEN}")
     bot.set_webhook(url=f"{WEBHOOK_URL}/bot{BOT_TOKEN}")
     app.run(host="0.0.0.0", port=WEBHOOK_PORT, ssl_context=("cert.pem", "privkey.pem"))
