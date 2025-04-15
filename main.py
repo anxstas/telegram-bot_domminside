@@ -13,6 +13,7 @@ import json
 from pytz import timezone
 import ssl
 from flask import Flask, request
+from dotenv import load_dotenv
 
 
 logging.basicConfig(
@@ -33,6 +34,7 @@ ADMIN_ID = 513201869
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
+app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 user_state = {}
 
@@ -1227,13 +1229,27 @@ def finish_chat(message):
 if __name__ == '__main__':
     logging.info("Бот запущен")
 
-bot.set_webhook(url=f"{WEBHOOK_URL}/bot{TELEGRAM_TOKEN}")
-webhook_server = WebhookServer(
-    bot,
-    webhook_url=f"{WEBHOOK_URL}/bot{TELEGRAM_TOKEN}",
-    certificate=open('cert.pem'),
-    key=open('privkey.pem'),
-    webhook_port=WEBHOOK_PORT
-)
-webhook_server.start()
+@app.route(f"/bot{BOT_TOKEN}", methods=["POST"])
+def telegram_webhook():
+    json_data = request.get_data().decode("utf-8")
+    update = telebot.types.Update.de_json(json_data)
+    bot.process_new_updates([update])
+    return "ok", 200
 
+# Простой ответ на /start
+@bot.message_handler(commands=["start"])
+def handle_start(message):
+    bot.send_message(message.chat.id, "Привет! Я бот, и я работаю через Webhook 🤖")
+
+if __name__ == "__main__":
+    # Удаляем старый webhook, если был
+    bot.remove_webhook()
+
+    # Устанавливаем новый webhook
+    bot.set_webhook(
+        url=f"{WEBHOOK_URL}/bot{BOT_TOKEN}",
+        certificate=open("cert.pem", "r")  # если self-signed
+    )
+
+    # Запускаем HTTPS-сервер Flask
+    app.run(host="0.0.0.0", port=WEBHOOK_PORT, ssl_context=("cert.pem", "privkey.pem"))
