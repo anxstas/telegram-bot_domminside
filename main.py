@@ -1070,6 +1070,15 @@ def handle_letter_tomorrow(message):
     bot.register_next_step_handler(msg, save_letter_tomorrow)
 
 def save_letter_tomorrow(message):
+    tomorrow = datetime.now(timezone('Europe/Kiev')) + timedelta(days=1)
+    letters = load_letters()
+    letters.append({
+        'user_id': message.from_user.id,
+        'text': message.text,
+        'send_date': tomorrow.strftime('%Y-%m-%d'),
+        'type': 'tomorrow'
+    })
+    save_letters(letters)
     bot.send_message(
         message.chat.id,
         "Я сохранил твое письмо. Завтра ты получишь его от себя самого. 💛"
@@ -1084,6 +1093,15 @@ def handle_letter_year(message):
     bot.register_next_step_handler(msg, save_letter_year)
 
 def save_letter_year(message):
+    next_year = datetime.now(timezone('Europe/Kiev')) + timedelta(days=365)
+    letters = load_letters()
+    letters.append({
+        'user_id': message.from_user.id,
+        'text': message.text,
+        'send_date': next_year.strftime('%Y-%m-%d'),
+        'type': 'year'
+    })
+    save_letters(letters)
     bot.send_message(
         message.chat.id,
         "Я сохранил твое письмо. И отправлю тебе его ровно через год. 💛"
