@@ -6,3 +6,4 @@ apscheduler
 openai
 logging
 pytz
+python-telegram-bot==13.15
