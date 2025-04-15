@@ -1107,18 +1107,47 @@ def save_letter_year(message):
         "Я сохранил твое письмо. И отправлю тебе его ровно через год. 💛"
     )
 
+import json
+import os
+from datetime import datetime
+from pytz import timezone
 
-LETTERS_FILE = 'letters_for_tomorrow.json'
+LETTERS_FILE = 'letters.json'
 
 def load_letters():
-    if not os.path.exists(LETTERS_FILE):
+    try:
+        if not os.path.exists(LETTERS_FILE):
+            with open(LETTERS_FILE, 'w', encoding='utf-8') as f:
+                json.dump([], f)
+            return []
+        with open(LETTERS_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        logging.error(f"Ошибка при чтении файла писем: {e}")
         return []
-    with open(LETTERS_FILE, 'r', encoding='utf-8') as f:
-        return json.load(f)
 
 def save_letters(letters):
-    with open(LETTERS_FILE, 'w', encoding='utf-8') as f:
-        json.dump(letters, f, ensure_ascii=False, indent=2)
+    try:
+        with open(LETTERS_FILE, 'w', encoding='utf-8') as f:
+            json.dump(letters, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        logging.error(f"Ошибка при сохранении писем: {e}")
+
+def add_letter(user_id, text, send_date, letter_type):
+    try:
+        letters = load_letters()
+        letters.append({
+            'user_id': user_id,
+            'text': text,
+            'send_date': send_date,
+            'type': letter_type,
+            'created_at': datetime.now(timezone('Europe/Kiev')).strftime('%Y-%m-%d %H:%M:%S')
+        })
+        save_letters(letters)
+        return True
+    except Exception as e:
+        logging.error(f"Ошибка при добавлении письма: {e}")
+        return False
 
 from pytz import timezone
 
