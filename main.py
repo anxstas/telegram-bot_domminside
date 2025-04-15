@@ -1159,7 +1159,7 @@ if __name__ == '__main__':
 
     bot.polling(none_stop=True)
 
-@bot.message_handler(func=lambda msg: msg.text == "📩 Письмо на завтра")
+@bot.message_handler(func=lambda msg: msg.text == "💌 Письмо на завтра")
 def handle_letter_tomorrow(message):
     msg = bot.send_message(
         message.chat.id,
@@ -1173,7 +1173,7 @@ def save_letter_tomorrow(message):
         "Я сохранил твое письмо. Завтра ты получишь его от себя самого. 💛"
     )
 
-@bot.message_handler(func=lambda msg: msg.text == "📩 Письмо себе через год")
+@bot.message_handler(func=lambda msg: msg.text == "💌 Письмо себе через год")
 def handle_letter_year(message):
     msg = bot.send_message(
         message.chat.id,
