@@ -12,6 +12,7 @@ from apscheduler.schedulers.background import BackgroundScheduler
 import json
 from pytz import timezone
 
+
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(levelname)s - %(message)s',
@@ -29,16 +30,6 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 bot = telebot.TeleBot(TELEGRAM_TOKEN)
 logging.basicConfig(level=logging.INFO)
 user_state = {}
-
-
-def setup_scheduler():
-    """Настройка планировщика"""
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(send_scheduled_letters, 'cron', hour='*/1')
-    scheduler.start()
-    logging.info("Планировщик запущен")
-
-setup_scheduler()
 
 try:
     bot.polling(none_stop=True)
@@ -939,6 +930,8 @@ def setup_scheduler():
     scheduler.add_job(send_scheduled_letters, 'cron', hour='*/1')
     scheduler.start()
     logging.info("Планировщик запущен")
+
+setup_scheduler()
 
 @bot.message_handler(commands=['письма_файл'])
 def print_letter_file(message):
