@@ -38,13 +38,6 @@ app = Flask(__name__)
 logging.basicConfig(level=logging.INFO)
 user_state = {}
 
-try:
-    bot.polling(none_stop=True)
-except Exception as e:
-    logging.error(f"Ошибка в основном цикле бота: {e}")
-    time.sleep(60)  # ждем минуту перед перезапуском
-user_selected_slots = {}
-
 def get_next_slots():
     today = datetime.now()
     slots = []
@@ -1239,6 +1232,12 @@ def telegram_webhook():
 @bot.message_handler(commands=["start"])
 def handle_start(message):
     bot.send_message(message.chat.id, "Привет! Я бот, и я работаю через Webhook 🤖")
+
+@app.route(f"/bot{TELEGRAM_TOKEN}", methods=["POST"])
+def webhook():
+    update = telebot.types.Update.de_json(request.data.decode("utf-8"))
+    bot.process_new_updates([update])
+    return "ok", 200
 
 if __name__ == "__main__":
     print(">>> Устанавливаем webhook:", f"{WEBHOOK_URL}/bot{BOT_TOKEN}")
