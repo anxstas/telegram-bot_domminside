@@ -6,7 +6,45 @@ import os
 import random
 import time
 from datetime import datetime, timedelta
+from telegram.ext import Updater, CommandHandler, MessageHandler
+import telegram
+from apscheduler.schedulers.background import BackgroundScheduler
+import json
+from pytz import timezone
 
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s - %(levelname)s - %(message)s',
+    handlers=[
+        logging.FileHandler('letters_bot.log'),
+        logging.StreamHandler()
+    ]
+)
+
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
+ADMIN_ID = 513201869
+
+openai.api_key = os.getenv("OPENAI_API_KEY")
+bot = telebot.TeleBot(TELEGRAM_TOKEN)
+logging.basicConfig(level=logging.INFO)
+user_state = {}
+
+
+def setup_scheduler():
+    """Настройка планировщика"""
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(send_scheduled_letters, 'cron', hour='*/1')
+    scheduler.start()
+    logging.info("Планировщик запущен")
+
+setup_scheduler()
+
+try:
+    bot.polling(none_stop=True)
+except Exception as e:
+    logging.error(f"Ошибка в основном цикле бота: {e}")
+    time.sleep(60)  # ждем минуту перед перезапуском
 user_selected_slots = {}
 
 def get_next_slots():
@@ -26,15 +64,6 @@ def get_next_slots():
                 label = f"{day.strftime('%a %d %b')} • {t}"
                 slots.append((label, dt_obj))
     return slots
-
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-OPENAI_API_KEY = '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'
-ADMIN_ID = 513201869
-
-openai.api_key = os.getenv("OPENAI_API_KEY")
-bot = telebot.TeleBot(TELEGRAM_TOKEN)
-logging.basicConfig(level=logging.INFO)
-user_state = {}
 
 def human_delay():
     time.sleep(random.uniform(1.2, 2.5))
@@ -784,6 +813,145 @@ def cute_stuff(message):
         reply_markup=markup
     )
 
+# Константы и настройки
+LETTERS_FILE = 'letters.json'
+TIMEZONE = timezone('Europe/Kiev')
+
+def setup_logging():
+    """Настройка логирования"""
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler('letters_bot.log'),
+            logging.StreamHandler()
+        ]
+    )
+
+def load_letters():
+    """Загрузка писем из файла"""
+    try:
+        if not os.path.exists(LETTERS_FILE):
+            with open(LETTERS_FILE, 'w', encoding='utf-8') as f:
+                json.dump([], f)
+            return []
+        
+        with open(LETTERS_FILE, 'r', encoding='utf-8') as f:
+            return json.load(f)
+    except Exception as e:
+        logging.error(f"Ошибка при чтении файла писем: {e}")
+        return []
+
+def save_letters(letters):
+    """Сохранение писем в файл"""
+    try:
+        with open(LETTERS_FILE, 'w', encoding='utf-8') as f:
+            json.dump(letters, f, ensure_ascii=False, indent=2)
+    except Exception as e:
+        logging.error(f"Ошибка при сохранении писем: {e}")
+
+@bot.message_handler(func=lambda msg: msg.text == "💌 Письмо на завтра")
+def handle_letter_tomorrow(message):
+    """Обработчик команды письма на завтра"""
+    msg = bot.send_message(
+        message.chat.id,
+        "Что бы ты хотел написать себе в твое завтра? Может быть, поддержать, может, напомнить о чем-то важном?"
+    )
+    bot.register_next_step_handler(msg, save_letter_tomorrow)
+
+def save_letter_tomorrow(message):
+    """Сохранение письма на завтра"""
+    tomorrow = TIMEZONE.localize(datetime.now()) + timedelta(days=1)
+    
+    letters = load_letters()
+    letters.append({
+        'user_id': message.from_user.id,
+        'text': message.text,
+        'send_date': tomorrow.date().isoformat(),
+        'type': 'tomorrow',
+        'created_at': datetime.now(TIMEZONE).isoformat()
+    })
+    
+    save_letters(letters)
+    bot.send_message(
+        message.chat.id,
+        "Я сохранил твое письмо. Завтра ты получишь его от себя самого. 💛"
+    )
+
+@bot.message_handler(func=lambda msg: msg.text == "💌 Письмо себе через год")
+def handle_letter_year(message):
+    """Обработчик команды письма через год"""
+    msg = bot.send_message(
+        message.chat.id,
+        "Представь себя через год. Что бы ты хотел(а) себе сказать? Что передать? Пожелать? Предостеречь? Запланировать? 📬"
+    )
+    bot.register_next_step_handler(msg, save_letter_year)
+
+def save_letter_year(message):
+    """Сохранение письма на год"""
+    next_year = TIMEZONE.localize(datetime.now()) + timedelta(days=365)
+    
+    letters = load_letters()
+    letters.append({
+        'user_id': message.from_user.id,
+        'text': message.text,
+        'send_date': next_year.date().isoformat(),
+        'type': 'year',
+        'created_at': datetime.now(TIMEZONE).isoformat()
+    })
+    
+    save_letters(letters)
+    bot.send_message(
+        message.chat.id,
+        "Я сохранил твое письмо. И отправлю тебе его ровно через год. 💛"
+    )
+
+def send_scheduled_letters():
+    """Отправка запланированных писем"""
+    try:
+        today = datetime.now(TIMEZONE).date().isoformat()
+        letters = load_letters()
+        
+        # Фильтруем письма для отправки
+        to_send = [letter for letter in letters if letter['send_date'] == today]
+        remaining_letters = [letter for letter in letters if letter['send_date'] != today]
+        
+        # Сохраняем оставшиеся письма
+        save_letters(remaining_letters)
+        
+        # Отправляем письма
+        for letter in to_send:
+            try:
+                bot.send_message(
+                    letter['user_id'],
+                    f"Ты написал себе это ранее:\n\n'{letter['text']}' 💛"
+                )
+                logging.info(f"Отправлено письмо пользователю {letter['user_id']}")
+            except Exception as e:
+                logging.error(f"Не удалось отправить письмо {letter['user_id']}: {e}")
+                
+    except Exception as e:
+        logging.error(f"Ошибка при обработке писем: {e}")
+
+def setup_scheduler():
+    """Настройка планировщика"""
+    scheduler = BackgroundScheduler()
+    scheduler.add_job(send_scheduled_letters, 'cron', hour='*/1')
+    scheduler.start()
+    logging.info("Планировщик запущен")
+
+@bot.message_handler(commands=['письма_файл'])
+def print_letter_file(message):
+    """Отображение содержимого файла с письмами"""
+    letters = load_letters()
+    bot.send_message(message.chat.id, f"Сейчас в файле:\n{json.dumps(letters, ensure_ascii=False, indent=2)}")
+
+@bot.message_handler(commands=['письма'])
+def debug_send_letters(message):
+    """Отладочный обработчик для отправки писем"""
+    send_scheduled_letters()
+    bot.send_message(message.chat.id, "Попробовал отправить письма 💌")
+
 @bot.message_handler(func=lambda msg: msg.text == '🌊 Море тишины')
 def handle_sea_of_silence(message):
     user_state.pop(message.from_user.id, None)
@@ -1058,153 +1226,8 @@ def finish_chat(message):
     bot.send_message(message.chat.id, "🌿 Спасибо за доверие. Если захочешь вернуться — я рядом.", reply_markup=persistent_keyboard())
     user_state.pop(message.from_user.id, None)
 
-from apscheduler.schedulers.background import BackgroundScheduler
-import json
-
-@bot.message_handler(func=lambda msg: msg.text == "💌 Письмо на завтра")
-def handle_letter_tomorrow(message):
-    msg = bot.send_message(
-        message.chat.id,
-        "Что бы ты хотел написать себе в твое завтра? Может быть, поддержать, может, напомнить о чем-то важном?"
-    )
-    bot.register_next_step_handler(msg, save_letter_tomorrow)
-
-def save_letter_tomorrow(message):
-    tomorrow = datetime.now(timezone('Europe/Kiev')) + timedelta(days=1)
-    letters = load_letters()
-    letters.append({
-        'user_id': message.from_user.id,
-        'text': message.text,
-        'send_date': tomorrow.strftime('%Y-%m-%d'),
-        'type': 'tomorrow'
-    })
-    save_letters(letters)
-    bot.send_message(
-        message.chat.id,
-        "Я сохранил твое письмо. Завтра ты получишь его от себя самого. 💛"
-    )
-
-@bot.message_handler(func=lambda msg: msg.text == "💌 Письмо себе через год")
-def handle_letter_year(message):
-    msg = bot.send_message(
-        message.chat.id,
-        "Представь себя через год. Что бы ты хотел(а) себе сказать? Что передать? Пожелать? Предостеречь? Запланировать? 📬"
-    )
-    bot.register_next_step_handler(msg, save_letter_year)
-
-def save_letter_year(message):
-    next_year = datetime.now(timezone('Europe/Kiev')) + timedelta(days=365)
-    letters = load_letters()
-    letters.append({
-        'user_id': message.from_user.id,
-        'text': message.text,
-        'send_date': next_year.strftime('%Y-%m-%d'),
-        'type': 'year'
-    })
-    save_letters(letters)
-    bot.send_message(
-        message.chat.id,
-        "Я сохранил твое письмо. И отправлю тебе его ровно через год. 💛"
-    )
-
-import json
-import os
-from datetime import datetime
-from pytz import timezone
-
-LETTERS_FILE = 'letters.json'
-
-def load_letters():
-    try:
-        if not os.path.exists(LETTERS_FILE):
-            with open(LETTERS_FILE, 'w', encoding='utf-8') as f:
-                json.dump([], f)
-            return []
-        with open(LETTERS_FILE, 'r', encoding='utf-8') as f:
-            return json.load(f)
-    except Exception as e:
-        logging.error(f"Ошибка при чтении файла писем: {e}")
-        return []
-
-def save_letters(letters):
-    try:
-        with open(LETTERS_FILE, 'w', encoding='utf-8') as f:
-            json.dump(letters, f, ensure_ascii=False, indent=2)
-    except Exception as e:
-        logging.error(f"Ошибка при сохранении писем: {e}")
-
-def add_letter(user_id, text, send_date, letter_type):
-    try:
-        letters = load_letters()
-        letters.append({
-            'user_id': user_id,
-            'text': text,
-            'send_date': send_date,
-            'type': letter_type,
-            'created_at': datetime.now(timezone('Europe/Kiev')).strftime('%Y-%m-%d %H:%M:%S')
-        })
-        save_letters(letters)
-        return True
-    except Exception as e:
-        logging.error(f"Ошибка при добавлении письма: {e}")
-        return False
-
-from pytz import timezone
-
-def send_scheduled_letters():
-    today = datetime.now(timezone('Europe/Kiev')).date()
-    letters = load_letters()
-    to_send = [l for l in letters if l['send_date'] == str(today)]
-    letters = [l for l in letters if l['send_date'] != str(today)]
-    save_letters(letters)
-
-    logging.info(f"Сегодня: {today}, писем для отправки: {len(to_send)}")
-
-    for entry in to_send:
-        try:
-            bot.send_message(entry['user_id'], f"Ты написал себе это ранее:\n\n‘{entry['text']}’ 💛")
-        except Exception as e:
-            logging.error(f"Не удалось отправить письмо {entry['user_id']}: {e}")
-
-@bot.message_handler(commands=['письма_файл'])
-def print_letter_file(message):
-    letters = load_letters()
-    bot.send_message(message.chat.id, f"Сейчас в файле:\n{json.dumps(letters, ensure_ascii=False, indent=2)}")
-
-
-@bot.message_handler(commands=['письма'])
-def debug_send_letters(message):
-    send_scheduled_letters()
-    bot.send_message(message.chat.id, "Попробовал отправить письма 💌")
-
-def send_scheduled_letters():
-    try:
-        today = datetime.now(timezone('Europe/Kiev')).date()
-        letters = load_letters()
-        to_send = [l for l in letters if l['send_date'] == str(today)]
-        letters = [l for l in letters if l['send_date'] != str(today)]
-        save_letters(letters)
-
-        for entry in to_send:
-            try:
-                bot.send_message(entry['user_id'], 
-                    f"Ты написал себе это ранее:\n\n'{entry['text']}' 💛")
-                logging.info(f"Отправлено письмо пользователю {entry['user_id']}")
-            except Exception as e:
-                logging.error(f"Не удалось отправить письмо {entry['user_id']}: {e}")
-    except Exception as e:
-        logging.error(f"Ошибка при обработке писем: {e}")
-
 if __name__ == '__main__':
     logging.info("Бот запущен")
-
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(send_scheduled_letters, 'cron', hour=9, minute=0)
-    scheduler.start()
-    from pytz import timezone
-    scheduler = BackgroundScheduler(timezone=timezone('Europe/Kiev'))
-    scheduler.add_job(send_scheduled_letters, 'cron', hour=9, minute=0)
-    scheduler.start()
 
     bot.polling(none_stop=True)
 
