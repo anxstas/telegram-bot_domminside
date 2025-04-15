@@ -1148,6 +1148,24 @@ def debug_send_letters(message):
     send_scheduled_letters()
     bot.send_message(message.chat.id, "Попробовал отправить письма 💌")
 
+def send_scheduled_letters():
+    try:
+        today = datetime.now(timezone('Europe/Kiev')).date()
+        letters = load_letters()
+        to_send = [l for l in letters if l['send_date'] == str(today)]
+        letters = [l for l in letters if l['send_date'] != str(today)]
+        save_letters(letters)
+
+        for entry in to_send:
+            try:
+                bot.send_message(entry['user_id'], 
+                    f"Ты написал себе это ранее:\n\n'{entry['text']}' 💛")
+                logging.info(f"Отправлено письмо пользователю {entry['user_id']}")
+            except Exception as e:
+                logging.error(f"Не удалось отправить письмо {entry['user_id']}: {e}")
+    except Exception as e:
+        logging.error(f"Ошибка при обработке писем: {e}")
+
 if __name__ == '__main__':
     logging.info("Бот запущен")
 
