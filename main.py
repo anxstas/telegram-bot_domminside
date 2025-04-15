@@ -1119,51 +1119,6 @@ def send_scheduled_letters():
         except Exception as e:
             logging.error(f"Не удалось отправить письмо {entry['user_id']}: {e}")
 
-
-@bot.message_handler(func=lambda msg: msg.text == '💌 Письмо на завтра')
-def handle_letter_prompt(message):
-    bot.send_message(
-        message.chat.id,
-        "Хочешь оставить себе записку, которую я пришлю тебе утром?\n\nНапиши её сюда. Она дойдёт к тебе завтра 🌅"
-    )
-    bot.register_next_step_handler(message, save_letter_for_tomorrow)
-
-def save_letter_for_tomorrow(message):
-    letters = load_letters()
-    letters.append({
-        'user_id': message.from_user.id,
-        'text': message.text.strip(),
-        'send_date': (datetime.now() + timedelta(days=1)).date().isoformat()
-    })
-    save_letters(letters)
-    bot.send_message(
-        message.chat.id,
-        "Сохранил 💌 Завтра утром я напомню тебе об этом. Спокойной ночи 🌙"
-    )
-
-
-@bot.message_handler(func=lambda msg: msg.text == '💌 Письмо себе через год')
-def handle_letter_next_year_prompt(message):
-    bot.send_message(
-        message.chat.id,
-        "Хочешь оставить себе письмо, которое я пришлю тебе ровно через год?\n\nНапиши его сюда — и оно обязательно найдёт тебя. 💫"
-    )
-    bot.register_next_step_handler(message, save_letter_for_next_year)
-
-def save_letter_for_next_year(message):
-    letters = load_letters()
-    letters.append({
-        'user_id': message.from_user.id,
-        'text': message.text.strip(),
-        'send_date': (datetime.now() + timedelta(days=365)).date().isoformat()
-    })
-    save_letters(letters)
-    bot.send_message(
-        message.chat.id,
-        "Письмо сохранено 🕊️ Я пришлю его тебе через год. Прикинь, сколько всего может произойти за это время... 💛"
-    )
-
-
 @bot.message_handler(commands=['письма_файл'])
 def print_letter_file(message):
     letters = load_letters()
