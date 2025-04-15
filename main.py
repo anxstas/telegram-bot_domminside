@@ -1236,20 +1236,10 @@ def telegram_webhook():
     bot.process_new_updates([update])
     return "ok", 200
 
-# Простой ответ на /start
 @bot.message_handler(commands=["start"])
 def handle_start(message):
     bot.send_message(message.chat.id, "Привет! Я бот, и я работаю через Webhook 🤖")
 
 if __name__ == "__main__":
-    # Удаляем старый webhook, если был
-    bot.remove_webhook()
-
-    # Устанавливаем новый webhook
-    bot.set_webhook(
-        url=f"{WEBHOOK_URL}/bot{BOT_TOKEN}",
-        certificate=open("cert.pem", "r")  # если self-signed
-    )
-
-    # Запускаем HTTPS-сервер Flask
+    bot.set_webhook(url=f"{WEBHOOK_URL}/bot{BOT_TOKEN}")
     app.run(host="0.0.0.0", port=WEBHOOK_PORT, ssl_context=("cert.pem", "privkey.pem"))
