@@ -11,6 +11,8 @@ import telegram
 from apscheduler.schedulers.background import BackgroundScheduler
 import json
 from pytz import timezone
+import ssl
+from flask import Flask, request
 
 
 logging.basicConfig(
@@ -21,6 +23,9 @@ logging.basicConfig(
         logging.StreamHandler()
     ]
 )
+
+WEBHOOK_URL = os.getenv('WEBHOOK_URL')
+WEBHOOK_PORT = int(os.getenv('PORT', '8443'))
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
@@ -1222,5 +1227,13 @@ def finish_chat(message):
 if __name__ == '__main__':
     logging.info("Бот запущен")
 
-    bot.polling(none_stop=True)
+bot.set_webhook(url=f"{WEBHOOK_URL}/bot{TELEGRAM_TOKEN}")
+webhook_server = WebhookServer(
+    bot,
+    webhook_url=f"{WEBHOOK_URL}/bot{TELEGRAM_TOKEN}",
+    certificate=open('cert.pem'),
+    key=open('privkey.pem'),
+    webhook_port=WEBHOOK_PORT
+)
+webhook_server.start()
 
