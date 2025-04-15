@@ -1061,6 +1061,35 @@ def finish_chat(message):
 from apscheduler.schedulers.background import BackgroundScheduler
 import json
 
+@bot.message_handler(func=lambda msg: msg.text == "💌 Письмо на завтра")
+def handle_letter_tomorrow(message):
+    msg = bot.send_message(
+        message.chat.id,
+        "Что бы ты хотел написать себе в твое завтра? Может быть, поддержать, может, напомнить о чем-то важном?"
+    )
+    bot.register_next_step_handler(msg, save_letter_tomorrow)
+
+def save_letter_tomorrow(message):
+    bot.send_message(
+        message.chat.id,
+        "Я сохранил твое письмо. Завтра ты получишь его от себя самого. 💛"
+    )
+
+@bot.message_handler(func=lambda msg: msg.text == "💌 Письмо себе через год")
+def handle_letter_year(message):
+    msg = bot.send_message(
+        message.chat.id,
+        "Представь себя через год. Что бы ты хотел(а) себе сказать? Что передать? Пожелать? Предостеречь? Запланировать? 📬"
+    )
+    bot.register_next_step_handler(msg, save_letter_year)
+
+def save_letter_year(message):
+    bot.send_message(
+        message.chat.id,
+        "Я сохранил твое письмо. И отправлю тебе его ровно через год. 💛"
+    )
+
+
 LETTERS_FILE = 'letters_for_tomorrow.json'
 
 def load_letters():
@@ -1159,30 +1188,3 @@ if __name__ == '__main__':
 
     bot.polling(none_stop=True)
 
-@bot.message_handler(func=lambda msg: msg.text == "💌 Письмо на завтра")
-def handle_letter_tomorrow(message):
-    msg = bot.send_message(
-        message.chat.id,
-        "Что бы ты хотел написать себе в твое завтра? Может быть, поддержать, может, напомнить о чем-то важном?"
-    )
-    bot.register_next_step_handler(msg, save_letter_tomorrow)
-
-def save_letter_tomorrow(message):
-    bot.send_message(
-        message.chat.id,
-        "Я сохранил твое письмо. Завтра ты получишь его от себя самого. 💛"
-    )
-
-@bot.message_handler(func=lambda msg: msg.text == "💌 Письмо себе через год")
-def handle_letter_year(message):
-    msg = bot.send_message(
-        message.chat.id,
-        "Представь себя через год. Что бы ты хотел(а) себе сказать? Что передать? Пожелать? Предостеречь? Запланировать? 📬"
-    )
-    bot.register_next_step_handler(msg, save_letter_year)
-
-def save_letter_year(message):
-    bot.send_message(
-        message.chat.id,
-        "Я сохранил твое письмо. И отправлю тебе его ровно через год. 💛"
-    )
