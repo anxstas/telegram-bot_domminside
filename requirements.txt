@@ -1,4 +1,6 @@
-python-telegram-bot==20.0a0
+pyTelegramBotAPI
+flask
+python-dotenv
 telebot
 apscheduler
 openai
