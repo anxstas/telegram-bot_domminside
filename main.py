@@ -1,5 +1,3 @@
-from flask import Flask, request
-
 import telebot
 from telebot import types
 import openai
@@ -8,6 +6,19 @@ import os
 import random
 import time
 from datetime import datetime, timedelta
+from flask import Flask, request
+
+app = Flask(__name__)
+
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+openai.api_key = os.getenv("OPENAI_API_KEY")
+ADMIN_ID = 513201869
+WEBHOOK_URL = os.getenv("WEBHOOK_URL")
+WEBHOOK_PORT = int(os.getenv("PORT", "10000"))
+
+bot = telebot.TeleBot(TELEGRAM_TOKEN)
+logging.basicConfig(level=logging.INFO)
+user_state = {}
 
 user_selected_slots = {}
 
@@ -28,17 +39,6 @@ def get_next_slots():
                 label = f"{day.strftime('%a %d %b')} • {t}"
                 slots.append((label, dt_obj))
     return slots
-
-app = Flask(__name__)
-
-TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
-OPENAI_API_KEY = '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'
-ADMIN_ID = 513201869
-
-openai.api_key = os.getenv("OPENAI_API_KEY")
-bot = telebot.TeleBot(TELEGRAM_TOKEN)
-logging.basicConfig(level=logging.INFO)
-user_state = {}
 
 def human_delay():
     time.sleep(random.uniform(1.2, 2.5))
