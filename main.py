@@ -1060,12 +1060,4 @@ def finish_chat(message):
 if __name__ == '__main__':
     logging.info("Бот запущен")
 
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(send_scheduled_letters, 'cron', hour=9, minute=0)
-    scheduler.start()
-    from pytz import timezone
-    scheduler = BackgroundScheduler(timezone=timezone('Europe/Kiev'))
-    scheduler.add_job(send_scheduled_letters, 'cron', hour=9, minute=0)
-    scheduler.start()
-
     bot.polling(none_stop=True)
