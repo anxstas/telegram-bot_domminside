@@ -1225,7 +1225,6 @@ metaphoric_cards = [
 - Если бы ты относился к каждому дню как к драгоценному, невосполнимому ресурсу, как бы изменились твои выборы о том, на что его потратить?""",
 ]
 
-# === Кнопка: Пойдешь ещё глубже? ===
 @bot.message_handler(func=lambda msg: msg.text == "🌀 Пойдешь ещё глубже?")
 def handle_go_deeper_intro(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -1253,7 +1252,6 @@ def handle_deep_no(message):
 @bot.message_handler(func=lambda msg: msg.text == "Спасибо 💛")
 def handle_thanks(message):
     show_main_menu(message)
-
 
 
 if __name__ == "__main__":
