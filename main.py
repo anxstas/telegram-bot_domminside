@@ -1,3 +1,5 @@
+from flask import Flask, request
+
 import telebot
 from telebot import types
 import openai
@@ -1057,7 +1059,17 @@ def finish_chat(message):
     user_state.pop(message.from_user.id, None)
 
 
-if __name__ == '__main__':
     logging.info("Бот запущен")
 
-    bot.polling(none_stop=True)
+
+@app.route(f"/bot{TELEGRAM_TOKEN}", methods=["POST"])
+def webhook():
+    update = telebot.types.Update.de_json(request.data.decode("utf-8"))
+    bot.process_new_updates([update])
+    return "ok", 200
+
+if __name__ == "__main__":
+    print(">>> Устанавливаем webhook:", f"{WEBHOOK_URL}/bot{TELEGRAM_TOKEN}")
+    bot.remove_webhook()
+    bot.set_webhook(url=f"{WEBHOOK_URL}/bot{TELEGRAM_TOKEN}")
+    app.run(host="0.0.0.0", port=WEBHOOK_PORT)
