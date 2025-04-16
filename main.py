@@ -29,6 +29,8 @@ def get_next_slots():
                 slots.append((label, dt_obj))
     return slots
 
+app = Flask(__name__)
+
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 OPENAI_API_KEY = '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'
 ADMIN_ID = 513201869
