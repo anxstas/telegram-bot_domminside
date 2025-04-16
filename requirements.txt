@@ -1,5 +1,4 @@
 pyTelegramBotAPI
-.env.example
-telebot
+Flask
+python-dotenv
 openai
-logging
