@@ -621,7 +621,7 @@ def handle_sea_of_silence(message):
     markup = types.InlineKeyboardMarkup()
     markup.add(types.InlineKeyboardButton("🎧 Шум дождя", url="https://www.rainymood.com/"))
     markup.add(types.InlineKeyboardButton("🌿 Звуки природы", url="https://asoftmurmur.com/"))
-    markup.add(types.InlineKeyboardButton("🧘 Я просто хочу здесь побыть и повтыкать на этого классного кота с надписью Bad Bitch на его очках", callback_data='just_be_here'))
+    markup.add(types.InlineKeyboardButton("🧘 Я просто хочу здесь побыть", callback_data='just_be_here'))
 
     bot.send_message(message.chat.id, "Выбери, если хочешь:", reply_markup=markup)
 
