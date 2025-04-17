@@ -767,11 +767,20 @@ def about_method(message):
     bot.send_message(message.chat.id, text, reply_markup=markup)
     bot.send_message(message.chat.id, "И всегда можно вернуться в главное меню 👇", reply_markup=persistent_keyboard())
 
+@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🗣 Обратная связь')
+def feedback(message):
+    user_state.pop(message.from_user.id, None)
+    bot.send_message(
+        message.chat.id,
+        "Здесь ты можешь написать всё, что думаешь о нём — об этом неидеальном, но точно живом и настоящем человеке.\n\n"
+        "Он будет благодарен тебе за каждую твою буковку 🌞"
+    )
+
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🧩 Полезности')
 def resources(message):
     user_state.pop(message.from_user.id, None)
     text = (
-        "Тут - много всего на важные тревожно-депрессивные темы.\n\n" 
+        "Тут - много всего на важные тревожно-депрессивные темы.\n\n"
         "Я буду рад видеть тебя среди своих подписчиков. Только так я смогу развиваться и давать людям больше пользы.\n\n"
         "▶️ YouTube о тревоге и депрессии (и чуть-чуть личного)\n\n"
         "📸 Instagram о тревоге и депрессии (и побольше личного)\n\n"
@@ -786,16 +795,6 @@ def resources(message):
         types.InlineKeyboardButton("Facebook", url="https://www.facebook.com/stanislav.verechuk/")
     )
     bot.send_message(message.chat.id, text, reply_markup=markup)
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🗣 Обратная связь')
-def feedback(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(
-        message.chat.id,
-        "Здесь ты можешь написать всё, что думаешь о нём — об этом неидеальном, но точно живом и настоящем человеке.\n\n"
-        "Он будет благодарен тебе за каждую твою буковку 🌞"
-    )
-
 
 @bot.message_handler(commands=['завершить','end'])
 def finish_chat(message):
