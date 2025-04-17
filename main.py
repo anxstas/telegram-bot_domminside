@@ -273,7 +273,7 @@ depression_test_data = [
 
 user_depression_state = {}  # {user_id: {'step': int, 'answers': []}}
 
-@bot.message_handler(func=lambda msg: msg.text == '🧞‍♀️ Тест депрессии')
+@bot.message_handler(func=lambda msg: "Тест депрессии" in msg.text)
 def start_depression_test(message):
     uid = message.from_user.id
     user_depression_state[uid] = {'step': 0, 'answers': []}
