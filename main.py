@@ -791,10 +791,8 @@ def handle_deeper(message):
     user_state.pop(message.from_user.id, None)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add("🧘 О подходе «Домой, к себе настоящему»")
-    markup.add("🧩 Полезности")
-    markup.add("🍊 Важности")
-    markup.add("🗣 Обратная связь")
-    markup.add("🐾 Назад")
+    markup.add("🧩 Полезности", "🍊 Важности")
+    markup.add("🗣 Обратная связь", "🐾 Назад")
     bot.send_message(message.chat.id, "Выбери, что тебе интересно:", reply_markup=markup)
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🧘 О подходе «Домой, к себе настоящему»')
