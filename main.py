@@ -438,7 +438,7 @@ def confirm_payment(call):
     bot.send_message(call.message.chat.id, calendar_link)
     bot.send_message(call.message.chat.id, f"Я жду тебя в {human_date} 🌞", reply_markup=persistent_keyboard())
     bot.send_message(call.message.chat.id, "Установи Google Meet для связи, перед сессией я пришлю тебе ссылку.")
-    bot.send_message(call.message.chat.id, "И можешь пока что «Пойти глубже», чтобы посмотреть, что там у нас 👇")
+    bot.send_message(call.message.chat.id, "И можешь пока что «🤿 Пойти глубже», чтобы посмотреть, что там у нас 👇")
 
     # Кнопки
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -736,8 +736,9 @@ def handle_deeper(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add("🧘 О подходе «Домой, к себе настоящему»")
     markup.add("🧩 Полезности", "🍊 Тёплости")
+    markup.add("🚨 SOS без соплей", "🐳 Еще глубже")
     markup.add("🗣 Обратная связь", "🏠 Домой")
-    bot.send_message(message.chat.id, "Выбери, что тебе интересно:", reply_markup=markup)
+    bot.send_message(message.chat.id, "Выбери, что тебе интересно 👇", reply_markup=markup)
 
 @bot.callback_query_handler(func=lambda call: True)
 def debug_callback(call):
