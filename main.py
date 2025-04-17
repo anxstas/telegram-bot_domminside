@@ -73,12 +73,15 @@ anxiety_test_data = [
     "Головная боль",
     "Чувство слабости в ногах"
 ]
+
 user_anxiety_state = {}  # {user_id: {'step': int, 'answers': []}}
+
 @bot.message_handler(func=lambda msg: msg.text == '🧞‍♂️ Тест тревоги')
 def start_anxiety_test(message):
     uid = message.from_user.id
     user_anxiety_state[uid] = {'step': 0, 'answers': []}
     send_anxiety_question(message.chat.id, uid)
+
 def send_anxiety_question(chat_id, uid):
     step = user_anxiety_state[uid]['step']
     question = anxiety_test_data[step]
@@ -111,56 +114,36 @@ def handle_anxiety_answer(call):
 def show_anxiety_result(chat_id, uid):
     answers = user_anxiety_state[uid]['answers']
     total_score = sum(answers)
-    del user_anxiety_state[uid]
 
-    # Пользователю
-    markup = types.InlineKeyboardMarkup()
-    markup.add(types.InlineKeyboardButton("📨 Отправить результат Стасу", callback_data='anx_send_to_admin'))
+    if total_score <= 7:
+        level = "🟢 Минимальная тревожность"
+        interpretation = "Ты почти не испытываешь тревожность в повседневной жизни."
+    elif total_score <= 15:
+        level = "🟡 Лёгкая тревожность"
+        interpretation = "Тревожность есть, но ты справляешься. Обрати внимание на внутренние перегрузки."
+    elif total_score <= 25:
+        level = "🟠 Умеренная тревожность"
+        interpretation = "Уровень тревоги уже влияет на твоё самочувствие. Возможно, стоит с кем-то это обсудить."
+    else:
+        level = "🔴 Выраженная тревожность"
+        interpretation = "Тревожность ощутимо мешает тебе. Пора заботиться о себе и разгрузить голову."
+
+    result_text = f"🔹 Твой результат: {total_score} баллов\n{level}\n\n{interpretation}"
+
+    bot.send_message(chat_id, result_text)
+
+    # Приглашение на сессию
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add("🟡 Записаться на сессию-знакомство -40%")
+    markup.add("🏠 Домой")
+
     bot.send_message(
         chat_id,
-        "Готово! Спасибо, что прошёл тест. Я отправлю результат Стасу — он посмотрит и откликнется тебе бесплатно 💛 Хочешь?",
+        "Если хочешь обсудить это глубже — запишись на сессию-знакомство со Стасом со скидкой 40% 👇",
         reply_markup=markup
     )
 
-    # Храним результат до отправки
-    user_anxiety_state[uid] = {
-        'final_score': total_score,
-        'answers': answers
-    }
-
-@bot.callback_query_handler(func=lambda call: call.data == 'anx_send_to_admin')
-def send_anxiety_to_admin(call):
-    uid = call.from_user.id
-    if uid not in user_anxiety_state:
-        return
-
-    result = user_anxiety_state.pop(uid)
-    total_score = result['final_score']
-    answers = result['answers']
-
-    # Интерпретация (только тебе)
-    if total_score <= 7:
-        level = "Минимальная тревожность"
-    elif total_score <= 15:
-        level = "Лёгкая тревожность"
-    elif total_score <= 25:
-        level = "Умеренная тревожность"
-    else:
-        level = "Выраженная тревожность"
-
-    bot.send_message(
-        ADMIN_ID,
-        f"🧞‍♂️ ТЕСТ ТРЕВОГИ\n"
-        f"От пользователя: {uid}\n\n"
-        f"Суммарный балл: {total_score}\n"
-        f"Уровень: {level}\n"
-        f"Ответы: {answers}"
-    )
-
-    bot.send_message(
-        call.message.chat.id,
-        "Спасибо 💛 Стас получил твой тест. Он посмотрит и напишет тебе лично 🌿"
-    )
+    del user_anxiety_state[uid]
 
 
 
