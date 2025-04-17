@@ -532,6 +532,7 @@ def handle_deeper(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add("🧘 О подходе «Домой, к себе настоящему»")
     markup.add("🧩 Полезности", "🍊 Тёплости")
+    markup.add("🚨 SOS без соплей", "🐳 Еще глубже")
     markup.add("🗣 Обратная связь", "🏠 Домой")
     bot.send_message(message.chat.id, "Выбери, что тебе интересно 👇", reply_markup=markup)
 
@@ -579,6 +580,181 @@ def resources(message):
     )
     bot.send_message(message.chat.id, text, reply_markup=markup)
 
+@bot.message_handler(func=lambda msg: msg.text == '🚨 SOS без соплей')
+def handle_sos_no_tears(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add("😤 Когда всё заебало нахуй")
+    markup.add("💣 Когда хочется разъебать")
+    markup.add("😵‍💫 Когда в ахуе")
+    markup.add("💀 Хочу сдохнуть, но не умирать")
+    markup.add("😐 Не хочется ни хуя, но нажал")
+    markup.add("🐾 Назад в помощь. Ну или Бог в помощь")
+
+    bot.send_message(
+        message.chat.id,
+        "Выбирай, что ближе. Без прикрас, без розового. Просто ебашь.",
+        reply_markup=markup
+    )
+    
+@bot.message_handler(func=lambda msg: msg.text == "😤 Когда всё заебало нахуй")
+def handle_sos_fuck_it_all(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add("Блядь, заебало всё")
+    markup.add("Я выгорел нахуй")
+    markup.add("Хочу исчезнуть к хуям")
+    markup.add("Просто пошло всё нахуй")
+    markup.add("🔙 Назад в SOS")
+
+    bot.send_message(
+        message.chat.id,
+        "Понял. Держи варианты. Бей по тому, что ближе всего:",
+        reply_markup=markup
+    )
+@bot.message_handler(func=lambda msg: msg.text == "Блядь, заебало всё")
+def handle_sos_4099926234648959947(message):
+    bot.send_message(message.chat.id, "Окей. Не фильтруй. Скажи это. Ещё громче. Ещё злее. Это не истерика. Это выход. Говори.")
+
+
+@bot.message_handler(func=lambda msg: msg.text == "Я выгорел нахуй")
+def handle_sos_2097721584395819975(message):
+    bot.send_message(message.chat.id, "Выгорел — значит, слишком долго был в огне. Теперь ты пепел. Но пепел — это начало костра.")
+
+
+@bot.message_handler(func=lambda msg: msg.text == "Хочу исчезнуть к хуям")
+def handle_sos_5386086005586864426(message):
+    bot.send_message(message.chat.id, "Необязательно исчезать. Достаточно выключиться. Исчезай по-настоящему — и возвращайся по-своему.")
+
+
+@bot.message_handler(func=lambda msg: msg.text == "Просто пошло всё нахуй")
+def handle_sos_3958503975752287122(message):
+    bot.send_message(message.chat.id, "Хороший момент, чтобы перечеркнуть всё. А теперь: что хочешь оставить? Что реально твоё?")
+
+
+@bot.message_handler(func=lambda msg: msg.text == "💣 Когда хочется разъебать")
+def handle_sos_blow_it_up(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add("Хочу всё разъебать")
+    markup.add("Разъебать бы кого-нибудь")
+    markup.add("Я рвану сейчас нахуй")
+    markup.add("Слишком всё, блядь")
+    markup.add("🔙 Назад в SOS")
+
+    bot.send_message(
+        message.chat.id,
+        "Чувствуешь вулкан? Выбери, как именно тебя шатает:",
+        reply_markup=markup
+    )
+@bot.message_handler(func=lambda msg: msg.text == "Хочу всё разъебать")
+def handle_sos_2582472798395486936(message):
+    bot.send_message(message.chat.id, """Внутри тебя — вулкан. Не туши. Напиши. Кричи в подушку. Или просто бей воздух. Главное — не держи.""")
+
+@bot.message_handler(func=lambda msg: msg.text == "Разъебать бы кого-нибудь")
+def handle_sos_2910435303755721761(message):
+    bot.send_message(message.chat.id, """Ты не агрессивный. Ты накопленный. Найди безопасный способ, и разнеси.""")
+
+@bot.message_handler(func=lambda msg: msg.text == "Я рвану сейчас нахуй")
+def handle_sos_1611018811932205984(message):
+    bot.send_message(message.chat.id, """Ты не в клетке. Ты — с огнём. И это можно использовать.""")
+
+@bot.message_handler(func=lambda msg: msg.text == "Слишком всё, блядь")
+def handle_sos_7980701090421104069(message):
+    bot.send_message(message.chat.id, """Слишком. Но ты держишься. Хочешь не держаться? Не держись. Я тут. Без морали.""")
+
+
+@bot.message_handler(func=lambda msg: msg.text == "😵‍💫 Когда в ахуе")
+def handle_sos_overwhelmed(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add("Что за нахуй вообще происходит")
+    markup.add("У меня едет крыша, сука")
+    markup.add("Меня реально накрыло")
+    markup.add("Пиздец. Просто пиздец.")
+    markup.add("🔙 Назад в SOS")
+
+    bot.send_message(
+        message.chat.id,
+        "Состояние ахуя признано. Теперь выбери, как его лучше описать:",
+        reply_markup=markup
+    )
+@bot.message_handler(func=lambda msg: msg.text == "Что за нахуй вообще происходит")
+def handle_sos_8273854609020363593(message):
+    bot.send_message(message.chat.id, """Ты в ахуе — и это нормально. Признай: сейчас — пиздец. Потом — подышим.""")
+
+@bot.message_handler(func=lambda msg: msg.text == "У меня едет крыша, сука")
+def handle_sos_2372558184027151334(message):
+    bot.send_message(message.chat.id, """Это ощущение — будто расплавляется мозг. Ты не один. Повтори: 'Я еду — но я за рулём'.""")
+
+@bot.message_handler(func=lambda msg: msg.text == "Меня реально накрыло")
+def handle_sos_4512565454031012916(message):
+    bot.send_message(message.chat.id, """Это не волна. Это цунами. Но в тебе есть плот. Найди его.""")
+
+@bot.message_handler(func=lambda msg: msg.text == "Пиздец. Просто пиздец.")
+def handle_sos_7426315701996593154(message):
+    bot.send_message(message.chat.id, """Да. Без комментариев. Просто пиздец. Положи руку на грудь. Ты есть.""")
+
+
+@bot.message_handler(func=lambda msg: msg.text == "💀 Хочу сдохнуть, но не умирать")
+def handle_sos_not_really_die(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add("Хочу сдохнуть, но не насмерть")
+    markup.add("Хочу, чтоб всё просто закончилось")
+    markup.add("Задолбался быть сильным нахуй")
+    markup.add("Мне всё похуй. И это пугает")
+    markup.add("🔙 Назад в SOS")
+
+    bot.send_message(
+        message.chat.id,
+        "Окей. Жёстко, но по-честному. Что именно сейчас ближе всего?",
+        reply_markup=markup
+    )
+@bot.message_handler(func=lambda msg: msg.text == "Хочу сдохнуть, но не насмерть")
+def handle_sos_1540063093599959811(message):
+    bot.send_message(message.chat.id, """Ты хочешь исчезнуть — но чтобы тебя поняли. Это жажда жизни.""")
+
+@bot.message_handler(func=lambda msg: msg.text == "Хочу, чтоб всё просто закончилось")
+def handle_sos_8716353466281736208(message):
+    bot.send_message(message.chat.id, """Это про паузу. Я с тобой. Вот тебе она.""")
+
+@bot.message_handler(func=lambda msg: msg.text == "Задолбался быть сильным нахуй")
+def handle_sos_4369674963488431275(message):
+    bot.send_message(message.chat.id, """Сила — это вовремя лечь. Разреши себе упасть.""")
+
+@bot.message_handler(func=lambda msg: msg.text == "Мне всё похуй. И это пугает")
+def handle_sos_90912094602774372(message):
+    bot.send_message(message.chat.id, """Похуй — это защита. Давай разморозим чуть-чуть?""")
+
+
+@bot.message_handler(func=lambda msg: msg.text == "😐 Не хочется ни хуя, но нажал")
+def handle_sos_numb_click(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add("Не знаю зачем жму, но жму")
+    markup.add("Сделай хоть что-то за меня")
+    markup.add("Хочу, чтоб кто-то просто обнял")
+    markup.add("Просто полежу и послушаю")
+    markup.add("🔙 Назад в SOS")
+
+    bot.send_message(
+        message.chat.id,
+        "Я понял. На автомате. Без надрыва. Просто выбери — я подстрахую.",
+        reply_markup=markup
+    )
+@bot.message_handler(func=lambda msg: msg.text == "Не знаю зачем жму, но жму")
+def handle_sos_5118879855801710959(message):
+    bot.send_message(message.chat.id, """Уже шаг. Даже если на отъебись. Я рядом.""")
+
+@bot.message_handler(func=lambda msg: msg.text == "Сделай хоть что-то за меня")
+def handle_sos_1353577155551005056(message):
+    bot.send_message(message.chat.id, """Я скажу за тебя: 'Мне больно и нужна передышка'.""")
+
+@bot.message_handler(func=lambda msg: msg.text == "Хочу, чтоб кто-то просто обнял")
+def handle_sos_2336781073894284348(message):
+    bot.send_message(message.chat.id, """*Обнимаю*. Без слов. Без морали.""")
+
+@bot.message_handler(func=lambda msg: msg.text == "Просто полежу и послушаю")
+def handle_sos_4994767971289124446(message):
+    bot.send_message(message.chat.id, """Молчу. Но я рядом. Можешь молчать со мной сколько хочешь.""")
+
+
+
 @bot.message_handler(func=lambda msg: msg.text == '🍊 Тёплости')
 def cute_stuff(message):
     user_state[message.from_user.id] = 'cute_menu'
@@ -592,7 +768,6 @@ def cute_stuff(message):
         "Тут - то, что может тебя поддержать 💛\n\nВыбери что-то для себя прямо сейчас 👇",
         reply_markup=markup
     )
-
 
 @bot.message_handler(func=lambda msg: msg.text == '🫧 Море тишины')
 def handle_sea_of_silence(message):
@@ -751,6 +926,8 @@ def respond_to_emotion(message):
     '🧘 О подходе «Домой, к себе настоящему»',
     '🧩 Полезности',
     '🍊 Тёплости',
+    '🚨 SOS без соплей', 
+    '🐳 Еще глубже',
     '🗣 Обратная связь',
     '🏠 Домой'
 ])
