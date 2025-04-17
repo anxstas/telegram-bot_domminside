@@ -768,6 +768,28 @@ def handle_sos_back_to_main(message):
         reply_markup=markup
     )
 
+@bot.message_handler(func=lambda msg: msg.text == "🐳 Еще глубже")
+def handle_even_deeper(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add("ДА ❤️", "ДА 💙", "ДА 💚")
+    markup.add("🏠 Домой")
+    bot.send_message(
+        message.chat.id,
+        "Хочешь ответ на \"Главный вопрос жизни, Вселенной и всего такого?\"",
+        reply_markup=markup
+    )
+
+
+@bot.message_handler(func=lambda msg: msg.text in ["ДА ❤️", "ДА 💙", "ДА 💚"])
+def handle_ultimate_answer(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add("🏠 Домой")
+    bot.send_message(
+        message.chat.id,
+        "42\n\nЭтого ответа с нетерпением ждут все разумные расы, ведь он должен решить все проблемы Вселенной. Теперь все в твоих руках 💛",
+        reply_markup=markup
+    )
+
 
 @bot.message_handler(func=lambda msg: msg.text == '🍊 Тёплости')
 def cute_stuff(message):
