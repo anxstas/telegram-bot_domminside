@@ -581,11 +581,11 @@ def cute_stuff(message):
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add("🩵 Что я чувствую", "🫧 Море тишины")
-    markup.add("📚 Я — дневник", "🐾 Назад")
+    markup.add("📚 Я — дневник", "🏠 Домой")
 
     bot.send_message(
         message.chat.id,
-        "Тут - то, что может тебя поддержать 👇\nВыбери что-то для себя прямо сейчас 💛",
+        "Тут - то, что может тебя поддержать 💛\nВыбери что-то для себя прямо сейчас 👇",
         reply_markup=markup
     )
 
@@ -662,7 +662,7 @@ def handle_emotional_radar(message):
         "😊 Радость", "😟 Тревога", "😢 Грусть",
         "😠 Злость", "😱 Страх", "😔 Стыд",
         "🤢 Отвращение", "⚖️ Вина",
-        "🐾 Назад"
+        "🏠 Домой"
     )
 
     bot.send_message(
@@ -747,7 +747,7 @@ def respond_to_emotion(message):
     '🧩 Полезности',
     '🍊 Тёплости',
     '🗣 Обратная связь',
-    '🐾 Назад'
+    '🏠 Домой'
 ])
 
 def gpt_flow(message):
@@ -773,7 +773,7 @@ def gpt_flow(message):
         bot.send_message(message.chat.id, "Или хочешь — побудем в этом немного вместе? Я могу дать тебе чуточку тепла и поддержки, предложить быстрые техники снижения тревожности.")
 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-        markup.add("❤️ Тепло", "🧘 Техники", "🚨 SOS без соплей", "🐾 Назад")
+        markup.add("❤️ Тепло", "🧘 Техники", "🏠 Домой")
 
         bot.send_message(message.chat.id, "Как я могу тебя поддержать? Выбери внизу 👇 Что тебе сейчас ближе?", reply_markup=markup)
         user_state[uid] = 2
@@ -786,7 +786,7 @@ def handle_deeper(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add("🧘 О подходе «Домой, к себе настоящему»")
     markup.add("🧩 Полезности", "🍊 Тёплости")
-    markup.add("🗣 Обратная связь", "🐾 Назад")
+    markup.add("🗣 Обратная связь", "🏠 Домой")
     bot.send_message(message.chat.id, "Выбери, что тебе интересно:", reply_markup=markup)
 
 @bot.callback_query_handler(func=lambda call: True)
@@ -796,23 +796,6 @@ def debug_callback(call):
 @bot.message_handler(func=lambda msg: True)
 def debug_all(message):
     print(f"📩 DEBUG TEXT: {repr(message.text)}")
-
-
-@bot.message_handler(func=lambda msg: msg.text == '🚨 SOS без соплей')
-def handle_sos_no_tears(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add("😤 Когда всё заебало нахуй")
-    markup.add("💣 Когда хочется разъебать")
-    markup.add("😵‍💫 Когда в ахуе")
-    markup.add("💀 Хочу сдохнуть, но не умирать")
-    markup.add("😐 Не хочется ни хуя, но нажал")
-    markup.add("🐾 Назад в помощь. Ну или Бог в помощь")
-    
-    bot.send_message(
-        message.chat.id,
-        "Выбирай, что ближе. Без прикрас, без розового. Просто точечно.",
-        reply_markup=markup
-    )
     
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🧘 О подходе «Домой, к себе настоящему»')
@@ -858,30 +841,6 @@ def feedback(message):
         "Здесь ты можешь написать всё, что думаешь о нём — об этом неидеальном, но точно живом и настоящем человеке.\n\n"
         "Он будет благодарен тебе за каждую твою буковку 🌞"
     )
-
-@bot.message_handler(func=lambda msg: msg.text == '🐾 Назад')
-def handle_back(message):
-    if user_state.get(message.from_user.id) not in ['waiting_letter_text', 'waiting_letter_text_year']:
-        user_state.pop(message.from_user.id, None)
-    step = user_state.get(message.from_user.id)
-
-    # если пользователь был в старой логике — возвращаем поддерживающее меню
-    if step in [2, 'after_response']:
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-        markup.add("❤️ Тепло", "🧘 Техники", "🚨 SOS без соплей", "🐾 Назад")
-        bot.send_chat_action(message.chat.id, 'typing')
-        time.sleep(random.uniform(1.5, 2.5))
-        bot.send_message(message.chat.id, "Как я могу тебя поддержать? Выбери внизу 👇", reply_markup=markup)
-        user_state[message.from_user.id] = 2
-
-    # если пользователь после свежего взгляда — сразу в главное меню
-    elif step == 'fresh_view_done':
-        user_state.pop(message.from_user.id, None)
-        bot.send_message(message.chat.id, "Возвращаю в главное меню 🌿", reply_markup=persistent_keyboard())
-
-    else:
-        user_state.pop(message.from_user.id, None)
-        bot.send_message(message.chat.id, "Возвращаю в главное меню 🌿", reply_markup=persistent_keyboard())
 
 
 @bot.message_handler(commands=['завершить','end'])
