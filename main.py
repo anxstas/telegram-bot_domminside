@@ -551,14 +551,34 @@ def about_method(message):
     bot.send_message(message.chat.id, text, reply_markup=markup)
     bot.send_message(message.chat.id, "И всегда можно вернуться в главное меню 👇", reply_markup=persistent_keyboard())
 
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🗣 Обратная связь')
-def feedback(message):
-    user_state.pop(message.from_user.id, None)
+@bot.message_handler(func=lambda msg: msg.text == '🗣 Обратная связь')
+def handle_feedback_start(message):
+    user_state[message.from_user.id] = 'waiting_feedback'
     bot.send_message(
         message.chat.id,
         "Здесь ты можешь написать всё, что думаешь о нём — об этом неидеальном, но точно живом и настоящем человеке.\n\n"
-        "Он будет благодарен тебе за каждую твою буковку 🌞"
+        "Он будет благодарен тебе за каждую твою буковку 🌞.",
+        reply_markup=types.ReplyKeyboardRemove()
     )
+
+@bot.message_handler(func=lambda msg: user_state.get(msg.from_user.id) == 'waiting_feedback')
+def handle_feedback_entry(message):
+    uid = message.from_user.id
+    user_state.pop(uid, None)
+
+    # Отправка сообщения админу
+    bot.send_message(
+        ADMIN_ID,
+        f"🆕 Обратная связь от пользователя {uid} (@{message.from_user.username}):\n\n{message.text}"
+    )
+
+    # Подтверждение пользователю
+    bot.send_message(
+        message.chat.id,
+        "Спасибо, я получил твоё сообщение. Оно уже в надёжных руках 💛",
+        reply_markup=persistent_keyboard()
+    )
+
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🧩 Полезности')
 def resources(message):
