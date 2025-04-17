@@ -1201,7 +1201,7 @@ def handle_back(message):
         bot.send_message(message.chat.id, "Возвращаю в главное меню 🌿", reply_markup=persistent_keyboard())
 
 
-@bot.message_handler(func=lambda msg: msg.text == "🌀 Пойдешь ещё глубже?")
+@bot.message_handler(func=lambda msg: msg.text == '🌀 Пойдешь ещё глубже?')
 def handle_go_deeper_intro(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add("Да", "Нет")
