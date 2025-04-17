@@ -998,18 +998,6 @@ def gpt_flow(message):
         user_state[uid] = 2
         return
 
-
-@bot.callback_query_handler(func=lambda call: True)
-def debug_callback(call):
-    print(f"🔘 CALLBACK: {call.data}")
-
-@bot.message_handler(func=lambda msg: True)
-def debug_all(message):
-    print(f"📩 DEBUG TEXT: {repr(message.text)}")
-
-@bot.message_handler(func=lambda msg: True)
-def debug_all(message):
-    print(f"📩 msg.text = {repr(message.text)}")
     
 @bot.message_handler(commands=['завершить','end'])
 def finish_chat(message):
