@@ -798,16 +798,21 @@ def handle_deeper(message):
     bot.send_message(message.chat.id, "Выбери, что тебе интересно:", reply_markup=markup)
 
 @bot.message_handler(func=lambda msg: msg.text == '🚨 SOS без соплей')
-def handle_deeper(message):
-    user_state.pop(message.from_user.id, None)
+def handle_sos_no_tears(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add("🔻 1. Когда всё заебало нахуй")
-    markup.add("🔻 2. Когда хочется разъебать")
-    markup.add("🔻 3. Когда в ахуе")
-    markup.add("🔻 4. Когда хочется сдохнуть")
-    markup.add("🔻 5. Когда не хочется ни хуя")
-    bot.send_message(message.chat.id, "Выбери, что тебе интересно:", reply_markup=markup)
-
+    markup.add("😤 Когда всё заебало нахуй")
+    markup.add("💣 Когда хочется разъебать")
+    markup.add("😵‍💫 Когда в ахуе")
+    markup.add("💀 Хочу сдохнуть, но не умирать")
+    markup.add("😐 Не хочется ни хуя, но нажал")
+    markup.add("🐾 Назад в помощь")
+    
+    bot.send_message(
+        message.chat.id,
+        "Выбирай, что ближе. Без прикрас, без розового. Просто точечно.",
+        reply_markup=markup
+    )
+    
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🧘 О подходе «Домой, к себе настоящему»')
 def about_method(message):
