@@ -792,7 +792,7 @@ def handle_sos_back_to_main(message):
 @bot.message_handler(func=lambda msg: msg.text == "🐳 Еще глубже")
 def handle_even_deeper(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add("ДА ❤️", "ДА 💙", "ДА 💚")
+    markup.add("ДА ❤️", "ДА 💛", "ДА 💚")
     bot.send_message(
         message.chat.id,
         "Хочешь получить ответ на \"Главный вопрос жизни, Вселенной и всего такого?\"",
@@ -800,7 +800,7 @@ def handle_even_deeper(message):
     )
 
 
-@bot.message_handler(func=lambda msg: msg.text in ["ДА ❤️", "ДА 💙", "ДА 💚"])
+@bot.message_handler(func=lambda msg: msg.text in ["ДА ❤️", "ДА 💛", "ДА 💚"])
 def handle_ultimate_answer(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add("🏠 Домой")
