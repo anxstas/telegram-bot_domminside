@@ -608,7 +608,7 @@ def handle_sea_of_silence(message):
         animation='https://media.giphy.com/media/3o6Zt481isNVuQI1l6/giphy.gif',  # мягкая, расслабляющая гифка
     )
 
-        bot.send_chat_action(message.chat.id, 'typing')
+    bot.send_chat_action(message.chat.id, 'typing')
     time.sleep(2)
     bot.send_message(
         message.chat.id,
