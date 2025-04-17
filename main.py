@@ -557,7 +557,7 @@ def handle_techniques(message):
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add("❤️ Тепло", "🧘 Техники")
-    markup.add("🙏 Спасибо", "🏠 Домой")
+    markup.add("🚨 SOS без соплей", "🏠 Домой")
     bot.send_message(message.chat.id, "Приходи 💛👇", reply_markup=markup)
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
@@ -781,7 +781,7 @@ def gpt_flow(message):
         bot.send_message(message.chat.id, "Или хочешь — побудем в этом немного вместе? Я могу дать тебе чуточку тепла и поддержки, предложить быстрые техники снижения тревожности, а, если ты мне опишешь проблему, то и свежий взгляд со стороны.")
 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-        markup.add("❤️ Тепло", "🧘 Техники", "🤿 Пойти глубже", "🐾 Назад")
+        markup.add("❤️ Тепло", "🧘 Техники", "🚨 SOS без соплей", "🐾 Назад")
 
         bot.send_message(message.chat.id, "Как я могу тебя поддержать? Выбери внизу 👇 Что тебе сейчас ближе?", reply_markup=markup)
         user_state[uid] = 2
@@ -796,6 +796,18 @@ def handle_deeper(message):
     markup.add("🧩 Полезности", "🍊 Тёплости")
     markup.add("🗣 Обратная связь", "🐾 Назад")
     bot.send_message(message.chat.id, "Выбери, что тебе интересно:", reply_markup=markup)
+
+@bot.message_handler(func=lambda msg: msg.text == '🚨 SOS без соплей')
+def handle_deeper(message):
+    user_state.pop(message.from_user.id, None)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add("🔻 1. Когда всё заебало нахуй")
+    markup.add("🔻 2. Когда хочется разъебать")
+    markup.add("🔻 3. Когда в ахуе")
+    markup.add("🔻 4. Когда хочется сдохнуть")
+    markup.add("🔻 5. Когда не хочется ни хуя")
+    bot.send_message(message.chat.id, "Выбери, что тебе интересно:", reply_markup=markup)
+
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🧘 О подходе «Домой, к себе настоящему»')
 def about_method(message):
@@ -850,7 +862,7 @@ def handle_back(message):
     # если пользователь был в старой логике — возвращаем поддерживающее меню
     if step in [2, 'after_response']:
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-        markup.add("❤️ Тепло", "🧘 Техники", "🤿 Пойти глубже", "🐾 Назад")
+        markup.add("❤️ Тепло", "🧘 Техники", "🚨 SOS без соплей", "🐾 Назад")
         bot.send_chat_action(message.chat.id, 'typing')
         time.sleep(random.uniform(1.5, 2.5))
         bot.send_message(message.chat.id, "Как я могу тебя поддержать? Выбери внизу 👇", reply_markup=markup)
