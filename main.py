@@ -406,6 +406,9 @@ def handle_booking(message):
 def handle_emergency(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
     markup.add("🙏 Спасибо ❤️")
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add("🚨 SOS без соплей")
+    bot.send_message(chat_id, "Что ты хочешь сделать?", reply_markup=markup)
     markup.add("🟡 Записаться на сессию-знакомство")
     markup.add("🤿 Пойти глубже")  # <–– вот эта строка новая
     human_delay()
