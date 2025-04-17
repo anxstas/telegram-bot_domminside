@@ -801,6 +801,7 @@ def handle_deeper(message):
 def debug_all(message):
     print(f"📩 DEBUG TEXT: {repr(message.text)}")
 
+
 @bot.message_handler(func=lambda msg: msg.text == '🚨 SOS без соплей')
 def handle_sos_no_tears(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
