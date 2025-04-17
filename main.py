@@ -985,7 +985,7 @@ def gpt_flow(message):
 
         bot.send_chat_action(message.chat.id, 'typing')
         time.sleep(random.uniform(1.0, 2.0))
-        bot.send_message(message.chat.id, "Хочешь, перешли его прямо сейчас Стасу лично на @anxstas — он ответит, как только прочитает. Это бесплатно.")
+        bot.send_message(message.chat.id, "Хочешь, перешли его прямо сейчас Стасу лично на @anxstas — он ответит, как только прочитает. Просто скопируй и отправь, без приветствий, я его предупрежу. Это бесплатно.")
 
         bot.send_chat_action(message.chat.id, 'typing')
         time.sleep(random.uniform(1.0, 2.1))
