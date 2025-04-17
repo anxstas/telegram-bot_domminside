@@ -254,6 +254,7 @@ depression_test_data = [
      "3 — Я полностью утратил интерес к сексу.")
 ]
 
+
 user_depression_state = {}  # {user_id: {'step': int, 'answers': []}}
 
 @bot.message_handler(func=lambda msg: "Тест депрессии" in msg.text)
@@ -296,53 +297,31 @@ def show_depression_result(chat_id, uid):
     total_score = sum(answers)
     del user_depression_state[uid]
 
-    markup = types.InlineKeyboardMarkup()
-    markup.add(types.InlineKeyboardButton("📨 Отправить результат Стасу", callback_data='dep_send_to_admin'))
+    if total_score <= 13:
+        level = "🟢 Минимальная депрессия"
+        interpretation = "Ты справляешься. Важно не терять контакт с собой."
+    elif total_score <= 19:
+        level = "🟡 Лёгкая депрессия"
+        interpretation = "Эмоциональный фон немного просел. Попробуй наполнять себя чем-то приятным и бережным."
+    elif total_score <= 28:
+        level = "🟠 Умеренная депрессия"
+        interpretation = "Возможно, стало сложнее радоваться, сосредотачиваться. Пора дать себе поддержку."
+    else:
+        level = "🔴 Тяжёлая депрессия"
+        interpretation = "Тебе тяжело. Ты справляешься, но тебе точно не нужно быть с этим в одиночку."
+
+    result_text = f"🔹 Твой результат: {total_score} баллов\n{level}\n\n{interpretation}"
+    bot.send_message(chat_id, result_text)
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add("🟡 Записаться на сессию-знакомство -40%")
+    markup.add("🏠 Главное меню")
 
     bot.send_message(
         chat_id,
-        "Готово! Спасибо, что прошёл тест. Я отправлю результат Стасу — он посмотрит и откликнется тебе бесплатно 💛 Хочешь?",
+        "Если хочешь обсудить это глубже — запишись на сессию-знакомство со Стасом со скидкой 40% 👇",
         reply_markup=markup
     )
-
-    user_depression_state[uid] = {
-        'final_score': total_score,
-        'answers': answers
-    }
-@bot.callback_query_handler(func=lambda call: call.data == 'dep_send_to_admin')
-def send_depression_to_admin(call):
-    uid = call.from_user.id
-    if uid not in user_depression_state:
-        return
-
-    result = user_depression_state.pop(uid)
-    total_score = result['final_score']
-    answers = result['answers']
-
-        # Интерпретация (только тебе)
-    if total_score <= 13:
-        level = "Минимальная депрессия"
-    elif total_score <= 19:
-        level = "Лёгкая депрессия"
-    elif total_score <= 28:
-        level = "Умеренная депрессия"
-    else:
-        level = "Тяжёлая депрессия"
-
-    bot.send_message(
-        ADMIN_ID,
-        f"🧞‍♀️ ТЕСТ ДЕПРЕССИИ\n"
-        f"От пользователя: {uid}\n\n"
-        f"Суммарный балл: {total_score}\n"
-        f"Уровень: {level}\n"
-        f"Ответы: {answers}"
-    )
-
-    bot.send_message(
-        call.message.chat.id,
-        "Спасибо 💛 Стас получил твой тест. Он посмотрит и напишет тебе лично 🌿"
-    )
-
 
 @bot.message_handler(commands=['start'])
 def handle_start(message):
