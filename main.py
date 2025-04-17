@@ -588,7 +588,7 @@ def handle_sos_no_tears(message):
     markup.add("😵‍💫 Когда в ахуе")
     markup.add("💀 Хочу сдохнуть, но не умирать")
     markup.add("😐 Не хочется ни хуя, но нажал")
-    markup.add("🐾 Назад в помощь. Ну или Бог в помощь")
+    markup.add("🏠 Домой")
 
     bot.send_message(
         message.chat.id,
@@ -603,7 +603,7 @@ def handle_sos_fuck_it_all(message):
     markup.add("Я выгорел нахуй")
     markup.add("Хочу исчезнуть к хуям")
     markup.add("Просто пошло всё нахуй")
-    markup.add("🔙 Назад в SOS")
+    markup.add("🐾 Назад в SOS")
 
     bot.send_message(
         message.chat.id,
@@ -637,7 +637,7 @@ def handle_sos_blow_it_up(message):
     markup.add("Разъебать бы кого-нибудь")
     markup.add("Я рвану сейчас нахуй")
     markup.add("Слишком всё, блядь")
-    markup.add("🔙 Назад в SOS")
+    markup.add("🐾 Назад в SOS")
 
     bot.send_message(
         message.chat.id,
@@ -668,7 +668,7 @@ def handle_sos_overwhelmed(message):
     markup.add("У меня едет крыша, сука")
     markup.add("Меня реально накрыло")
     markup.add("Пиздец. Просто пиздец.")
-    markup.add("🔙 Назад в SOS")
+    markup.add("🐾 Назад в SOS")
 
     bot.send_message(
         message.chat.id,
@@ -699,7 +699,7 @@ def handle_sos_not_really_die(message):
     markup.add("Хочу, чтоб всё просто закончилось")
     markup.add("Задолбался быть сильным нахуй")
     markup.add("Мне всё похуй. И это пугает")
-    markup.add("🔙 Назад в SOS")
+    markup.add("🐾 Назад в SOS")
 
     bot.send_message(
         message.chat.id,
@@ -730,7 +730,7 @@ def handle_sos_numb_click(message):
     markup.add("Сделай хоть что-то за меня")
     markup.add("Хочу, чтоб кто-то просто обнял")
     markup.add("Просто полежу и послушаю")
-    markup.add("🔙 Назад в SOS")
+    markup.add("🐾 Назад в SOS")
 
     bot.send_message(
         message.chat.id,
@@ -753,6 +753,20 @@ def handle_sos_2336781073894284348(message):
 def handle_sos_4994767971289124446(message):
     bot.send_message(message.chat.id, """Молчу. Но я рядом. Можешь молчать со мной сколько хочешь.""")
 
+@bot.message_handler(func=lambda msg: msg.text == "🐾 Назад в SOS")
+def handle_sos_back_to_main(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add("😤 Когда всё заебало нахуй")
+    markup.add("💣 Когда хочется разъебать")
+    markup.add("😵‍💫 Когда в ахуе")
+    markup.add("💀 Хочу сдохнуть, но не умирать")
+    markup.add("😐 Не хочется ни хуя, но нажал")
+
+    bot.send_message(
+        message.chat.id,
+        "Возвращаемся. Всё под контролем. Выбирай снова:",
+        reply_markup=markup
+    )
 
 
 @bot.message_handler(func=lambda msg: msg.text == '🍊 Тёплости')
