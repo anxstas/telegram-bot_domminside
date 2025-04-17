@@ -363,9 +363,6 @@ def handle_booking(message):
 
     bot.send_message(message.chat.id, "🟡 Выбери удобное тебе время:", reply_markup=markup)
 
-    human_delay()
-    bot.send_message(message.chat.id, "Если остались вопросы — можешь написать Стасу: @anxstas", reply_markup=persistent_keyboard())
-
 @bot.message_handler(func=lambda msg: msg.text == '🆘 Срочная помощь')
 def handle_emergency(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
@@ -392,7 +389,7 @@ def handle_slot_choice(call):
     markup.add(types.InlineKeyboardButton("✅ Я оплатил", callback_data="paid_done"))
 
     bot.send_message(call.message.chat.id, f"Ты выбрал: {dt_text}\n\nПожалуйста, оплати, чтобы подтвердить запись:", reply_markup=markup)
-    bot.send_message(call.message.chat.id, "Если что-то не получается — напиши Стасу: @anxstas", reply_markup=persistent_keyboard())
+    bot.send_message(call.message.chat.id, "Если остались вопросы — напиши Стасу: @anxstas", reply_markup=persistent_keyboard())
 
 @bot.callback_query_handler(func=lambda call: call.data == "paid_done")
 def confirm_payment(call):
@@ -438,7 +435,7 @@ def confirm_payment(call):
     bot.send_message(call.message.chat.id, calendar_link)
     bot.send_message(call.message.chat.id, f"Я жду тебя в {human_date} 🌞", reply_markup=persistent_keyboard())
     bot.send_message(call.message.chat.id, "Установи Google Meet для связи, перед сессией я пришлю тебе ссылку.")
-    bot.send_message(call.message.chat.id, "И можешь пока что «🤿 Пойти глубже», чтобы посмотреть, что там у нас 👇")
+    bot.send_message(call.message.chat.id, "А пока что загляни в «🤿 Пойти глубже» 👇, у нас там интересно.")
 
     # Кнопки
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
