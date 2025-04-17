@@ -612,7 +612,7 @@ def handle_sea_of_silence(message):
     time.sleep(2)
     bot.send_message(
         message.chat.id,
-        "Тут ничего не надо. Просто тишина, дыхание и ты.\n\n"
+        "Тут ничего не надо. Просто тишина, дыхание и ты. И еще кот.\n\n"
     )
 
             # Кнопки с шумами
