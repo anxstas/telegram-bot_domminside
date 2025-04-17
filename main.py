@@ -407,9 +407,9 @@ def handle_booking(message):
 @bot.message_handler(func=lambda msg: msg.text == '🆘 Срочная помощь')
 def handle_emergency(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-    markup.add("🙏 Спасибо ❤️")
+    markup.add("🙏 Спасибо 💛")
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add("🟡 Записаться на сессию-знакомство")
+    markup.add("🟡 Записаться на сессию-знакомство -40%")
     markup.add("🤿 Пойти глубже")  # <–– вот эта строка новая
     human_delay()
     bot.send_message(message.chat.id, "Ты зашёл сюда не просто так.")
@@ -505,7 +505,7 @@ def get_techniques_block():
         "Хочешь — можно заглянуть в твою тревогу глубже со Стасом на сессии. Он очень бережно помогает возвращаться домой — в свою настоящесть.\n\n"
     )
 
-@bot.message_handler(func=lambda msg: msg.text == '🙏 Спасибо ❤️')
+@bot.message_handler(func=lambda msg: msg.text == '🙏 Спасибо 💛')
 def handle_thanks(message):
     user_state.pop(message.from_user.id, None)
     time.sleep(random.uniform(1.0, 2.3))
@@ -540,7 +540,7 @@ def handle_warmth(message):
     bot.send_message(message.chat.id, "Хочешь — можно заглянуть в это глубже со Стасом на сессии? Он очень бережно помогает возвращаться домой — в свою настоящесть.")
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add("🟡 Записаться на сессию-знакомство")
+    markup.add("🟡 Записаться на сессию-знакомство -40%")
     markup.add("🙏 Спасибо 💛", "🍊 Тёплости")
     bot.send_message(message.chat.id, "Приходи 💛👇", reply_markup=markup)
     user_state[message.from_user.id] = 2
@@ -553,7 +553,7 @@ def handle_techniques(message):
     bot.send_message(message.chat.id, get_techniques_block())
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add("🟡 Записаться на сессию-знакомство")
+    markup.add("🟡 Записаться на сессию-знакомство -40%")
     markup.add("🙏 Спасибо 💛", "🍊 Тёплости")
     bot.send_message(message.chat.id, "Приходи 💛👇", reply_markup=markup)
     user_state[message.from_user.id] = 2
@@ -561,20 +561,6 @@ def handle_techniques(message):
 @bot.message_handler(func=lambda msg: msg.text == "🏠 Домой")
 def go_main_menu(message):
     user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, "Возвращаю в главное меню 🌿", reply_markup=persistent_keyboard())
-
-@bot.message_handler(func=lambda msg: msg.text == "🙏 Спасибо")
-def handle_thanks(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_chat_action(message.chat.id, 'typing')
-    time.sleep(random.uniform(1.5, 2.3))
-    bot.send_message(message.chat.id, "Возвращаю в главное меню 🌿", reply_markup=persistent_keyboard())
-
-@bot.message_handler(func=lambda msg: msg.text == "🙏 Спасибо 💛")
-def handle_thanks_yellow(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_chat_action(message.chat.id, 'typing')
-    time.sleep(random.uniform(1.5, 2.3))
     bot.send_message(message.chat.id, "Возвращаю в главное меню 🌿", reply_markup=persistent_keyboard())
 
 @bot.message_handler(func=lambda msg: msg.text == '🍊 Тёплости')
@@ -742,7 +728,7 @@ def respond_to_emotion(message):
 
 
 @bot.message_handler(func=lambda msg: msg.text not in [
-    '🟡 Записаться на сессию-знакомство',
+    '🟡 Записаться на сессию-знакомство -40%',
     '🤿 Пойти глубже',
     '🆘 Срочная помощь',
     '🧘 О подходе «Домой, к себе настоящему»',
