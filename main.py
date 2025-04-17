@@ -525,6 +525,60 @@ def go_main_menu(message):
     user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, "Возвращаю в главное меню 🌿", reply_markup=persistent_keyboard())
 
+    # 🤿 Пойти глубже — открывает разделы
+@bot.message_handler(func=lambda msg: msg.text == '🤿 Пойти глубже')
+def handle_deeper(message):
+    user_state.pop(message.from_user.id, None)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup.add("🧘 О подходе «Домой, к себе настоящему»")
+    markup.add("🧩 Полезности", "🍊 Тёплости")
+    markup.add("🗣 Обратная связь", "🏠 Домой")
+    bot.send_message(message.chat.id, "Выбери, что тебе интересно 👇", reply_markup=markup)
+
+@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🧘 О подходе «Домой, к себе настоящему»')
+def about_method(message):
+    user_state.pop(message.from_user.id, None)
+    text = (
+        "Загляни к нам на сайт, там чуть больше о Стасе Веречуке, и вкратце о его терапевтическом подходе по преодолению тревоги и депрессии.\n\n"
+        "А если хочешь разобраться поглубже, то почитай концепцию подхода."
+    )
+    markup = types.InlineKeyboardMarkup()
+    markup.add(
+        types.InlineKeyboardButton("🌐 Сайт", url="https://anxstas.github.io/"),
+        types.InlineKeyboardButton("📖 Концепция", url="https://page.genspark.site/page/toolu_01MDfAf2WCfQ9Bey23eeESjN/%D0%B4%D0%BE%D0%BC%D0%BE%D0%B9_%D0%BA_%D1%81%D0%B5%D0%B1%D0%B5_%D0%BD%D0%B0%D1%81%D1%82%D0%BE%D1%8F%D1%89%D0%B5%D0%BC%D1%83_%D1%84%D0%B8%D0%BD%D0%B0%D0%BB.html")
+    )
+    bot.send_message(message.chat.id, text, reply_markup=markup)
+    bot.send_message(message.chat.id, "И всегда можно вернуться в главное меню 👇", reply_markup=persistent_keyboard())
+
+@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🗣 Обратная связь')
+def feedback(message):
+    user_state.pop(message.from_user.id, None)
+    bot.send_message(
+        message.chat.id,
+        "Здесь ты можешь написать всё, что думаешь о нём — об этом неидеальном, но точно живом и настоящем человеке.\n\n"
+        "Он будет благодарен тебе за каждую твою буковку 🌞"
+    )
+
+@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🧩 Полезности')
+def resources(message):
+    user_state.pop(message.from_user.id, None)
+    text = (
+        "Тут - много всего на важные тревожно-депрессивные темы.\n\n"
+        "Я буду рад видеть тебя среди своих подписчиков. Только так я смогу развиваться и давать людям больше пользы.\n\n"
+        "▶️ YouTube о тревоге и депрессии (и чуть-чуть личного)\n\n"
+        "📸 Instagram о тревоге и депрессии (и побольше личного)\n\n"
+        "✉️ Telegram о тревоге и депрессии (и чуть-чуть науки)\n\n"
+        "📘 Facebook — где личное, и немного о тревоге и депрессии"
+    )
+    markup = types.InlineKeyboardMarkup(row_width=2)
+    markup.add(
+        types.InlineKeyboardButton("YouTube", url="https://www.youtube.com/@anxstas"),
+        types.InlineKeyboardButton("Instagram", url="https://www.instagram.com/verechuk_/"),
+        types.InlineKeyboardButton("Telegram", url="https://www.t.me/domminside"),
+        types.InlineKeyboardButton("Facebook", url="https://www.facebook.com/stanislav.verechuk/")
+    )
+    bot.send_message(message.chat.id, text, reply_markup=markup)
+
 @bot.message_handler(func=lambda msg: msg.text == '🍊 Тёплости')
 def cute_stuff(message):
     user_state[message.from_user.id] = 'cute_menu'
@@ -538,6 +592,7 @@ def cute_stuff(message):
         "Тут - то, что может тебя поддержать 💛\n\nВыбери что-то для себя прямо сейчас 👇",
         reply_markup=markup
     )
+
 
 @bot.message_handler(func=lambda msg: msg.text == '🫧 Море тишины')
 def handle_sea_of_silence(message):
@@ -729,15 +784,6 @@ def gpt_flow(message):
         user_state[uid] = 2
         return
 
-    # 🤿 Пойти глубже — открывает разделы
-@bot.message_handler(func=lambda msg: msg.text == '🤿 Пойти глубже')
-def handle_deeper(message):
-    user_state.pop(message.from_user.id, None)
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add("🧘 О подходе «Домой, к себе настоящему»")
-    markup.add("🧩 Полезности", "🍊 Тёплости")
-    markup.add("🗣 Обратная связь", "🏠 Домой")
-    bot.send_message(message.chat.id, "Выбери, что тебе интересно 👇", reply_markup=markup)
 
 @bot.callback_query_handler(func=lambda call: True)
 def debug_callback(call):
@@ -751,51 +797,6 @@ def debug_all(message):
 def debug_all(message):
     print(f"📩 msg.text = {repr(message.text)}")
     
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🧘 О подходе «Домой, к себе настоящему»')
-def about_method(message):
-    user_state.pop(message.from_user.id, None)
-    text = (
-        "Загляни к нам на сайт, там чуть больше о Стасе Веречуке, и вкратце о его терапевтическом подходе по преодолению тревоги и депрессии.\n\n"
-        "А если хочешь разобраться поглубже, то почитай концепцию подхода."
-    )
-    markup = types.InlineKeyboardMarkup()
-    markup.add(
-        types.InlineKeyboardButton("🌐 Сайт", url="https://anxstas.github.io/"),
-        types.InlineKeyboardButton("📖 Концепция", url="https://page.genspark.site/page/toolu_01MDfAf2WCfQ9Bey23eeESjN/%D0%B4%D0%BE%D0%BC%D0%BE%D0%B9_%D0%BA_%D1%81%D0%B5%D0%B1%D0%B5_%D0%BD%D0%B0%D1%81%D1%82%D0%BE%D1%8F%D1%89%D0%B5%D0%BC%D1%83_%D1%84%D0%B8%D0%BD%D0%B0%D0%BB.html")
-    )
-    bot.send_message(message.chat.id, text, reply_markup=markup)
-    bot.send_message(message.chat.id, "И всегда можно вернуться в главное меню 👇", reply_markup=persistent_keyboard())
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🗣 Обратная связь')
-def feedback(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(
-        message.chat.id,
-        "Здесь ты можешь написать всё, что думаешь о нём — об этом неидеальном, но точно живом и настоящем человеке.\n\n"
-        "Он будет благодарен тебе за каждую твою буковку 🌞"
-    )
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🧩 Полезности')
-def resources(message):
-    user_state.pop(message.from_user.id, None)
-    text = (
-        "Тут - много всего на важные тревожно-депрессивные темы.\n\n"
-        "Я буду рад видеть тебя среди своих подписчиков. Только так я смогу развиваться и давать людям больше пользы.\n\n"
-        "▶️ YouTube о тревоге и депрессии (и чуть-чуть личного)\n\n"
-        "📸 Instagram о тревоге и депрессии (и побольше личного)\n\n"
-        "✉️ Telegram о тревоге и депрессии (и чуть-чуть науки)\n\n"
-        "📘 Facebook — где личное, и немного о тревоге и депрессии"
-    )
-    markup = types.InlineKeyboardMarkup(row_width=2)
-    markup.add(
-        types.InlineKeyboardButton("YouTube", url="https://www.youtube.com/@anxstas"),
-        types.InlineKeyboardButton("Instagram", url="https://www.instagram.com/verechuk_/"),
-        types.InlineKeyboardButton("Telegram", url="https://www.t.me/domminside"),
-        types.InlineKeyboardButton("Facebook", url="https://www.facebook.com/stanislav.verechuk/")
-    )
-    bot.send_message(message.chat.id, text, reply_markup=markup)
-
 @bot.message_handler(commands=['завершить','end'])
 def finish_chat(message):
     bot.send_message(message.chat.id, "🌿 Спасибо за доверие. Если захочешь вернуться — я рядом.", reply_markup=persistent_keyboard())
