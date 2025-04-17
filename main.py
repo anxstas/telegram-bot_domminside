@@ -45,9 +45,9 @@ def human_delay():
 
 def persistent_keyboard():
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add('📅 Записаться на сессию-знакомство -40%')
-    markup.add('🔍 Пойти глубже', '🆘 Срочная помощь')
-    markup.add('📊 Тест тревоги', '📉 Тест депрессии') 
+    markup.add('🟡 Записаться на сессию-знакомство -40%')
+    markup.add('🤿 Пойти глубже', '🆘 Срочная помощь')
+    markup.add('🧞‍♂️ Тест тревоги', '🧞‍♀️ Тест депрессии') 
     return markup
 
 anxiety_test_data = [
@@ -74,7 +74,7 @@ anxiety_test_data = [
     "Чувство слабости в ногах"
 ]
 user_anxiety_state = {}  # {user_id: {'step': int, 'answers': []}}
-@bot.message_handler(func=lambda msg: msg.text == '📊 Тест тревоги')
+@bot.message_handler(func=lambda msg: msg.text == '🧞‍♂️ Тест тревоги')
 def start_anxiety_test(message):
     uid = message.from_user.id
     user_anxiety_state[uid] = {'step': 0, 'answers': []}
@@ -150,7 +150,7 @@ def send_anxiety_to_admin(call):
 
     bot.send_message(
         ADMIN_ID,
-        f"🧠 ТЕСТ ТРЕВОГИ\n"
+        f"🧞‍♂️ ТЕСТ ТРЕВОГИ\n"
         f"От пользователя: {uid}\n\n"
         f"Суммарный балл: {total_score}\n"
         f"Уровень: {level}\n"
@@ -348,7 +348,7 @@ def send_depression_to_admin(call):
 
     bot.send_message(
         ADMIN_ID,
-        f"🧠 ТЕСТ ДЕПРЕССИИ\n"
+        f"🧞‍♀️ ТЕСТ ДЕПРЕССИИ\n"
         f"От пользователя: {uid}\n\n"
         f"Суммарный балл: {total_score}\n"
         f"Уровень: {level}\n"
@@ -370,7 +370,7 @@ def handle_start(message):
 
 С чего начнём?
 
-📅 Сессия-знакомство со скидкой 40%
+🟡 Сессия-знакомство со скидкой 40%
 
 🔍 Пойти глубже — если хочешь интересный интерактив, а ещё — детальнее о подходе, и наши ресурсы.
 
@@ -378,7 +378,7 @@ def handle_start(message):
         reply_markup=persistent_keyboard()
     )
 
-@bot.message_handler(func=lambda msg: msg.text == '📅 Записаться на сессию-знакомство -40%')
+@bot.message_handler(func=lambda msg: msg.text == '🟡 Записаться на сессию-знакомство -40%')
 def handle_booking(message):
     user_state.pop(message.from_user.id, None)  # сбрасываем логику "срочной помощи"
     human_delay()
@@ -396,7 +396,7 @@ def handle_booking(message):
         slot_id = dt.strftime('%Y-%m-%d_%H:%M')
         markup.add(types.InlineKeyboardButton(text=label, callback_data=f"slot_{slot_id}"))
 
-    bot.send_message(message.chat.id, "📅 Выбери удобное тебе время:", reply_markup=markup)
+    bot.send_message(message.chat.id, "🟡 Выбери удобное тебе время:", reply_markup=markup)
 
     human_delay()
     bot.send_message(message.chat.id, "Если остались вопросы — можешь написать Стасу: @anxstas", reply_markup=persistent_keyboard())
@@ -405,8 +405,8 @@ def handle_booking(message):
 def handle_emergency(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
     markup.add("🙏 Спасибо ❤️")
-    markup.add("📅 Записаться на сессию-знакомство")
-    markup.add("🔍 Пойти глубже")  # <–– вот эта строка новая
+    markup.add("🟡 Записаться на сессию-знакомство")
+    markup.add("🤿 Пойти глубже")  # <–– вот эта строка новая
     human_delay()
     bot.send_message(message.chat.id, "Ты зашёл сюда не просто так.")
     human_delay()
@@ -422,7 +422,7 @@ def handle_slot_choice(call):
     dt_text = datetime.strptime(slot_raw, "%Y-%m-%d_%H:%M").strftime('%A %d %B • %H:%M')
 
     markup = types.InlineKeyboardMarkup()
-    markup.add(types.InlineKeyboardButton("💳 Оплатить", url="https://moneyyyyyy.carrd.co/"))
+    markup.add(types.InlineKeyboardButton("💰 Оплатить", url="https://moneyyyyyy.carrd.co/"))
     markup.add(types.InlineKeyboardButton("✅ Я оплатил", callback_data="paid_done"))
 
     bot.send_message(call.message.chat.id, f"Ты выбрал: {dt_text}\n\nПожалуйста, оплати, чтобы подтвердить запись:", reply_markup=markup)
@@ -476,7 +476,7 @@ def confirm_payment(call):
 
     # Кнопки
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add("🔍 Пойти глубже", "🆘 Срочная помощь")
+    markup.add("🤿 Пойти глубже", "🆘 Срочная помощь")
     bot.send_message(call.message.chat.id, reply_markup=markup)
 
     # Уведомление админу
@@ -536,9 +536,8 @@ def handle_warmth(message):
     bot.send_message(message.chat.id, "Хочешь — можно заглянуть в это глубже со Стасом на сессии? Он очень бережно помогает возвращаться домой — в свою настоящесть.")
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add("📅 Записаться на сессию-знакомство")
-    markup.add("🙏 Спасибо 💛")
-    markup.add("🌸 Наши теплые приколюшечки")
+    markup.add("🟡 Записаться на сессию-знакомство")
+    markup.add("🙏 Спасибо 💛", "🍊 Важности")
     bot.send_message(message.chat.id, "Приходи 💛👇", reply_markup=markup)
     user_state[message.from_user.id] = 2
 
@@ -550,29 +549,21 @@ def handle_techniques(message):
     bot.send_message(message.chat.id, get_techniques_block())
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add("📅 Записаться на сессию-знакомство")
-    markup.add("🙏 Спасибо 💛")
-    markup.add("🌸 Наши теплые приколюшечки")
-    bot.send_message(message.chat.id, "Приходи 💛👇", reply_markup=markup)
-    user_state[message.from_user.id] = 2
-
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add("📅 Записаться на сессию-знакомство")
-    markup.add("🙏 Спасибо 💛")
-    markup.add("🌸 Наши теплые приколюшечки")
+    markup.add("🟡 Записаться на сессию-знакомство")
+    markup.add("🙏 Спасибо 💛", "🍊 Важности")
     bot.send_message(message.chat.id, "Приходи 💛👇", reply_markup=markup)
     user_state[message.from_user.id] = 2
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add("❤️ Тепло", "🧘 Техники")
-    markup.add("🙏 Спасибо", "🏠 На главную")
+    markup.add("🙏 Спасибо", "🏠 Домой")
     bot.send_message(message.chat.id, "Приходи 💛👇", reply_markup=markup)
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    markup.add("🙏 Спасибо", "🏠 На главную")
+    markup.add("🙏 Спасибо", "🏠 Домой")
     bot.send_message(message.chat.id, "Выбери, пожалуйста, что дальше", reply_markup=markup)
 
-@bot.message_handler(func=lambda msg: msg.text == "🏠 На главную")
+@bot.message_handler(func=lambda msg: msg.text == "🏠 Домой")
 def go_main_menu(message):
     user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, "Возвращаю в главное меню 🌿", reply_markup=persistent_keyboard())
@@ -591,13 +582,13 @@ def handle_thanks_yellow(message):
     time.sleep(random.uniform(1.5, 2.3))
     bot.send_message(message.chat.id, "Возвращаю в главное меню 🌿", reply_markup=persistent_keyboard())
 
-@bot.message_handler(func=lambda msg: msg.text == '🌸 Наши теплые приколюшечки')
+@bot.message_handler(func=lambda msg: msg.text == '🍊 Важности')
 def cute_stuff(message):
     user_state[message.from_user.id] = 'cute_menu'
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-    markup.add("🌀 Что я чувствую", "🌊 Море тишины")
-    markup.add("📓 Я — дневник", "🔙 Назад")
+    markup.add("🩵 Что я чувствую", "🫧 Море тишины")
+    markup.add("📚 Я — дневник", "🐾 Назад")
     markup.add("🌀 Пойдешь ещё глубже?")
 
     bot.send_message(
@@ -606,7 +597,7 @@ def cute_stuff(message):
         reply_markup=markup
     )
 
-@bot.message_handler(func=lambda msg: msg.text == '🌊 Море тишины')
+@bot.message_handler(func=lambda msg: msg.text == '🫧 Море тишины')
 def handle_sea_of_silence(message):
     user_state.pop(message.from_user.id, None)
 
@@ -630,7 +621,7 @@ def handle_sea_of_silence(message):
     markup = types.InlineKeyboardMarkup()
     markup.add(types.InlineKeyboardButton("🎧 Шум дождя", url="https://www.rainymood.com/"))
     markup.add(types.InlineKeyboardButton("🌿 Звуки природы", url="https://asoftmurmur.com/"))
-    markup.add(types.InlineKeyboardButton("🧘 Я просто хочу здесь побыть", callback_data='just_be_here'))
+    markup.add(types.InlineKeyboardButton("🧘 Я просто хочу здесь побыть и повтыкать на этого классного кота с надписью Bad Bitch на его очках", callback_data='just_be_here'))
 
     bot.send_message(message.chat.id, "Выбери, если хочешь:", reply_markup=markup)
 
@@ -644,7 +635,7 @@ def handle_just_be_here(call):
     "Будь здесь, сколько захочешь.\n\nМесто внутри себя — самое прекрасное место на Земле. Зачастую испещренное ранами, но от этого еще и уникальное. Которое так хочет заботы. И, конечно, повтыкай на кота, у него можно поучиться настоящести 💛"
     )
     
-@bot.message_handler(func=lambda msg: msg.text == '📓 Я — дневник')
+@bot.message_handler(func=lambda msg: msg.text == '📚 Я — дневник')
 def handle_diary_start(message):
     user_state[message.from_user.id] = 'waiting_diary_entry'
     bot.send_chat_action(message.chat.id, 'typing')
@@ -669,10 +660,10 @@ def handle_diary_entry(message):
     time.sleep(2)
     bot.send_message(
         message.chat.id,
-        "Спасибо, что поделился. Это важно.\nТвои слова здесь в безопасности. 💛"
+        "Спасибо, что поделился. Это важно.\nТвои слова здесь навсегда в безопасности. 💛"
     )
 
-@bot.message_handler(func=lambda msg: msg.text == '🌀 Что я чувствую')
+@bot.message_handler(func=lambda msg: msg.text == '🩵 Что я чувствую')
 def handle_emotional_radar(message):
     user_state[message.from_user.id] = 'emotion_wait'
 
@@ -681,7 +672,7 @@ def handle_emotional_radar(message):
         "😊 Радость", "😟 Тревога", "😢 Грусть",
         "😠 Злость", "😱 Страх", "😔 Стыд",
         "🤢 Отвращение", "⚖️ Вина",
-        "🔙 Назад"
+        "🐾 Назад"
     )
 
     bot.send_message(
@@ -755,14 +746,14 @@ def respond_to_emotion(message):
 
 
 @bot.message_handler(func=lambda msg: msg.text not in [
-    '📅 Записаться на сессию-знакомство',
-    '🔍 Пойти глубже',
+    '🟡 Записаться на сессию-знакомство',
+    '🤿 Пойти глубже',
     '🆘 Срочная помощь',
     '🧘 О подходе «Домой, к себе настоящему»',
-    '📌 Наши полезности',
-    '🌸 Наши теплые приколюшечки',
+    '🧩 Полезности',
+    '🍊 Важности',
     '🗣 Обратная связь',
-    '🔙 Назад'
+    '🐾 Назад'
 ])
 
 def gpt_flow(message):
@@ -788,7 +779,7 @@ def gpt_flow(message):
         bot.send_message(message.chat.id, "Или хочешь — побудем в этом немного вместе? Я могу дать тебе чуточку тепла и поддержки, предложить быстрые техники снижения тревожности, а, если ты мне опишешь проблему, то и свежий взгляд со стороны.")
 
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-        markup.add("❤️ Тепло", "🧘 Техники", "🌀 Пойти глубже", "🔙 Назад")
+        markup.add("❤️ Тепло", "🧘 Техники", "🤿 Пойти глубже", "🐾 Назад")
 
         bot.send_message(message.chat.id, "Как я могу тебя поддержать? Выбери внизу 👇 Что тебе сейчас ближе?", reply_markup=markup)
         user_state[uid] = 2
@@ -800,10 +791,10 @@ def handle_deeper(message):
     user_state.pop(message.from_user.id, None)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add("🧘 О подходе «Домой, к себе настоящему»")
-    markup.add("📌 Наши полезности")
-    markup.add("🌸 Наши теплые приколюшечки")
+    markup.add("🧩 Полезности")
+    markup.add("🍊 Важности")
     markup.add("🗣 Обратная связь")
-    markup.add("🔙 Назад")
+    markup.add("🐾 Назад")
     bot.send_message(message.chat.id, "Выбери, что тебе интересно:", reply_markup=markup)
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🧘 О подходе «Домой, к себе настоящему»')
@@ -821,7 +812,7 @@ def about_method(message):
     bot.send_message(message.chat.id, text, reply_markup=markup)
     bot.send_message(message.chat.id, "И всегда можно вернуться в главное меню 👇", reply_markup=persistent_keyboard())
 
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '📌 Наши полезности')
+@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🧩 Полезности')
 def resources(message):
     user_state.pop(message.from_user.id, None)
     text = (
@@ -850,7 +841,7 @@ def feedback(message):
         "Он будет благодарен тебе за каждую твою буковку 🌞"
     )
 
-@bot.message_handler(func=lambda msg: msg.text == '🔙 Назад')
+@bot.message_handler(func=lambda msg: msg.text == '🐾 Назад')
 def handle_back(message):
     if user_state.get(message.from_user.id) not in ['waiting_letter_text', 'waiting_letter_text_year']:
         user_state.pop(message.from_user.id, None)
@@ -859,7 +850,7 @@ def handle_back(message):
     # если пользователь был в старой логике — возвращаем поддерживающее меню
     if step in [2, 'after_response']:
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-        markup.add("❤️ Тепло", "🧘 Техники", "🌀 Пойти глубже", "🔙 Назад")
+        markup.add("❤️ Тепло", "🧘 Техники", "🤿 Пойти глубже", "🐾 Назад")
         bot.send_chat_action(message.chat.id, 'typing')
         time.sleep(random.uniform(1.5, 2.5))
         bot.send_message(message.chat.id, "Как я могу тебя поддержать? Выбери внизу 👇", reply_markup=markup)
@@ -1225,7 +1216,7 @@ metaphoric_cards = [
 - Если бы ты относился к каждому дню как к драгоценному, невосполнимому ресурсу, как бы изменились твои выборы о том, на что его потратить?""",
 ]
 
-@bot.message_handler(func=lambda msg: msg.text == "🌀 Пойдешь ещё глубже?")
+@bot.message_handler(func=lambda msg: msg.text == "🐡 Пойдешь ещё глубже?")
 def handle_go_deeper_intro(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add("Да", "Нет")
