@@ -797,6 +797,10 @@ def handle_deeper(message):
     markup.add("🗣 Обратная связь", "🐾 Назад")
     bot.send_message(message.chat.id, "Выбери, что тебе интересно:", reply_markup=markup)
 
+@bot.callback_query_handler(func=lambda call: True)
+def debug_callback(call):
+    print(f"🔘 CALLBACK: {call.data}")
+
 @bot.message_handler(func=lambda msg: True)
 def debug_all(message):
     print(f"📩 DEBUG TEXT: {repr(message.text)}")
