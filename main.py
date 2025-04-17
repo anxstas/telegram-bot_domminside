@@ -798,8 +798,8 @@ def handle_deeper(message):
     bot.send_message(message.chat.id, "Выбери, что тебе интересно:", reply_markup=markup)
 
 @bot.message_handler(func=lambda msg: True)
-def debug_all_messages(message):
-    print(f"📩 msg.text = {repr(message.text)}")
+def debug_all(message):
+    print(f"📩 DEBUG TEXT: {repr(message.text)}")
 
 @bot.message_handler(func=lambda msg: msg.text == '🚨 SOS без соплей')
 def handle_sos_no_tears(message):
