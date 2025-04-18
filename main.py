@@ -579,21 +579,7 @@ def confirm_payment(call):
         bot.send_message(call.message.chat.id, "Не удалось найти выбранное время.")
         return
 
-    # Подтверждение пользователю
-    bot.send_message(call.message.chat.id, "Спасибо! Твоя сессия подтверждена 🌿")
-
-    # Уведомление админу
     username = call.from_user.username or "нет username"
-    dt_fmt = datetime.strptime(slot_str, "%Y-%m-%d_%H:%M").strftime('%d %B %Y • %H:%M')
-    admin_msg = (
-        f"🚼 Запись на сессию!\n\n"
-        f"🛟 @{username} (id: {user_id})\n"
-        f"⌛️ Время: {dt_fmt}\n"
-        f"💰 Слот подтверждён. Проверить оплату.\n"
-        f"📅 Добавить в Google Calendar:\n{calendar_link}"
-    )
-    bot.send_message(ADMIN_ID, admin_msg)
-
     dt = datetime.strptime(slot_str, "%Y-%m-%d_%H:%M")
 
     start = dt.strftime('%Y%m%dT%H%M00Z')
@@ -607,7 +593,21 @@ def confirm_payment(call):
         f"&location=Telegram"
     )
 
-    # Формат для человека (воскресенье, 13 апреля в 13:00)
+    # Уведомление админу
+    dt_fmt = dt.strftime('%d %B %Y • %H:%M')
+    admin_msg = (
+        f"🚼 Запись на сессию!\n\n"
+        f"🛟 @{username} (id: {user_id})\n"
+        f"⌛️ Время: {dt_fmt}\n"
+        f"💰 Слот подтверждён. Проверить оплату.\n"
+        f"🟡 Добавить в Google Calendar:\n{calendar_link}"
+    )
+    bot.send_message(ADMIN_ID, admin_msg)
+
+    # Подтверждение пользователю
+    bot.send_message(call.message.chat.id, "Спасибо! Твоя сессия подтверждена 🌿")
+
+    # Человеческая дата
     days = {
         "Monday": "понедельник", "Tuesday": "вторник", "Wednesday": "среду",
         "Thursday": "четверг", "Friday": "пятницу", "Saturday": "субботу", "Sunday": "воскресенье"
@@ -625,12 +625,12 @@ def confirm_payment(call):
     time = dt.strftime("%H:%M")
     human_date = f"{day_name}, {day} {month} в {time}"
 
-    # Сообщения клиенту
     bot.send_message(call.message.chat.id, "Вот ссылка, чтобы добавить встречу в календарь:")
     bot.send_message(call.message.chat.id, calendar_link)
-    bot.send_message(call.message.chat.id, f"Жду тебя в {human_date} 🌞", reply_markup=persistent_keyboard())
+    bot.send_message(call.message.chat.id, f"Жду тебя в {human_date} 🤗", reply_markup=persistent_keyboard())
     bot.send_message(call.message.chat.id, "Установи заранее Google Meet для связи, перед сессией я пришлю тебе ссылку на встречу.")
     bot.send_message(call.message.chat.id, "А пока что загляни в «🤿 Пойти глубже» 👇, у нас там интересно.")
+
 
 
 def get_techniques_block():
