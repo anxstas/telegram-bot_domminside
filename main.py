@@ -556,20 +556,6 @@ def handle_booking(message):
 
     bot.send_message(message.chat.id, "🟡 Выбери удобное тебе время:", reply_markup=markup)
 
-@bot.message_handler(func=lambda msg: msg.text == '🆘 Срочная помощь')
-def handle_emergency(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
-    markup.add("🙏 Спасибо 💛")
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add("🟡 Записаться на сессию-знакомство -40%")
-    markup.add("🤿 Пойти глубже")  # <–– вот эта строка новая
-    human_delay()
-    bot.send_message(message.chat.id, "Ты зашёл сюда не просто так.")
-    human_delay()
-    bot.send_message(message.chat.id, "Давай вместе сделаем так, чтобы тебе стало хоть чуточку легче.")
-    human_delay()
-    bot.send_message(message.chat.id, "Расскажи немного, что с тобой? И я помогу тебе поддержкой, теплом и действенными техниками.\n\nПросто пиши мне в чат 👇 Прямо сейчас, без всяких приветствий. Что там с тобой? Поделись...",  reply_markup=persistent_keyboard())
-    user_state[message.from_user.id] = 1
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith("slot_"))
 def handle_slot_choice(call):
@@ -656,6 +642,50 @@ def get_techniques_block():
         "⬜⬜⬜\n\n"
         "Хочешь — можно заглянуть в твою тревогу глубже со Стасом на сессии. Он очень бережно помогает возвращаться домой — в свою настоящесть.\n\n"
     )
+
+
+
+
+@bot.message_handler(func=lambda msg: msg.text == '🆘 Срочная помощь')
+def handle_emergency(message):
+    uid = message.from_user.id
+    user_state[uid] = 2  # сразу ставим нужный этап
+
+    # Ответ 1
+    human_delay()
+    bot.send_message(uid, "Ты зашёл сюда не просто так.")
+
+    # Ответ 2
+    human_delay()
+    bot.send_message(uid, "Давай вместе сделаем так, чтобы тебе стало хоть чуточку легче.")
+
+    # Ответ 3
+    human_delay()
+    bot.send_message(uid,
+        "Расскажи немного, что с тобой? И я помогу тебе поддержкой, теплом и действенными техниками.\n\n"
+        "Просто пиши мне в чат 👇 Прямо сейчас, без всяких приветствий. Что там с тобой? Поделись...",
+        reply_markup=persistent_keyboard()
+    )
+
+@bot.message_handler(func=lambda msg: user_state.get(msg.from_user.id) == 2)
+def handle_emergency_reply(message):
+    uid = message.from_user.id
+    human_delay()
+    bot.send_message(uid, "Спасибо, что делишься. Я тебя слышу. Твой вопрос важный, как и всё, что происходит с тобой... Я с тобой в этом, насколько могу.")
+
+    human_delay()
+    bot.send_message(uid, "Хочешь, перешли его прямо сейчас Стасу лично на @anxstas — он ответит, как только прочитает. Просто скопируй и отправь, без приветствий, я его предупрежу. Это бесплатно.")
+
+    human_delay()
+    bot.send_message(uid, "Или хочешь — побудем в этом немного вместе? Я могу дать тебе чуточку тепла и поддержки, предложить быстрые техники снижения тревожности.")
+
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup.add("❤️ Тепло", "🧘 Техники", "🧸 Поддержи меня", "🏠 Домой")
+    bot.send_message(uid, "Как я могу тебя поддержать? Выбери внизу 👇 Что тебе сейчас ближе?", reply_markup=markup)
+
+    user_state[uid] = 3
+
+
 
 @bot.message_handler(func=lambda msg: msg.text == '🙏 Спасибо 💛')
 def handle_thanks(message):
@@ -1176,39 +1206,6 @@ def respond_to_emotion(message):
     '🗣 Обратная связь',
     '🏠 Домой'
 ])
-
-@bot.message_handler(func=lambda msg: user_state.get(msg.from_user.id) == "sos_gpt_mode")
-def handle_sos_gpt_response(message):
-    gpt_flow(message)
-    
-def gpt_flow(message):
-    import random, time
-    uid = message.from_user.id
-    if user_state.get(uid) is None:
-        return
-    text = message.text.strip()
-    lowered = text.lower()
-    step = user_state.get(uid, 1)
-
-    if step == 1:
-        bot.send_chat_action(message.chat.id, 'typing')
-        time.sleep(random.uniform(1.0, 2.4))
-        bot.send_message(message.chat.id, "Спасибо, что делишься. Я тебя слышу. Твой вопрос важный, как и все, что происходит с тобой... Я с тобой в этом, насколько могу.")
-
-        bot.send_chat_action(message.chat.id, 'typing')
-        time.sleep(random.uniform(1.0, 2.0))
-        bot.send_message(message.chat.id, "Хочешь, перешли его прямо сейчас Стасу лично на @anxstas — он ответит, как только прочитает. Просто скопируй и отправь, без приветствий, я его предупрежу. Это бесплатно.")
-
-        bot.send_chat_action(message.chat.id, 'typing')
-        time.sleep(random.uniform(1.0, 2.1))
-        bot.send_message(message.chat.id, "Или хочешь — побудем в этом немного вместе? Я могу дать тебе чуточку тепла и поддержки, предложить быстрые техники снижения тревожности.")
-
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
-        markup.add("❤️ Тепло", "🧘 Техники", "🧸 Поддержи меня", "🏠 Домой")
-
-        bot.send_message(message.chat.id, "Как я могу тебя поддержать? Выбери внизу 👇 Что тебе сейчас ближе?", reply_markup=markup)
-        user_state[uid] = 2
-        return
 
     
 @bot.message_handler(commands=['завершить','end'])
