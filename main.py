@@ -755,8 +755,6 @@ def handle_support_me(message):
     )
 
 
-@import time
-import random
 
 def human_typing(chat_id, text, min_d=1.1, max_d=2.4):
     bot.send_chat_action(chat_id, 'typing')
