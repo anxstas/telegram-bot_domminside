@@ -756,10 +756,13 @@ def handle_support_me(message):
 
 
 
-def human_typing(chat_id, text, min_d=1.1, max_d=2.4):
-    bot.send_chat_action(chat_id, 'typing')
-    time.sleep(random.uniform(min_d, max_d))
-    bot.send_message(chat_id, text)
+def human_typing_blocks(chat_id, text, min_d=1.1, max_d=2.4):
+    blocks = text.strip().split("\n\n")
+    for block in blocks:
+        if block.strip():
+            bot.send_chat_action(chat_id, 'typing')
+            time.sleep(random.uniform(min_d, max_d))
+            bot.send_message(chat_id, block)
 
 @bot.message_handler(func=lambda msg: msg.text == "🧷 Мне надо за что-то держаться")
 def anchor_support(message):
@@ -771,7 +774,7 @@ def anchor_support(message):
         "🔸 Напиши себе на бумаге: \"Я здесь. Я держусь. Я справляюсь.\"\n\n"
         "Я с тобой. Всё, что ты сейчас переживаешь — не навсегда."
     )
-    human_typing(message.chat.id, text)
+    human_typing_blocks(message.chat.id, text)
 
 @bot.message_handler(func=lambda msg: msg.text == "💬 Скажи мне, что со мной всё нормально")
 def reassurance_support(message):
@@ -782,7 +785,8 @@ def reassurance_support(message):
         "Ты не обязан быть продуктивным, весёлым или нужным. Ты уже заслуживаешь любви просто потому, что существуешь.\n\n"
         "То, что ты чувствуешь — это нормальная реакция на ненормальные обстоятельства."
     ]
-    human_typing(message.chat.id, random.choice(messages))
+    import random
+    human_typing_blocks(message.chat.id, random.choice(messages))
 
 @bot.message_handler(func=lambda msg: msg.text == "🫠 Проваливаюсь")
 def collapse_support(message):
@@ -793,7 +797,7 @@ def collapse_support(message):
         "🔸 Дыши медленно: вдох — на 4 счета, выдох — на 6. Повтори 5 раз.\n\n"
         "Ты не ленивый. Ты истощён. Это другое. И это пройдёт."
     )
-    human_typing(message.chat.id, text)
+    human_typing_blocks(message.chat.id, text)
 
 @bot.message_handler(func=lambda msg: msg.text == "⏳ Мне страшно, что никогда не станет легче")
 def fear_of_forever(message):
@@ -804,7 +808,7 @@ def fear_of_forever(message):
         "🔸 Даже мысль 'это не навсегда' — уже шаг в сторону надежды. Да и скажи, было бы всё это с тобой, если бы ты не мог это вынести? Мир не даёт нам того, с чем мы потенциально не можем справиться.\n\n"
         "Я с тобой. Подышим?"
     )
-    human_typing(message.chat.id, text)
+    human_typing_blocks(message.chat.id, text)
 
 @bot.message_handler(func=lambda msg: msg.text == "🏠 Домой")
 def go_main_menu(message):
