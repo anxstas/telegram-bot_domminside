@@ -681,7 +681,7 @@ def handle_emergency_reply(message):
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
     markup.add("❤️ Тепло", "🧘 Техники", "🧸 Поддержи меня", "🏠 Домой")
-    bot.send_message(uid, "Как я могу тебя поддержать? Выбери внизу 👇 Что тебе сейчас ближе?", reply_markup=markup)
+    bot.send_message(uid, "Выбери внизу 👇 Что тебе сейчас ближе?", reply_markup=markup)
 
     user_state[uid] = 3
 
