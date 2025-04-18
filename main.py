@@ -1177,6 +1177,10 @@ def respond_to_emotion(message):
     '🏠 Домой'
 ])
 
+@bot.message_handler(func=lambda msg: user_state.get(msg.from_user.id) == "sos_gpt_mode")
+def handle_sos_gpt_response(message):
+    gpt_flow(message)
+    
 def gpt_flow(message):
     import random, time
     uid = message.from_user.id
