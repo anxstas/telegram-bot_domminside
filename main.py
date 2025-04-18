@@ -598,9 +598,9 @@ def confirm_payment(call):
     admin_msg = (
         f"🚼 Запись на сессию!\n\n"
         f"🛟 @{username} (id: {user_id})\n"
-        f"⌛️ Время: {dt_fmt}\n"
-        f"💰 Слот подтверждён. Проверить оплату.\n"
-        f"🟡 Добавить в Google Calendar:\n{calendar_link}"
+        f"🕘 Время: {dt_fmt}\n"
+        f"💱 Слот подтверждён. Проверить оплату.\n"
+        f"📆 Добавить в Google Calendar:\n{calendar_link}"
     )
     bot.send_message(ADMIN_ID, admin_msg)
 
