@@ -724,7 +724,7 @@ def handle_warmth(message):
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add("🟡 Записаться на сессию-знакомство -40%")
-    markup.add("🙏 Спасибо 💛", "🍊 Тёплости")
+    markup.add("🙏 Спасибо 💛", "🧶 Заботливости")
     bot.send_message(message.chat.id, "Приходи 💛👇", reply_markup=markup)
     user_state[message.from_user.id] = 2
 
@@ -737,7 +737,7 @@ def handle_techniques(message):
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add("🟡 Записаться на сессию-знакомство -40%")
-    markup.add("🙏 Спасибо 💛", "🍊 Тёплости")
+    markup.add("🙏 Спасибо 💛", "🧶 Заботливости")
     bot.send_message(message.chat.id, "Приходи 💛👇", reply_markup=markup)
     user_state[message.from_user.id] = 2
 
@@ -822,7 +822,7 @@ def handle_deeper(message):
     user_state.pop(message.from_user.id, None)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
     markup.add("🧘 О подходе «Домой, к себе настоящему»")
-    markup.add("🧩 Полезности", "🍊 Тёплости")
+    markup.add("🧩 Полезности", "🧶 Заботливости")
     markup.add("🛁 Тест глубины", "🐳 Еще глубже")
     markup.add("🗣 Обратная связь", "🏠 Домой")
     bot.send_message(message.chat.id, "Выбери, что тебе интересно 👇", reply_markup=markup)
@@ -1048,7 +1048,7 @@ def handle_ultimate_answer(message):
     )
 
 
-@bot.message_handler(func=lambda msg: msg.text == '🍊 Тёплости')
+@bot.message_handler(func=lambda msg: msg.text == '🧶 Заботливости')
 def cute_stuff(message):
     user_state[message.from_user.id] = 'cute_menu'
 
@@ -1219,7 +1219,7 @@ def respond_to_emotion(message):
     '🚨 SOS без соплей', 
     '🧘 О подходе «Домой, к себе настоящему»',
     '🧩 Полезности',
-    '🍊 Тёплости',
+    '🧶 Заботливости',
     '🛁 Тест глубины'
     '🐳 Еще глубже',
     '🗣 Обратная связь',
