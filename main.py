@@ -586,10 +586,10 @@ def confirm_payment(call):
     username = call.from_user.username or "нет username"
     dt_fmt = datetime.strptime(slot_str, "%Y-%m-%d_%H:%M").strftime('%d %B %Y • %H:%M')
     admin_msg = (
-        f"📥 Запись на сессию!\n\n"
-        f"👤 @{username} (id: {user_id})\n"
-        f"🕒 Время: {dt_fmt}\n"
-        f"📝 Слот подтверждён и оплачен."
+        f"🚼 Запись на сессию!\n\n"
+        f"🛟 @{username} (id: {user_id})\n"
+        f"⌛️ Время: {dt_fmt}\n"
+        f"💰 Слот подтверждён. Проверить оплату."
     )
     bot.send_message(ADMIN_ID, admin_msg)
 
@@ -625,19 +625,12 @@ def confirm_payment(call):
     human_date = f"{day_name}, {day} {month} в {time}"
 
     # Сообщения клиенту
-    bot.send_message(call.message.chat.id, "Спасибо! Ты записан. Вот ссылка, чтобы добавить встречу в календарь:")
+    bot.send_message(call.message.chat.id, "Вот ссылка, чтобы добавить встречу в календарь:")
     bot.send_message(call.message.chat.id, calendar_link)
-    bot.send_message(call.message.chat.id, f"Я жду тебя в {human_date} 🌞", reply_markup=persistent_keyboard())
+    bot.send_message(call.message.chat.id, f"Жду тебя в {human_date} 🌞", reply_markup=persistent_keyboard())
     bot.send_message(call.message.chat.id, "Установи заранее Google Meet для связи, перед сессией я пришлю тебе ссылку на встречу.")
     bot.send_message(call.message.chat.id, "А пока что загляни в «🤿 Пойти глубже» 👇, у нас там интересно.")
 
-    # Кнопки
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    markup.add("🤿 Пойти глубже", "🆘 Срочная помощь")
-    bot.send_message(call.message.chat.id, reply_markup=markup)
-
-    # Уведомление админу
-    bot.send_message(ADMIN_ID, f"📬 Новый клиент записан на: {human_date}\nTelegram ID: {user_id}")
 
 def get_techniques_block():
     return (
