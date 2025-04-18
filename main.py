@@ -579,6 +579,20 @@ def confirm_payment(call):
         bot.send_message(call.message.chat.id, "Не удалось найти выбранное время.")
         return
 
+    # Подтверждение пользователю
+    bot.send_message(call.message.chat.id, "Спасибо! Твоя сессия подтверждена 🌿")
+
+    # Уведомление админу
+    username = call.from_user.username or "нет username"
+    dt_fmt = datetime.strptime(slot_str, "%Y-%m-%d_%H:%M").strftime('%d %B %Y • %H:%M')
+    admin_msg = (
+        f"📥 Запись на сессию!\n\n"
+        f"👤 @{username} (id: {user_id})\n"
+        f"🕒 Время: {dt_fmt}\n"
+        f"📝 Слот подтверждён и оплачен."
+    )
+    bot.send_message(ADMIN_ID, admin_msg)
+
     dt = datetime.strptime(slot_str, "%Y-%m-%d_%H:%M")
 
     start = dt.strftime('%Y%m%dT%H%M00Z')
