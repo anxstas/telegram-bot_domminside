@@ -17,11 +17,6 @@ def keep_alive():
     print(f"[{now}] 💓 Keep-alive ping received.")
     return 'Бот жив!'
 
-@app.route('/webhook', methods=['POST'])
-def webhook():
-    json_data = request.get_json()
-    # bot.process_new_updates(...) или bot.process_new_updates([telebot.types.Update.de_json(json_data)])
-    return 'ok'
 
 TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
 openai.api_key = os.getenv("OPENAI_API_KEY")
