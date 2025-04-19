@@ -1251,6 +1251,12 @@ def finish_chat(message):
 
     logging.info("Бот запущен")
 
+@app.route(f"/bot{TELEGRAM_TOKEN}", methods=["POST"])
+def webhook():
+    if request.method == "POST":
+        update = telebot.types.Update.de_json(request.get_json())
+        bot.process_new_updates([update])
+    return "ok", 200
 
 if __name__ == "__main__":
     print(">>> Устанавливаем webhook:", f"{WEBHOOK_URL}/bot{TELEGRAM_TOKEN}")
