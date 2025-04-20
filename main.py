@@ -953,7 +953,6 @@ def handle_sea_of_silence(message):
     )
 
     bot.send_chat_action(message.chat.id, 'typing')
-    time.sleep(2)
     bot.send_message(
         message.chat.id,
         "Тут ничего не надо. Просто тишина, дыхание и ты. И еще кот.\n\n"
@@ -1000,7 +999,7 @@ def handle_diary_entry(message):
         )
 
     bot.send_chat_action(message.chat.id, 'typing')
-    time.sleep(2)
+    time.sleep(1)
     bot.send_message(
         message.chat.id,
         "Спасибо, что поделился. Это важно.\nТвои слова здесь навсегда в безопасности. 💛"
