@@ -52,7 +52,7 @@ def human_delay():
     time.sleep(random.uniform(1.2, 2.5))
 
 def persistent_keyboard():
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add('🟡 Записаться на сессию-знакомство -40%')
     markup.add('🤿 Пойти глубже', '🆘 Срочная помощь')
     markup.add('🧞‍♂️ Тест тревоги', '🧞‍♀️ Тест депрессии') 
@@ -142,7 +142,7 @@ def show_anxiety_result(chat_id, uid):
     bot.send_message(chat_id, result_text)
 
     # Приглашение на сессию
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("🟡 Записаться на сессию-знакомство -40%")
     markup.add("🏠 Домой")
 
@@ -322,7 +322,7 @@ def show_depression_result(chat_id, uid):
     result_text = f"🔹 Твой результат: {total_score} баллов\n{level}\n\n{interpretation}"
     bot.send_message(chat_id, result_text)
 
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("🟡 Записаться на сессию-знакомство -40%")
     markup.add("🏠 Главное меню")
 
@@ -334,7 +334,7 @@ def show_depression_result(chat_id, uid):
 
 @bot.message_handler(func=lambda msg: msg.text == '🚨 SOS без соплей')
 def handle_sos_no_tears(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("😤 Когда всё заебало")
     markup.add("💣 Когда хочется всё разъебать")
     markup.add("😵‍💫 Когда в ахуе")
@@ -350,7 +350,7 @@ def handle_sos_no_tears(message):
     
 @bot.message_handler(func=lambda msg: msg.text == "😤 Когда всё заебало")
 def handle_sos_fuck_it_all(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("Блядь, заебало всё")
     markup.add("Я выгорел нахуй")
     markup.add("Хочу исчезнуть к хуям")
@@ -384,7 +384,7 @@ def handle_sos_3958503975752287122(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "💣 Когда хочется всё разъебать")
 def handle_sos_blow_it_up(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("Хочу всё разъебать")
     markup.add("Разъебать бы кого-нибудь")
     markup.add("Я ща взорвусь к хуям")
@@ -415,7 +415,7 @@ def handle_sos_7980701090421104069(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "😵‍💫 Когда в ахуе")
 def handle_sos_overwhelmed(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("Что это за нахуй?")
     markup.add("У меня едет крыша, сука")
     markup.add("Меня реально накрыло")
@@ -446,7 +446,7 @@ def handle_sos_7426315701996593154(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "💀 Хочу сдохнуть, но не умирать")
 def handle_sos_not_really_die(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("Хочу сдохнуть, но не насмерть")
     markup.add("Хочу, чтоб всё просто закончилось")
     markup.add("Заебался быть сильным")
@@ -477,7 +477,7 @@ def handle_sos_90912094602774372(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "😐 Не хочется ни хуя, но я нажал")
 def handle_sos_numb_click(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("Не знаю зачем жму, но я жму")
     markup.add("Сделай хоть что-то за меня")
     markup.add("Хочу, чтоб кто-то просто обнял")
@@ -507,7 +507,7 @@ def handle_sos_4994767971289124446(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "🐾 Назад в SOS")
 def handle_sos_back_to_main(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("😤 Когда всё заебало")
     markup.add("💣 Когда хочется всё разъебать")
     markup.add("😵‍💫 Когда в ахуе")
@@ -697,7 +697,7 @@ def handle_emergency_reply(message):
     human_delay()
     bot.send_message(uid, "Или хочешь — побудем в этом немного вместе? Я могу дать тебе чуточку тепла и поддержки, предложить быстрые техники снижения тревожности.")
 
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2, one_time_keyboard=False)
     markup.add("❤️ Тепло", "🧘 Техники", "🧸 Поддержи меня", "🏠 Домой")
     bot.send_message(uid, "Выбери внизу 👇 Что тебе сейчас ближе?", reply_markup=markup)
 
@@ -739,7 +739,7 @@ def handle_warmth(message):
     time.sleep(random.uniform(2.0, 2.5))
     bot.send_message(message.chat.id, "Хочешь — можно заглянуть в это глубже со Стасом на сессии? Он очень бережно помогает возвращаться домой — в свою настоящесть.")
 
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("🟡 Записаться на сессию-знакомство -40%")
     markup.add("🙏 Спасибо 💛", "🧶 Заботливости")
     bot.send_message(message.chat.id, "Приходи 💛👇", reply_markup=markup)
@@ -752,7 +752,7 @@ def handle_techniques(message):
     time.sleep(random.uniform(2.0, 2.5))
     bot.send_message(message.chat.id, get_techniques_block())
 
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("🟡 Записаться на сессию-знакомство -40%")
     markup.add("🙏 Спасибо 💛", "🧶 Заботливости")
     bot.send_message(message.chat.id, "Приходи 💛👇", reply_markup=markup)
@@ -760,7 +760,7 @@ def handle_techniques(message):
 
 @bot.message_handler(func=lambda msg: msg.text == "🧸 Поддержи меня")
 def handle_support_me(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1, one_time_keyboard=False)
     markup.add("🧷 Мне надо за что-то держаться")
     markup.add("💬 Скажи мне, что со мной всё нормально")
     markup.add("🫠 Проваливаюсь")
@@ -837,7 +837,7 @@ def go_main_menu(message):
 @bot.message_handler(func=lambda msg: msg.text == '🤿 Пойти глубже')
 def handle_deeper(message):
     user_state.pop(message.from_user.id, None)
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("🧘 О подходе «Домой, к себе настоящему»")
     markup.add("🧩 Полезности", "🧶 Заботливости")
     markup.add("🛁 Тест глубины", "🐳 Еще глубже")
@@ -891,7 +891,7 @@ def handle_feedback_entry(message):
 def cute_stuff(message):
     user_state[message.from_user.id] = 'cute_menu'
 
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2, one_time_keyboard=False)
     markup.add("🩵 Что я чувствую", "🫧 Море тишины")
     markup.add("📚 Я — дневник", "🏠 Домой")
 
@@ -969,7 +969,7 @@ def handle_diary_entry(message):
 def handle_emotional_radar(message):
     user_state[message.from_user.id] = 'emotion_wait'
 
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2, one_time_keyboard=False)
     markup.add(
         "😊 Радость", "😟 Тревога", "😢 Грусть",
         "😠 Злость", "😱 Страх", "😔 Стыд",
@@ -1150,7 +1150,7 @@ def ask_dumpling_question(chat_id, uid):
     step = user_state[uid]['dumpling_test']
     if step < len(dumpling_questions):
         qdata = dumpling_questions[step]
-        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
         for label, _ in qdata['a']:
             markup.add(label)
         bot.send_message(chat_id, qdata['q'], reply_markup=markup)
@@ -1208,7 +1208,7 @@ def interpret_dumpling_result(chat_id, uid):
 
 @bot.message_handler(func=lambda msg: msg.text == "🐳 Еще глубже")
 def handle_even_deeper(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("ДА ❤️", "ДА 💛", "ДА 💚")
     bot.send_message(
         message.chat.id,
@@ -1219,7 +1219,7 @@ def handle_even_deeper(message):
 
 @bot.message_handler(func=lambda msg: msg.text in ["ДА ❤️", "ДА 💛", "ДА 💚"])
 def handle_ultimate_answer(message):
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("🏠 Домой")
     bot.send_message(
         message.chat.id,
