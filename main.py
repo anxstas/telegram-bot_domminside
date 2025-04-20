@@ -550,8 +550,8 @@ def handle_booking(message):
     human_delay()
     bot.send_message(
         message.chat.id,
-        "Ты позаботился о себе, сделал важный шаг.\n\n"
-        "Первая сессия-знакомство будет для тебя стоить 30 евро вместо 50.\n\n"
+        "Ты сделал важный шаг и позаботился о себе.\n\n"
+        "Первая сессия-знакомство будет со скидкой 40% (30 евро вместо 50).\n\n"
         "На сессии у тебя будет тёплое и безопасное пространство. "
         "Тебе не нужно готовиться к ней, можешь прийти и просто быть собой.\n\n",
         reply_markup=persistent_keyboard()
@@ -564,6 +564,7 @@ def handle_booking(message):
         markup.add(types.InlineKeyboardButton(text=label, callback_data=f"slot_{slot_id}"))
 
     bot.send_message(message.chat.id, "🟡 Выбери удобное тебе время:", reply_markup=markup)
+    bot.send_message(message.chat.id, "Если есть вопросы — можно написать Стасу лично на @anxstas", reply_markup=markup)
 
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith("slot_"))
@@ -576,8 +577,7 @@ def handle_slot_choice(call):
     markup.add(types.InlineKeyboardButton("💰 Оплатить", url="https://moneyyyyyy.carrd.co/"))
     markup.add(types.InlineKeyboardButton("✅ Я оплатил", callback_data="paid_done"))
 
-    bot.send_message(call.message.chat.id, f"Ты выбрал: {dt_text}\n\nПожалуйста, оплати, чтобы подтвердить запись:", reply_markup=markup)
-    bot.send_message(call.message.chat.id, "Если остались вопросы — можно написать Стасу лично на: @anxstas", reply_markup=persistent_keyboard())
+    bot.send_message(call.message.chat.id, f"Ты выбрал: {dt_text}\n\nПожалуйста, оплати, чтобы подтвердить запись:", reply_markup=markup=persistent_keyboard())
 
 @bot.callback_query_handler(func=lambda call: call.data == "paid_done")
 def confirm_payment(call):
