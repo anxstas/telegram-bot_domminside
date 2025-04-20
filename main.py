@@ -87,6 +87,7 @@ user_anxiety_state = {}  # {user_id: {'step': int, 'answers': []}}
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🧞‍♂️ Тест тревоги')
 def start_anxiety_test(message):
+    user_state.pop(message.from_user.id, None)
     uid = message.from_user.id
     user_anxiety_state[uid] = {'step': 0, 'answers': []}
     send_anxiety_question(message.chat.id, uid)
@@ -268,6 +269,7 @@ user_depression_state = {}  # {user_id: {'step': int, 'answers': []}}
 
 @bot.message_handler(func=lambda msg: "Тест депрессии" in msg.text)
 def start_depression_test(message):
+    user_state.pop(message.from_user.id, None)
     uid = message.from_user.id
     user_depression_state[uid] = {'step': 0, 'answers': []}
     send_depression_question(message.chat.id, uid)
@@ -334,6 +336,7 @@ def show_depression_result(chat_id, uid):
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🚨 SOS без соплей')
 def handle_sos_no_tears(message):
+    user_state.pop(message.from_user.id, None)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("😤 Когда всё заебало")
     markup.add("💣 Когда хочется всё разъебать")
@@ -350,6 +353,7 @@ def handle_sos_no_tears(message):
     
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "😤 Когда всё заебало")
 def handle_sos_fuck_it_all(message):
+    user_state.pop(message.from_user.id, None)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("Блядь, заебало всё")
     markup.add("Я выгорел нахуй")
@@ -364,26 +368,31 @@ def handle_sos_fuck_it_all(message):
     )
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Блядь, заебало всё")
 def handle_sos_4099926234648959947(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, "Окей. Не фильтруй. Просто скажи это. Ещё громче. Ещё злее. Можешь кричать. Это не истерика. Это выход. Говори. Кричи. Живи.")
 
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Я выгорел нахуй")
 def handle_sos_2097721584395819975(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, "Выгорел — значит, слишком долго был в огне. Теперь ты пепел. Но пепел — это начало костра. Помни об этом. И отдохни недельку.")
 
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Хочу исчезнуть к хуям")
 def handle_sos_5386086005586864426(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, "Необязательно исчезать. Достаточно выключиться. На время. Включайся, когда почувствуешь. Мир не рухнет. Проверено.")
 
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Да пошло всё нахуй")
 def handle_sos_3958503975752287122(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, "Хороший момент, чтобы перечеркнуть всё. Чтобы вместе с простыней вытряхнуть все с балкона 21го этажа. А теперь: что хочешь оставить? Что реально твоё? Своё оставь, остальное - к хуям.")
 
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "💣 Когда хочется всё разъебать")
 def handle_sos_blow_it_up(message):
+    user_state.pop(message.from_user.id, None)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("Хочу всё разъебать")
     markup.add("Разъебать бы кого-нибудь")
@@ -398,23 +407,28 @@ def handle_sos_blow_it_up(message):
     )
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Хочу всё разъебать")
 def handle_sos_2582472798395486936(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, """Внутри тебя — вулкан. Не туши. Напиши и сожги. Бей грушу. Ори и громко матерись. Кричи в подушку. Или просто бей воздух. Главное — не держи.""")
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Разъебать бы кого-нибудь")
 def handle_sos_2910435303755721761(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, """Ты не агрессивный. Ты накопленный. Найди безопасный способ, такой, чтобы все остались живы и здоровы, и чтобы ты не получил срок, и разъеби.""")
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Я ща взорвусь к хуям")
 def handle_sos_1611018811932205984(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, """Ты не в клетке. Ты — с огнём. И это можно использовать. Твой огонь - на важное. Найди, на что и жги.""")
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Уже просто за край, нахуй")
 def handle_sos_7980701090421104069(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, """За край, факт. Но ты держишься. Хочешь не держаться? Не держись. Можно и это. Все можно. Я с тобой.""")
 
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "😵‍💫 Когда в ахуе")
 def handle_sos_overwhelmed(message):
+    user_state.pop(message.from_user.id, None)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("Что это за нахуй?")
     markup.add("У меня едет крыша, сука")
@@ -429,23 +443,28 @@ def handle_sos_overwhelmed(message):
     )
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Что это за нахуй?")
 def handle_sos_8273854609020363593(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, """Ты в ахуе — и это нормально. Признай: сейчас — пиздец. Подыши. Да, пиздец. Ну и чё?""")
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "У меня едет крыша, сука")
 def handle_sos_2372558184027151334(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, """Мозг плавится, факт. Ты не один. Я тоже подплавлен. Повтори: 'Я еду — но я за рулём'.""")
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Меня реально накрыло")
 def handle_sos_4512565454031012916(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, """Это не волна. Это цунами. Ураган. Но в каждом урагане есть "глаз" - место внутри, где тихо и спокойно, несмотря на полный пиздец вокруг. Найди его. Он в тебе.""")
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Пиздец. Просто пиздец.")
 def handle_sos_7426315701996593154(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, """Без комментариев. Просто пиздец. Закрой глаза. Положи руку на грудь. Почувствуй своё тепло. Ты есть. И этого достаточно на сейчас. Всё остальное - потом.""")
 
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "💀 Хочу сдохнуть, но не умирать")
 def handle_sos_not_really_die(message):
+    user_state.pop(message.from_user.id, None)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("Хочу сдохнуть, но не насмерть")
     markup.add("Хочу, чтоб всё просто закончилось")
@@ -460,23 +479,28 @@ def handle_sos_not_really_die(message):
     )
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Хочу сдохнуть, но не насмерть")
 def handle_sos_1540063093599959811(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, """Ты хочешь исчезнуть — но чтобы тебя поняли. На самом деле, это жажда жизни.""")
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Хочу, чтоб всё просто закончилось")
 def handle_sos_8716353466281736208(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, """Это про паузу. Я с тобой. Вот тебе пауза. Сиди. Молчи. Дыши. Так можно сидеть сколько хочешь. Мир не рухнет.""")
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Заебался быть сильным")
 def handle_sos_4369674963488431275(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, """Сила — это вовремя лечь. Разреши себе упасть. Сила - это вовремя признать свою слабость.""")
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Мне всё похуй. И это пугает")
 def handle_sos_90912094602774372(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, """Похуй — это защита. Давай разморозим немного. Что важное защищаешь?""")
 
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "😐 Не хочется ни хуя, но я нажал")
 def handle_sos_numb_click(message):
+    user_state.pop(message.from_user.id, None)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("Не знаю зачем жму, но я жму")
     markup.add("Сделай хоть что-то за меня")
@@ -491,22 +515,27 @@ def handle_sos_numb_click(message):
     )
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Не знаю зачем жму, но я жму")
 def handle_sos_5118879855801710959(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, """Это уже шаг, видишь? Даже если на отъебись. Я с тобой. Ты двигаешься.""")
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Сделай хоть что-то за меня")
 def handle_sos_1353577155551005056(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, """Я скажу за тебя: 'Мне больно, я боюсь, мне небезопасно. И мне нужна передышка'.""")
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Хочу, чтоб кто-то просто обнял")
 def handle_sos_2336781073894284348(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, """Обнимаю. Без слов. Крепко. По-человечески.""")
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Просто хочу полежать")
 def handle_sos_4994767971289124446(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_message(message.chat.id, """Молчу. Но я рядом. Лежи. Молчи. Чувствуй тяжесть своего тела. Ты есть. А значит, живешь. Лежи сколько хочешь.""")
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "🐾 Назад в SOS")
 def handle_sos_back_to_main(message):
+    user_state.pop(message.from_user.id, None)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("😤 Когда всё заебало")
     markup.add("💣 Когда хочется всё разъебать")
@@ -666,6 +695,7 @@ def get_techniques_block():
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🆘 Срочная помощь')
 def handle_emergency(message):
+    user_state.pop(message.from_user.id, None)
     uid = message.from_user.id
     user_state[uid] = 2  # сразу ставим нужный этап
 
@@ -687,6 +717,7 @@ def handle_emergency(message):
 
 @bot.message_handler(func=lambda msg: user_state.get(msg.from_user.id) == 2)
 def handle_emergency_reply(message):
+    user_state.pop(message.from_user.id, None)
     uid = message.from_user.id
     human_delay()
     bot.send_message(uid, "Спасибо, что делишься. Я тебя слышу. Твой вопрос важный, как и всё, что происходит с тобой... Я с тобой в этом, насколько могу.")
@@ -715,6 +746,7 @@ def handle_thanks(message):
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '❤️ Тепло')
 def handle_warmth(message):
+    user_state.pop(message.from_user.id, None)
     bot.send_chat_action(message.chat.id, 'typing')
     time.sleep(random.uniform(2.0, 2.5))
     bot.send_message(message.chat.id, "Представь, что ты в теплом и мягком пледе, таком, из детства, пушистом, за окном мерцает тёплый свет, а рядом с тобой — кто-то близкий и очень заботливый. Тот, кто любит тебя. И никуда не торопит. Тебе никуда не надо бежать.")
@@ -747,6 +779,7 @@ def handle_warmth(message):
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🧘 Техники')
 def handle_techniques(message):
+    user_state.pop(message.from_user.id, None)
 
     bot.send_chat_action(message.chat.id, 'typing')
     time.sleep(random.uniform(2.0, 2.5))
@@ -760,6 +793,7 @@ def handle_techniques(message):
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "🧸 Поддержи меня")
 def handle_support_me(message):
+    user_state.pop(message.from_user.id, None)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=1, one_time_keyboard=False)
     markup.add("🧷 Мне надо за что-то держаться")
     markup.add("💬 Скажи мне, что со мной всё нормально")
@@ -784,6 +818,7 @@ def human_typing_blocks(chat_id, text, min_d=1.1, max_d=2.4):
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "🧷 Мне надо за что-то держаться")
 def anchor_support(message):
+    user_state.pop(message.from_user.id, None)
     text = (
         "Иногда единственное, что можно — это держаться. За дыхание. За плед. За взгляд кошки. За звук своего имени.\n\n"
         "🔸 Положи руку на грудь и почувствуй, что ты дышишь. Это - жизнь внутри тебя. Ты можешь почувствовать ее с дыханием.\n"
@@ -796,6 +831,7 @@ def anchor_support(message):
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "💬 Скажи мне, что со мной всё нормально")
 def reassurance_support(message):
+    user_state.pop(message.from_user.id, None)
     messages = [
         "С тобой всё нормально. Я знаю, что иногда это вызывает сомнения, но тебя просто так научили. А на самом деле, с тобой всё ок. Полностью. Я знаю, что говорю.\n\n"
         "Ты не сломан. Ты просто живой. А живым бывает очень больно.\n\n"
@@ -808,6 +844,7 @@ def reassurance_support(message):
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "🫠 Проваливаюсь")
 def collapse_support(message):
+    user_state.pop(message.from_user.id, None)
     text = (
         "Если кажется, что ты проваливаешься — значит, ты долго держался. Иногда тело и психика просто устают.\n\n"
         "Ты имеешь право остановиться. Лечь. Смотреть в потолок. Просто быть. Столько, сколько нужно. Долго. Мир не рухнет. Проверено.\n\n"
@@ -819,6 +856,7 @@ def collapse_support(message):
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "⏳ Мне страшно, что никогда не станет легче")
 def fear_of_forever(message):
+    user_state.pop(message.from_user.id, None)
     text = (
         "Этот страх — честный. Кажется, будто это 'навсегда'. Но всё течёт. Всё меняется.\n\n"
         "🔸 Ты не первый, кто это чувствует. И все, кто чувствовал, проходили через это.\n"
@@ -861,6 +899,7 @@ def about_method(message):
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🗣 Обратная связь')
 def handle_feedback_start(message):
+    user_state.pop(message.from_user.id, None)
     user_state[message.from_user.id] = 'waiting_feedback'
     bot.send_message(
         message.chat.id,
@@ -889,6 +928,7 @@ def handle_feedback_entry(message):
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🧶 Заботливости')
 def cute_stuff(message):
+    user_state.pop(message.from_user.id, None)
     user_state[message.from_user.id] = 'cute_menu'
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2, one_time_keyboard=False)
@@ -939,6 +979,7 @@ def handle_just_be_here(call):
     
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '📚 Я — дневник')
 def handle_diary_start(message):
+    user_state.pop(message.from_user.id, None)
     user_state[message.from_user.id] = 'waiting_diary_entry'
     bot.send_chat_action(message.chat.id, 'typing')
     time.sleep(1.5)
@@ -967,6 +1008,7 @@ def handle_diary_entry(message):
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🩵 Что я чувствую')
 def handle_emotional_radar(message):
+    user_state.pop(message.from_user.id, None)
     user_state[message.from_user.id] = 'emotion_wait'
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, row_width=2, one_time_keyboard=False)
@@ -1076,6 +1118,7 @@ from telebot import types
 # Запуск теста "Какой ты пельмень" из ветки "Пойти глубже"
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "🛁 Тест глубины")
 def start_dumpling_test(message):
+    user_state.pop(message.from_user.id, None)
     uid = message.from_user.id
     user_state[uid] = {'dumpling_test': 0, 'score': {'classic': 0, 'fried': 0, 'vegan': 0}}
     ask_dumpling_question(message.chat.id, uid)
@@ -1160,6 +1203,7 @@ def ask_dumpling_question(chat_id, uid):
 
 @bot.message_handler(func=lambda msg: user_state.get(msg.from_user.id, {}).get('dumpling_test') is not None)
 def handle_dumpling_answer(message):
+    user_state.pop(message.from_user.id, None)
     uid = message.from_user.id
     step = user_state[uid]['dumpling_test']
     qdata = dumpling_questions[step]
@@ -1208,6 +1252,7 @@ def interpret_dumpling_result(chat_id, uid):
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "🐳 Еще глубже")
 def handle_even_deeper(message):
+    user_state.pop(message.from_user.id, None)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("ДА ❤️", "ДА 💛", "ДА 💚")
     bot.send_message(
@@ -1219,6 +1264,7 @@ def handle_even_deeper(message):
 
 @bot.message_handler(func=lambda msg: msg.text in ["ДА ❤️", "ДА 💛", "ДА 💚"])
 def handle_ultimate_answer(message):
+    user_state.pop(message.from_user.id, None)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("🏠 Домой")
     bot.send_message(
