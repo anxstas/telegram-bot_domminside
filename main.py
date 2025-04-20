@@ -577,7 +577,7 @@ def handle_slot_choice(call):
     markup.add(types.InlineKeyboardButton("💰 Оплатить", url="https://moneyyyyyy.carrd.co/"))
     markup.add(types.InlineKeyboardButton("✅ Я оплатил", callback_data="paid_done"))
 
-    bot.send_message(call.message.chat.id, f"Ты выбрал: {dt_text}\n\nПожалуйста, оплати, чтобы подтвердить запись:", reply_markup=persistent_keyboard())
+    bot.send_message(call.message.chat.id, f"Ты выбрал: {dt_text}\n\nПожалуйста, оплати, чтобы подтвердить запись:", reply_markup=markup)
 
 
 @bot.callback_query_handler(func=lambda call: call.data == "paid_done")
