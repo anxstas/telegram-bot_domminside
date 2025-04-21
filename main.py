@@ -784,13 +784,24 @@ def handle_techniques(message):
 
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "🙏 Спасибо 💛")
-def handle_thanks(message):
-    bot.clear_step_handler_by_chat_id(message.chat.id)  # ← прервать возможные pending handlers
-    user_state.pop(message.from_user.id, None)
+def handle_thanks_return_home(message):
+    uid = message.from_user.id
+
+    # 🧹 Очистка всех состояний и откладываемых обработчиков
+    user_state.pop(uid, None)
+    bot.clear_step_handler_by_chat_id(message.chat.id)
+
+    # ⏳ Эффект "думаю"
     time.sleep(random.uniform(1.0, 2.3))
     bot.send_chat_action(message.chat.id, 'typing')
     time.sleep(random.uniform(1.0, 2.3))
-    bot.send_message(message.chat.id, "Спасибо и тебе тоже 💛 Возвращаю в главное меню.", reply_markup=persistent_keyboard())
+
+    # ⬅️ Возврат в главное меню
+    bot.send_message(
+        message.chat.id,
+        "Спасибо и тебе тоже 💛 Возвращаю в главное меню.",
+        reply_markup=persistent_keyboard()
+    )
 
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "🧸 Поддержи меня")
