@@ -734,25 +734,6 @@ def handle_emergency_reply(message):
 
     user_state[uid] = 3
 
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "🙏 Спасибо 💛")
-def handle_thanks_return_home(message):
-    uid = message.from_user.id
-
-    # 🧹 Очистка всех состояний и откладываемых обработчиков
-    user_state.pop(uid, None)
-    bot.clear_step_handler_by_chat_id(message.chat.id)
-
-    # ⏳ Эффект "думаю"
-    time.sleep(random.uniform(1.0, 2.3))
-    bot.send_chat_action(message.chat.id, 'typing')
-    time.sleep(random.uniform(1.0, 2.3))
-
-    # ⬅️ Возврат в главное меню
-    bot.send_message(
-        message.chat.id,
-        "Спасибо и тебе тоже 💛 Возвращаю в главное меню.",
-        reply_markup=persistent_keyboard()
-    )
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '❤️ Тепло')
 def handle_warmth(message):
@@ -783,7 +764,7 @@ def handle_warmth(message):
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("🟡 Записаться на сессию-знакомство -40%")
-    markup.add("🙏 Спасибо 💛", "🧶 Заботливости")
+    markup.add("🧶 Заботливости")
     bot.send_message(message.chat.id, "Приходи 💛👇", reply_markup=markup)
     user_state[message.from_user.id] = 2
 
@@ -797,7 +778,7 @@ def handle_techniques(message):
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("🟡 Записаться на сессию-знакомство -40%")
-    markup.add("🙏 Спасибо 💛", "🧶 Заботливости")
+    markup.add("🧶 Заботливости")
     bot.send_message(message.chat.id, "Приходи 💛👇", reply_markup=markup)
     user_state[message.from_user.id] = 2
 
