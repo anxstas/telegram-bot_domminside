@@ -1117,7 +1117,6 @@ from telebot import types
 # Запуск теста "Какой ты пельмень" из ветки "Пойти глубже"
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "🛁 Тест глубины")
 def start_dumpling_test(message):
-    user_state.pop(message.from_user.id, None)
     uid = message.from_user.id
     user_state[uid] = {'dumpling_test': 0, 'score': {'classic': 0, 'fried': 0, 'vegan': 0}}
     ask_dumpling_question(message.chat.id, uid)
