@@ -764,7 +764,7 @@ def handle_warmth(message):
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("🟡 Записаться на сессию-знакомство -40%")
-    markup.add("🏠 Домой")
+    markup.add("👣 Давай еще разок?")
     bot.send_message(message.chat.id, "Приходи 💛👇", reply_markup=markup)
     user_state[message.from_user.id] = 2
 
@@ -778,7 +778,7 @@ def handle_techniques(message):
 
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("🟡 Записаться на сессию-знакомство -40%")
-    markup.add("🏠 Домой")
+    markup.add("👣 Давай еще разок?")
     bot.send_message(message.chat.id, "Приходи 💛👇", reply_markup=markup)
     user_state[message.from_user.id] = 2
 
