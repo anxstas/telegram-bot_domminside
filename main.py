@@ -735,15 +735,6 @@ def handle_emergency_reply(message):
     user_state[uid] = 3
 
 
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "🙏 Спасибо 💛")
-def handle_thanks_return_home(message):
-    bot.send_message(
-        message.chat.id,
-        "Спасибо и тебе тоже 💛 Возвращаю в главное меню.",
-        reply_markup=persistent_keyboard()
-    )
-
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '❤️ Тепло')
 def handle_warmth(message):
     user_state.pop(message.from_user.id, None)
@@ -790,6 +781,14 @@ def handle_techniques(message):
     markup.add("🙏 Спасибо 💛", "🧶 Заботливости")
     bot.send_message(message.chat.id, "Приходи 💛👇", reply_markup=markup)
     user_state[message.from_user.id] = 2
+
+@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "🙏 Спасибо 💛")
+def handle_thanks_return_home(message):
+    bot.send_message(
+        message.chat.id,
+        "Спасибо и тебе тоже 💛 Возвращаю в главное меню.",
+        reply_markup=persistent_keyboard()
+    )
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "🧸 Поддержи меня")
 def handle_support_me(message):
