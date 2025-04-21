@@ -782,13 +782,16 @@ def handle_techniques(message):
     bot.send_message(message.chat.id, "Приходи 💛👇", reply_markup=markup)
     user_state[message.from_user.id] = 2
 
+
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "🙏 Спасибо 💛")
-def handle_thanks_return_home(message):
-    bot.send_message(
-        message.chat.id,
-        "Спасибо и тебе тоже 💛 Возвращаю в главное меню.",
-        reply_markup=persistent_keyboard()
-    )
+def handle_thanks(message):
+    bot.clear_step_handler_by_chat_id(message.chat.id)  # ← прервать возможные pending handlers
+    user_state.pop(message.from_user.id, None)
+    time.sleep(random.uniform(1.0, 2.3))
+    bot.send_chat_action(message.chat.id, 'typing')
+    time.sleep(random.uniform(1.0, 2.3))
+    bot.send_message(message.chat.id, "Спасибо и тебе тоже 💛 Возвращаю в главное меню.", reply_markup=persistent_keyboard())
+
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "🧸 Поддержи меня")
 def handle_support_me(message):
