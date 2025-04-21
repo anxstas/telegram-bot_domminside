@@ -1201,7 +1201,6 @@ def ask_dumpling_question(chat_id, uid):
 
 @bot.message_handler(func=lambda msg: user_state.get(msg.from_user.id, {}).get('dumpling_test') is not None)
 def handle_dumpling_answer(message):
-    user_state.pop(message.from_user.id, None)
     uid = message.from_user.id
     step = user_state[uid]['dumpling_test']
     qdata = dumpling_questions[step]
@@ -1218,7 +1217,6 @@ def handle_dumpling_answer(message):
 
 def interpret_dumpling_result(chat_id, uid):
     scores = user_state[uid]['score']
-    user_state.pop(uid, None)
     result = max(scores, key=scores.get)
 
     if result == 'classic':
