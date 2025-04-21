@@ -736,13 +736,13 @@ def handle_emergency_reply(message):
 
 
 
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🙏 Спасибо 💛')
-def handle_thanks(message):
-    user_state.pop(message.from_user.id, None)
-    time.sleep(random.uniform(1.0, 2.3))
-    bot.send_chat_action(message.chat.id, 'typing')
-    time.sleep(random.uniform(1.0, 2.3))
-    bot.send_message(message.chat.id, "Возвращаю в главное меню.", reply_markup=persistent_keyboard())
+@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "🙏 Спасибо 💛")
+def handle_thanks_return_home(message):
+    bot.send_message(
+        message.chat.id,
+        "Спасибо и тебе тоже 💛 Возвращаю в главное меню.",
+        reply_markup=persistent_keyboard()
+    )
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '❤️ Тепло')
 def handle_warmth(message):
