@@ -56,7 +56,6 @@ def persistent_keyboard():
     markup.add('🟡 Записаться на сессию-знакомство -40%')
     markup.add('🤿 Пойти глубже', '🆘 Срочная помощь')
     markup.add('🧞‍♂️ Тест тревоги', '🧞‍♀️ Тест депрессии') 
-    markup.add('🚨 SOS без соплей') 
     return markup
 
 anxiety_test_data = [
@@ -334,223 +333,6 @@ def show_depression_result(chat_id, uid):
         reply_markup=markup
     )
 
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🚨 SOS без соплей')
-def handle_sos_no_tears(message):
-    user_state.pop(message.from_user.id, None)
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
-    markup.add("😤 Когда всё заебало")
-    markup.add("💣 Когда хочется всё разъебать")
-    markup.add("😵‍💫 Когда в ахуе")
-    markup.add("💀 Хочу сдохнуть, но не умирать")
-    markup.add("😐 Не хочется ни хуя, но я нажал")
-    markup.add("🏠 Домой")
-
-    bot.send_message(
-        message.chat.id,
-        "Есть состояния, когда хочется убивать. Или умирать. Или исчезнуть. Или ни хрена не хочется. Этот раздел как раз для них. Для тебя, то есть.\n\nВыбирай, что ближе. Без прикрас, без розового. Просто ебашь.",
-        reply_markup=markup
-    )
-    
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "😤 Когда всё заебало")
-def handle_sos_fuck_it_all(message):
-    user_state.pop(message.from_user.id, None)
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
-    markup.add("Блядь, заебало всё")
-    markup.add("Я выгорел нахуй")
-    markup.add("Хочу исчезнуть к хуям")
-    markup.add("Да пошло всё нахуй")
-    markup.add("🐾 Назад в SOS")
-
-    bot.send_message(
-        message.chat.id,
-        "Понял. Держи варианты. Бей по тому, что ближе всего:",
-        reply_markup=markup
-    )
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Блядь, заебало всё")
-def handle_sos_4099926234648959947(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, "Окей. Не фильтруй. Просто скажи это. Ещё громче. Ещё злее. Можешь кричать. Это не истерика. Это выход. Говори. Кричи. Живи.")
-
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Я выгорел нахуй")
-def handle_sos_2097721584395819975(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, "Выгорел — значит, слишком долго был в огне. Теперь ты пепел. Но пепел — это начало костра. Помни об этом. И отдохни недельку.")
-
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Хочу исчезнуть к хуям")
-def handle_sos_5386086005586864426(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, "Необязательно исчезать. Достаточно выключиться. На время. Включайся, когда почувствуешь. Мир не рухнет. Проверено.")
-
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Да пошло всё нахуй")
-def handle_sos_3958503975752287122(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, "Хороший момент, чтобы перечеркнуть всё. Чтобы вместе с простыней вытряхнуть все с балкона 21го этажа. А теперь: что хочешь оставить? Что реально твоё? Своё оставь, остальное - к хуям.")
-
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "💣 Когда хочется всё разъебать")
-def handle_sos_blow_it_up(message):
-    user_state.pop(message.from_user.id, None)
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
-    markup.add("Хочу всё разъебать")
-    markup.add("Разъебать бы кого-нибудь")
-    markup.add("Я ща взорвусь к хуям")
-    markup.add("Уже просто за край, нахуй")
-    markup.add("🐾 Назад в SOS")
-
-    bot.send_message(
-        message.chat.id,
-        "Вулкан, да? Выбери, как именно тебя шатает:",
-        reply_markup=markup
-    )
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Хочу всё разъебать")
-def handle_sos_2582472798395486936(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, """Внутри тебя — вулкан. Не туши. Напиши и сожги. Бей грушу. Ори и громко матерись. Кричи в подушку. Или просто бей воздух. Главное — не держи.""")
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Разъебать бы кого-нибудь")
-def handle_sos_2910435303755721761(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, """Ты не агрессивный. Ты накопленный. Найди безопасный способ, такой, чтобы все остались живы и здоровы, и чтобы ты не получил срок, и разъеби.""")
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Я ща взорвусь к хуям")
-def handle_sos_1611018811932205984(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, """Ты не в клетке. Ты — с огнём. И это можно использовать. Твой огонь - на важное. Найди, на что и жги.""")
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Уже просто за край, нахуй")
-def handle_sos_7980701090421104069(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, """За край, факт. Но ты держишься. Хочешь не держаться? Не держись. Можно и это. Все можно. Я с тобой.""")
-
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "😵‍💫 Когда в ахуе")
-def handle_sos_overwhelmed(message):
-    user_state.pop(message.from_user.id, None)
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
-    markup.add("Что это за нахуй?")
-    markup.add("У меня едет крыша, сука")
-    markup.add("Меня реально накрыло")
-    markup.add("Пиздец. Просто пиздец.")
-    markup.add("🐾 Назад в SOS")
-
-    bot.send_message(
-        message.chat.id,
-        "Состояние ахуя признано. Теперь выбери, как его лучше описать:",
-        reply_markup=markup
-    )
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Что это за нахуй?")
-def handle_sos_8273854609020363593(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, """Ты в ахуе — и это нормально. Признай: сейчас — пиздец. Подыши. Да, пиздец. Ну и чё?""")
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "У меня едет крыша, сука")
-def handle_sos_2372558184027151334(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, """Мозг плавится, факт. Ты не один. Я тоже подплавлен. Повтори: 'Я еду — но я за рулём'.""")
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Меня реально накрыло")
-def handle_sos_4512565454031012916(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, """Это не волна. Это цунами. Ураган. Но в каждом урагане есть "глаз" - место внутри, где тихо и спокойно, несмотря на полный пиздец вокруг. Найди его. Он в тебе.""")
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Пиздец. Просто пиздец.")
-def handle_sos_7426315701996593154(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, """Без комментариев. Просто пиздец. Закрой глаза. Положи руку на грудь. Почувствуй своё тепло. Ты есть. И этого достаточно на сейчас. Всё остальное - потом.""")
-
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "💀 Хочу сдохнуть, но не умирать")
-def handle_sos_not_really_die(message):
-    user_state.pop(message.from_user.id, None)
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
-    markup.add("Хочу сдохнуть, но не насмерть")
-    markup.add("Хочу, чтоб всё просто закончилось")
-    markup.add("Заебался быть сильным")
-    markup.add("Мне всё похуй. И это пугает")
-    markup.add("🐾 Назад в SOS")
-
-    bot.send_message(
-        message.chat.id,
-        "Жёстко, но по-честному. Я с тобой в этом. Что именно сейчас ближе всего?",
-        reply_markup=markup
-    )
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Хочу сдохнуть, но не насмерть")
-def handle_sos_1540063093599959811(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, """Ты хочешь исчезнуть — но чтобы тебя поняли. На самом деле, это жажда жизни.""")
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Хочу, чтоб всё просто закончилось")
-def handle_sos_8716353466281736208(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, """Это про паузу. Я с тобой. Вот тебе пауза. Сиди. Молчи. Дыши. Так можно сидеть сколько хочешь. Мир не рухнет.""")
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Заебался быть сильным")
-def handle_sos_4369674963488431275(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, """Сила — это вовремя лечь. Разреши себе упасть. Сила - это вовремя признать свою слабость.""")
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Мне всё похуй. И это пугает")
-def handle_sos_90912094602774372(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, """Похуй — это защита. Давай разморозим немного. Что важное защищаешь?""")
-
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "😐 Не хочется ни хуя, но я нажал")
-def handle_sos_numb_click(message):
-    user_state.pop(message.from_user.id, None)
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
-    markup.add("Не знаю зачем жму, но я жму")
-    markup.add("Сделай хоть что-то за меня")
-    markup.add("Хочу, чтоб кто-то просто обнял")
-    markup.add("Просто хочу полежать")
-    markup.add("🐾 Назад в SOS")
-
-    bot.send_message(
-        message.chat.id,
-        "Я понял. На автомате. Без надрыва. Просто выбери — а я подстрахую.",
-        reply_markup=markup
-    )
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Не знаю зачем жму, но я жму")
-def handle_sos_5118879855801710959(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, """Это уже шаг, видишь? Даже если на отъебись. Я с тобой. Ты двигаешься.""")
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Сделай хоть что-то за меня")
-def handle_sos_1353577155551005056(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, """Я скажу за тебя: 'Мне больно, я боюсь, мне небезопасно. И мне нужна передышка'.""")
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Хочу, чтоб кто-то просто обнял")
-def handle_sos_2336781073894284348(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, """Обнимаю. Без слов. Крепко. По-человечески.""")
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "Просто хочу полежать")
-def handle_sos_4994767971289124446(message):
-    user_state.pop(message.from_user.id, None)
-    bot.send_message(message.chat.id, """Молчу. Но я рядом. Лежи. Молчи. Чувствуй тяжесть своего тела. Ты есть. А значит, живешь. Лежи сколько хочешь.""")
-
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "🐾 Назад в SOS")
-def handle_sos_back_to_main(message):
-    user_state.pop(message.from_user.id, None)
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
-    markup.add("😤 Когда всё заебало")
-    markup.add("💣 Когда хочется всё разъебать")
-    markup.add("😵‍💫 Когда в ахуе")
-    markup.add("💀 Хочу сдохнуть, но не умирать")
-    markup.add("😐 Не хочется ни хуя, но я нажал")
-    markup.add("🏠 Домой")
-
-    bot.send_message(
-        message.chat.id,
-        "Возвращаемся. Всё под контролем. Выбирай снова:",
-        reply_markup=markup
-    )
-
-
 @bot.message_handler(commands=['start'])
 def handle_start(message):
     bot.send_message(
@@ -567,9 +349,7 @@ def handle_start(message):
 
 🆘 Срочная помощь — если сейчас совсем тяжко.
 
-🧞‍♂️🧞‍♀️ Ты можешь также пройти Тесты тревоги или депрессии. Это займет не больше 5 минут. Увидишь проблемы - записывайся на сессию-знакомство со скидкой. Не игнорь тревогу и депрессию - это твои двери в жизнь.
-
-Ну и, конечно же, "🚨 SOS без соплей", куда можно заходить только в крайних эмоциях и пригибая голову.""",      
+🧞‍♂️🧞‍♀️ Ты можешь также пройти Тесты тревоги или депрессии. Это займет не больше 5 минут. Увидишь проблемы - записывайся на сессию-знакомство со скидкой. Не игнорь тревогу и депрессию - это твои двери в жизнь.""",      
         reply_markup=persistent_keyboard()
     )
 
@@ -1266,7 +1046,6 @@ def handle_ultimate_answer(message):
     '🟡 Записаться на сессию-знакомство -40%',
     '🤿 Пойти глубже',
     '🆘 Срочная помощь',
-    '🚨 SOS без соплей', 
     '🧘 О подходе «Домой, к себе настоящему»',
     '🧩 Полезности',
     '🧶 Заботливости',
