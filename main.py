@@ -360,7 +360,8 @@ def handle_start(message):
 🧞‍♂️🧞‍♀️ Ты можешь также пройти Тесты тревоги или депрессии. Это займет не больше 5 минут. Увидишь проблемы - записывайся на сессию-знакомство со скидкой. Не игнорь тревогу и депрессию - это твои двери в жизнь.""",
         reply_markup=persistent_keyboard()
     )
-    time.sleep(2,7)
+    
+    time.sleep(2,5)
     bot.send_message(
         message.chat.id,
         """👉 А здесь - мой канал в телеграм и ютуб, где идет "Тоска'на". А еще - тот самый альбом, который я написал во время своих ГТР и ТДР:""",
@@ -887,16 +888,18 @@ def resources(message):
         "▶️ YouTube о тревоге и депрессии (и чуть-чуть личного)\n\n"
         "📸 Instagram о тревоге и депрессии (и побольше личного)\n\n"
         "🪶 Telegram о тревоге и депрессии (и чуть-чуть науки)\n\n"
-        "🎸 Моя музыка, последний альбом написан в моих ГТР и ТДР\n\n"
-        "🐡 Facebook — где личное, и немного о тревоге и депрессии"
+        "🎸 Моя музыка, где последний альбом написан в моих ГТР и ТДР\n\n"
+        "🐡 Facebook — где личное, и немного о тревоге и депрессии\n\n"
+        "📽 Мои музыкальные видео, записанные в тех же состояниях в 2017-2020"
     )
     markup = types.InlineKeyboardMarkup(row_width=2)
     markup.add(
         types.InlineKeyboardButton("▶️ Мой YouTube", url="https://www.youtube.com/@anxstas"),
         types.InlineKeyboardButton("📸 Моя Insta", url="https://www.instagram.com/verechuk_/"),
         types.InlineKeyboardButton("🪶 Мой Telegram", url="https://www.t.me/domminside"),
-        types.InlineKeyboardButton("🎸 Мой Мьюзик", url="https://www.youtube.com/watch?v=sSzHWPNGn4U&list=PLpSP-UgtrTHazZ74PrlSCLLiK82LlPrMH&ab_channel=%D0%A1%D1%82%D0%B0%D1%81%D0%92%D0%B5%D1%80%D0%B5%D1%87%D1%83%D0%BA"),
+        types.InlineKeyboardButton("🎸 Мой Мьюзик", url="https://soundcloud.com/joneser99"),
         types.InlineKeyboardButton("🐡 Мой Facebook", url="https://www.facebook.com/stanislav.verechuk/")
+        types.InlineKeyboardButton("📽 Мои Видео", url="https://www.youtube.com/playlist?list=PLpSP-UgtrTHazZ74PrlSCLLiK82LlPrMH"),
     )
     bot.send_message(message.chat.id, text, reply_markup=markup)
 
