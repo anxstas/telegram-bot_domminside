@@ -337,8 +337,9 @@ def social_links_keyboard():
     keyboard = types.InlineKeyboardMarkup(row_width=2)
     tg_btn = types.InlineKeyboardButton("🪶 Мой Telegram", url="https://www.t.me/domminside")
     yt_btn = types.InlineKeyboardButton("▶️ Мой YouTube", url="https://www.youtube.com/@anxstas")
-    mu_btn = types.InlineKeyboardButton("🎸 Мой Мьюзик", url="https://www.youtube.com/watch?v=sSzHWPNGn4U&list=PLpSP-UgtrTHazZ74PrlSCLLiK82LlPrMH&ab_channel=%D0%A1%D1%82%D0%B0%D1%81%D0%92%D0%B5%D1%80%D0%B5%D1%87%D1%83%D0%BA")
-    keyboard.add(tg_btn, yt_btn, mu_btn)
+    mu_btn = types.InlineKeyboardButton("🎸 Мой Мьюзик", url="https://www.youtube.com/watch?v=ABcng-PsR3E&list=PLpSP-UgtrTHazZ74PrlSCLLiK82LlPrMH&index=3&pp=gAQBiAQB8AUB")
+    mv_btn = types.InlineKeyboardButton("🎦 Мой Мувик", url="https://youtu.be/JyVb6mX-weU?si=yBatVzkJblzlyS-O")
+    keyboard.add(tg_btn, yt_btn, mu_btn, mv_btn)
     return keyboard
 
 @bot.message_handler(commands=['start'])
@@ -365,10 +366,10 @@ def handle_start(message):
         """🧞‍♂️🧞‍♀️ Ты можешь также пройти Тесты тревоги или депрессии. Это займет не больше 2 минут. Увидишь проблемы - записывайся на сессию-знакомство со скидкой. Не игнорь тревогу и депрессию - это твои двери в жизнь.""",
     )
 
-    time.sleep(4)
+    time.sleep(5)
     bot.send_message(
         message.chat.id,
-        """👉 А здесь - мой канал в телеграм (там больше о тревоге и депрессии) и ютуб, где идет "Тоска'на". А еще - тот самый альбом, который я написал во время своих ГТР и ТДР:""",
+        """👉 А здесь - мой канал в телеграм (там больше о тревоге и депрессии) и ютуб, где идет "Тоска'на". А еще - та самая песня, написанная в период ГТР и ТДР, через которую я в течение года принимал смерть папы. И короткометражка, снятая мной в процессе исследования своей тени:""",
         reply_markup=social_links_keyboard()
     )
 
