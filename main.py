@@ -335,9 +335,10 @@ def show_depression_result(chat_id, uid):
 
 def social_links_keyboard():
     keyboard = types.InlineKeyboardMarkup(row_width=2)
-    tg_btn = types.InlineKeyboardButton("🛸 Канал Telegram", url="https://www.t.me/domminside")
+    tg_btn = types.InlineKeyboardButton("🛸 Telegram", url="https://www.t.me/domminside")
     yt_btn = types.InlineKeyboardButton("▶️ Мой YouTube", url="https://www.youtube.com/@anxstas")
-    keyboard.add(tg_btn, yt_btn)
+    mu_btn = types.InlineKeyboardButton("▶️ Май мьюзик", url="https://www.youtube.com/watch?v=sSzHWPNGn4U&list=PLpSP-UgtrTHazZ74PrlSCLLiK82LlPrMH&ab_channel=%D0%A1%D1%82%D0%B0%D1%81%D0%92%D0%B5%D1%80%D0%B5%D1%87%D1%83%D0%BA")
+    keyboard.add(tg_btn, yt_btn, mu_btn)
     return keyboard
 
 @bot.message_handler(commands=['start'])
@@ -359,10 +360,10 @@ def handle_start(message):
 🧞‍♂️🧞‍♀️ Ты можешь также пройти Тесты тревоги или депрессии. Это займет не больше 5 минут. Увидишь проблемы - записывайся на сессию-знакомство со скидкой. Не игнорь тревогу и депрессию - это твои двери в жизнь.""",
         reply_markup=persistent_keyboard()
     )
-    time.sleep(1.4)
+    time.sleep(4)
     bot.send_message(
         message.chat.id,
-        """🍊 Здесь мой канал в телеграм, и ютуб, где идет "Тоска'на":""",
+        """🍊 А здесь - мой канал в телеграм, ютуб, где идет "Тоска'на", и тот самый альбом, который я написал во время ГТР и ТДР:""",
         reply_markup=social_links_keyboard()
     )
 
