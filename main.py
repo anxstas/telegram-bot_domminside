@@ -338,7 +338,7 @@ def social_links_keyboard():
     tg_btn = types.InlineKeyboardButton("🪶 Мой Telegram", url="https://www.t.me/domminside")
     yt_btn = types.InlineKeyboardButton("▶️ Мой YouTube", url="https://www.youtube.com/@anxstas")
     mu_btn = types.InlineKeyboardButton("🎸 Мой Мьюзик", url="https://www.youtube.com/watch?v=ABcng-PsR3E&list=PLpSP-UgtrTHazZ74PrlSCLLiK82LlPrMH&index=3&pp=gAQBiAQB8AUB")
-    mv_btn = types.InlineKeyboardButton("🎦 Мой Мувик", url="https://youtu.be/JyVb6mX-weU?si=yBatVzkJblzlyS-O")
+    mv_btn = types.InlineKeyboardButton("🎦 Мой Мувик", url="https://youtu.be/l1WH9BTJ-wk?si=eHmizM63q4tASaSH")
     keyboard.add(tg_btn, yt_btn, mu_btn, mv_btn)
     return keyboard
 
