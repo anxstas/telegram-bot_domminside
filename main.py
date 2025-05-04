@@ -335,8 +335,8 @@ def show_depression_result(chat_id, uid):
 
 def social_links_keyboard():
     keyboard = types.InlineKeyboardMarkup(row_width=2)
-    tg_btn = types.InlineKeyboardButton("🏟 Мой Telegram", url="https://www.t.me/domminside")
-    yt_btn = types.InlineKeyboardButton("🎭 Мой YouTube", url="https://www.youtube.com/@anxstas")
+    tg_btn = types.InlineKeyboardButton("🪶 Мой Telegram", url="https://www.t.me/domminside")
+    yt_btn = types.InlineKeyboardButton("▶️ Мой YouTube", url="https://www.youtube.com/@anxstas")
     mu_btn = types.InlineKeyboardButton("🎸 Мой Мьюзик", url="https://www.youtube.com/watch?v=sSzHWPNGn4U&list=PLpSP-UgtrTHazZ74PrlSCLLiK82LlPrMH&ab_channel=%D0%A1%D1%82%D0%B0%D1%81%D0%92%D0%B5%D1%80%D0%B5%D1%87%D1%83%D0%BA")
     keyboard.add(tg_btn, yt_btn, mu_btn)
     return keyboard
@@ -363,7 +363,7 @@ def handle_start(message):
     time.sleep(4)
     bot.send_message(
         message.chat.id,
-        """🍊 А здесь - мой канал в телеграм, а еще - ютуб, где идет "Тоска'на", и тот самый альбом, который я написал во время своих ГТР и ТДР:""",
+        """👉 А здесь - мой канал в телеграм, и еще - ютуб, где идет "Тоска'на", и тот самый альбом, который я написал во время своих ГТР и ТДР:""",
         reply_markup=social_links_keyboard()
     )
 
@@ -884,17 +884,17 @@ def resources(message):
     text = (
         "Тут - много всего на важные тревожно-депрессивные темы.\n\n"
         "Я буду рад видеть тебя среди своих подписчиков. Только так я смогу развиваться и давать людям больше пользы.\n\n"
-        "🎭 YouTube о тревоге и депрессии (и чуть-чуть личного)\n\n"
+        "▶️ YouTube о тревоге и депрессии (и чуть-чуть личного)\n\n"
         "📸 Instagram о тревоге и депрессии (и побольше личного)\n\n"
-        "🏟 Telegram о тревоге и депрессии (и чуть-чуть науки)\n\n"
+        "🪶 Telegram о тревоге и депрессии (и чуть-чуть науки)\n\n"
         "🎸 Моя музыка, последний альбом написан в моих ГТР и ТДР\n\n"
         "🐡 Facebook — где личное, и немного о тревоге и депрессии"
     )
     markup = types.InlineKeyboardMarkup(row_width=2)
     markup.add(
-        types.InlineKeyboardButton("🎭 Мой YouTube", url="https://www.youtube.com/@anxstas"),
+        types.InlineKeyboardButton("▶️ Мой YouTube", url="https://www.youtube.com/@anxstas"),
         types.InlineKeyboardButton("📸 Моя Insta", url="https://www.instagram.com/verechuk_/"),
-        types.InlineKeyboardButton("🏟 Мой Telegram", url="https://www.t.me/domminside"),
+        types.InlineKeyboardButton("🪶 Мой Telegram", url="https://www.t.me/domminside"),
         types.InlineKeyboardButton("🎸 Мой Мьюзик", url="https://www.youtube.com/watch?v=sSzHWPNGn4U&list=PLpSP-UgtrTHazZ74PrlSCLLiK82LlPrMH&ab_channel=%D0%A1%D1%82%D0%B0%D1%81%D0%92%D0%B5%D1%80%D0%B5%D1%87%D1%83%D0%BA"),
         types.InlineKeyboardButton("🐡 Мой Facebook", url="https://www.facebook.com/stanislav.verechuk/")
     )
