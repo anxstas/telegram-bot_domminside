@@ -888,9 +888,9 @@ def resources(message):
         "▶️ YouTube о тревоге и депрессии (и чуть-чуть личного)\n\n"
         "📸 Instagram о тревоге и депрессии (и побольше личного)\n\n"
         "🪶 Telegram о тревоге и депрессии (и чуть-чуть науки)\n\n"
-        "🎸 Моя музыка, где последний альбом написан в моих ГТР и ТДР\n\n"
+        "🎸 Моя музыка, где последний альбом и часть предпоследнего написаны в моих ГТР и ТДР\n\n"
         "🐡 Facebook — где личное, и немного о тревоге и депрессии\n\n"
-        "📽 Мои музыкальные видео, записанные в тех же состояниях в 2017-2020"
+        "📽 Мои музыкальные видео, созданные в тех же состояниях в 2017-2020"
     )
     markup = types.InlineKeyboardMarkup(row_width=2)
     markup.add(
@@ -898,8 +898,8 @@ def resources(message):
         types.InlineKeyboardButton("📸 Моя Insta", url="https://www.instagram.com/verechuk_/"),
         types.InlineKeyboardButton("🪶 Мой Telegram", url="https://www.t.me/domminside"),
         types.InlineKeyboardButton("🎸 Мой Мьюзик", url="https://soundcloud.com/joneser99"),
-        types.InlineKeyboardButton("🐡 Мой Facebook", url="https://www.facebook.com/stanislav.verechuk/")
-        types.InlineKeyboardButton("📽 Мои Видео", url="https://www.youtube.com/playlist?list=PLpSP-UgtrTHazZ74PrlSCLLiK82LlPrMH"),
+        types.InlineKeyboardButton("🐡 Мой Facebook", url="https://www.facebook.com/stanislav.verechuk/"),
+        types.InlineKeyboardButton("📽 Мои Видео", url="https://www.youtube.com/playlist?list=PLpSP-UgtrTHazZ74PrlSCLLiK82LlPrMH")
     )
     bot.send_message(message.chat.id, text, reply_markup=markup)
 
