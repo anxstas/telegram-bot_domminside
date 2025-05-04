@@ -153,101 +153,140 @@ depression_descriptions = {
 user_gad7_state = {}
 user_phq9_state = {}
 
-# --- GAD-7: старт ---
-@bot.message_handler(func=lambda msg: msg.text == '🧞‍♂️ Тест тревоги')
+# --- Состояние пользователя ---
+user_gad7_state = {}
+
+# --- Запуск теста ---
+@bot.message_handler(func=lambda msg: msg.text.strip() == '🧞‍♂️ Тест тревоги')
 def start_gad7(message):
     uid = message.from_user.id
     user_gad7_state[uid] = {'step': 0, 'answers': []}
     send_gad7_question(message.chat.id, uid)
 
+# --- Отправка вопроса ---
 def send_gad7_question(chat_id, uid):
     step = user_gad7_state[uid]['step']
-    if step >= len(gad7_questions):
-        total = sum(user_gad7_state[uid]['answers'])
-        for minv, maxv, level, desc in gad7_levels:
-            if minv <= total <= maxv:
-                bot.send_message(chat_id,
-                    f"🧠 *Ваш результат (GAD-7)*: {total}/21\n"
-                    f"*Уровень тревожности:* _{level}_\n\n"
-                    f"{desc}\n\n"
-                    "Сделай скрин и просто отправь его Стасу на @anxstas",
-                    parse_mode="Markdown"
-                )
-                markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
-                markup.add("🟡 Записаться на сессию-знакомство -40%")
-                markup.add("🏠 Домой")
-                bot.send_message(chat_id,
-                    "🟡 Если хочешь обсудить это глубже — запишись на сессию-знакомство со скидкой 40% 👇",
-                    reply_markup=markup
-                )
-                break
-        user_gad7_state.pop(uid)
-        return
+    if step < len(gad7_questions):
+        question = gad7_questions[step]
+        markup = types.InlineKeyboardMarkup()
+        for i in range(4):
+            markup.add(types.InlineKeyboardButton(str(i), callback_data=f'gad7_{i}'))
+        bot.send_message(chat_id, f"{step + 1}. {question}", reply_markup=markup)
 
-    question = gad7_questions[step]
-    markup = types.InlineKeyboardMarkup()
-    for i in range(4):
-        markup.add(types.InlineKeyboardButton(str(i), callback_data=f'gad7_{i}'))
-    bot.send_message(chat_id, f"{step + 1}. {question}", reply_markup=markup)
-
+# --- Обработка ответа ---
 @bot.callback_query_handler(func=lambda call: call.data.startswith("gad7_"))
 def handle_gad7_answer(call):
     uid = call.from_user.id
     if uid not in user_gad7_state:
         return
+
     score = int(call.data.split('_')[1])
     user_gad7_state[uid]['answers'].append(score)
     user_gad7_state[uid]['step'] += 1
     bot.answer_callback_query(call.id)
-    send_gad7_question(call.message.chat.id, uid)
 
-# --- PHQ-9: старт ---
-@bot.message_handler(func=lambda msg: msg.text == '🧞‍♀️ Тест депрессии')
+    if user_gad7_state[uid]['step'] < len(gad7_questions):
+        send_gad7_question(call.message.chat.id, uid)
+    else:
+        show_gad7_result(call.message.chat.id, uid)
+
+# --- Итоговый результат ---
+def show_gad7_result(chat_id, uid):
+    total = sum(user_gad7_state[uid]['answers'])
+    for minv, maxv, level in gad7_levels:
+        if minv <= total <= maxv:
+            desc = anxiety_descriptions[level]
+            bot.send_message(
+                chat_id,
+                f"🧠 *Ваш результат (GAD-7)*: {total}/21\n"
+                f"*Уровень тревожности:* _{level}_\n\n"
+                f"{desc}\n\n"
+                "Сделай скрин и просто отправь его Стасу на @anxstas",
+                parse_mode="Markdown"
+            )
+            break
+
+    # Кнопки в конце
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
+    markup.add("🟡 Записаться на сессию-знакомство -40%")
+    markup.add("🏠 Домой")
+
+    bot.send_message(
+        chat_id,
+        "🟡 Если хочешь обсудить это глубже — запишись на сессию-знакомство со Стасом со скидкой 40% 👇",
+        reply_markup=markup
+    )
+
+    # Очистка состояния
+    user_gad7_state.pop(uid, None)
+
+
+# --- Состояние пользователя ---
+user_phq9_state = {}
+
+# --- Запуск теста ---
+@bot.message_handler(func=lambda msg: msg.text.strip() == '🧞‍♀️ Тест депрессии')
 def start_phq9(message):
     uid = message.from_user.id
     user_phq9_state[uid] = {'step': 0, 'answers': []}
     send_phq9_question(message.chat.id, uid)
 
+# --- Отправка вопроса ---
 def send_phq9_question(chat_id, uid):
     step = user_phq9_state[uid]['step']
-    if step >= len(phq9_questions):
-        total = sum(user_phq9_state[uid]['answers'])
-        for minv, maxv, level, desc in phq9_levels:
-            if minv <= total <= maxv:
-                bot.send_message(chat_id,
-                    f"🧠 *Ваш результат (PHQ-9)*: {total}/27\n"
-                    f"*Уровень депрессии:* _{level}_\n\n"
-                    f"{desc}\n\n"
-                    "Сделай скрин и просто отправь его Стасу на @anxstas",
-                    parse_mode="Markdown"
-                )
-                markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
-                markup.add("🟡 Записаться на сессию-знакомство -40%")
-                markup.add("🏠 Домой")
-                bot.send_message(chat_id,
-                    "🟡 Если хочешь обсудить это глубже — запишись на сессию-знакомство со скидкой 40% 👇",
-                    reply_markup=markup
-                )
-                break
-        user_phq9_state.pop(uid)
-        return
+    if step < len(phq9_questions):
+        question = phq9_questions[step]
+        markup = types.InlineKeyboardMarkup()
+        for i in range(4):
+            markup.add(types.InlineKeyboardButton(str(i), callback_data=f'phq9_{i}'))
+        bot.send_message(chat_id, f"{step + 1}. {question}", reply_markup=markup)
 
-    question = phq9_questions[step]
-    markup = types.InlineKeyboardMarkup()
-    for i in range(4):
-        markup.add(types.InlineKeyboardButton(str(i), callback_data=f'phq9_{i}'))
-    bot.send_message(chat_id, f"{step + 1}. {question}", reply_markup=markup)
-
+# --- Обработка ответа ---
 @bot.callback_query_handler(func=lambda call: call.data.startswith("phq9_"))
 def handle_phq9_answer(call):
     uid = call.from_user.id
     if uid not in user_phq9_state:
         return
+
     score = int(call.data.split('_')[1])
     user_phq9_state[uid]['answers'].append(score)
     user_phq9_state[uid]['step'] += 1
     bot.answer_callback_query(call.id)
-    send_phq9_question(call.message.chat.id, uid)
+
+    if user_phq9_state[uid]['step'] < len(phq9_questions):
+        send_phq9_question(call.message.chat.id, uid)
+    else:
+        show_phq9_result(call.message.chat.id, uid)
+
+# --- Показ результата ---
+def show_phq9_result(chat_id, uid):
+    total = sum(user_phq9_state[uid]['answers'])
+    for minv, maxv, level in phq9_levels:
+        if minv <= total <= maxv:
+            desc = depression_descriptions[level]
+            bot.send_message(
+                chat_id,
+                f"🧠 *Ваш результат (PHQ-9)*: {total}/27\n"
+                f"*Уровень депрессии:* _{level}_\n\n"
+                f"{desc}\n\n"
+                "Сделай скрин и просто отправь его Стасу на @anxstas",
+                parse_mode="Markdown"
+            )
+            break
+
+    # Кнопки в конце
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
+    markup.add("🟡 Записаться на сессию-знакомство -40%")
+    markup.add("🏠 Домой")
+
+    bot.send_message(
+        chat_id,
+        "🟡 Если хочешь обсудить это глубже — запишись на сессию-знакомство со Стасом со скидкой 40% 👇",
+        reply_markup=markup
+    )
+
+    # Очистка
+    user_phq9_state.pop(uid, None)
 
 
 def social_links_keyboard():
