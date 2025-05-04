@@ -335,7 +335,6 @@ def show_depression_result(chat_id, uid):
 
 def social_links_keyboard():
     keyboard = types.InlineKeyboardMarkup(row_width=2)
-    tg_btn = types.InlineKeyboardButton("🪶 мой telegram", url="https://www.t.me/domminside")
     yt_btn = types.InlineKeyboardButton("▶️ мой youtube", url="https://www.youtube.com/@anxstas")
     mu_btn = types.InlineKeyboardButton("🎸 мой мьюзик", url="https://www.youtube.com/watch?v=ABcng-PsR3E&list=PLpSP-UgtrTHazZ74PrlSCLLiK82LlPrMH&index=3&pp=gAQBiAQB8AUB")
     keyboard.add(tg_btn, yt_btn, mu_btn)
