@@ -333,6 +333,13 @@ def show_depression_result(chat_id, uid):
         reply_markup=markup
     )
 
+def social_links_keyboard():
+    keyboard = types.InlineKeyboardMarkup(row_width=2)
+    tg_btn = types.InlineKeyboardButton("🛸 Канал Telegram", url="https://www.t.me/domminside")
+    yt_btn = types.InlineKeyboardButton("▶️ Мой YouTube", url="https://www.youtube.com/@anxstas")
+    keyboard.add(tg_btn, yt_btn)
+    return keyboard
+
 @bot.message_handler(commands=['start'])
 def handle_start(message):
     bot.send_message(
@@ -349,8 +356,14 @@ def handle_start(message):
 
 🆘 Срочная помощь — если сейчас совсем тяжко.
 
-🧞‍♂️🧞‍♀️ Ты можешь также пройти Тесты тревоги или депрессии. Это займет не больше 5 минут. Увидишь проблемы - записывайся на сессию-знакомство со скидкой. Не игнорь тревогу и депрессию - это твои двери в жизнь.""",      
+🧞‍♂️🧞‍♀️ Ты можешь также пройти Тесты тревоги или депрессии. Это займет не больше 5 минут. Увидишь проблемы - записывайся на сессию-знакомство со скидкой. Не игнорь тревогу и депрессию - это твои двери в жизнь.""",
         reply_markup=persistent_keyboard()
+    )
+    time.sleep(1.2
+    bot.send_message(
+        message.chat.id,
+        """🍊 Здесь мой канал в телеграм, и ютуб, где идет "Тоска'на":""",
+        reply_markup=social_links_keyboard()
     )
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🟡 Записаться на сессию-знакомство -40%')
@@ -870,16 +883,12 @@ def resources(message):
     text = (
         "Тут - много всего на важные тревожно-депрессивные темы.\n\n"
         "Я буду рад видеть тебя среди своих подписчиков. Только так я смогу развиваться и давать людям больше пользы.\n\n"
-        "▶️ YouTube о тревоге и депрессии (и чуть-чуть личного)\n\n"
         "📸 Instagram о тревоге и депрессии (и побольше личного)\n\n"
-        "✉️ Telegram о тревоге и депрессии (и чуть-чуть науки)\n\n"
         "📘 Facebook — где личное, и немного о тревоге и депрессии"
     )
     markup = types.InlineKeyboardMarkup(row_width=2)
     markup.add(
-        types.InlineKeyboardButton("YouTube", url="https://www.youtube.com/@anxstas"),
         types.InlineKeyboardButton("Instagram", url="https://www.instagram.com/verechuk_/"),
-        types.InlineKeyboardButton("Telegram", url="https://www.t.me/domminside"),
         types.InlineKeyboardButton("Facebook", url="https://www.facebook.com/stanislav.verechuk/")
     )
     bot.send_message(message.chat.id, text, reply_markup=markup)
