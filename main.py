@@ -670,7 +670,7 @@ def handle_deeper(message):
     user_state.pop(message.from_user.id, None)
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("🧘 О подходе «Домой, к себе настоящему»")
-    markup.add("🧩 Полезности", "🧶 Заботливости")
+    markup.add("🧩 Соцсети", "🧶 Заботливости")
     markup.add("🛁 Тест глубины", "🐳 Еще глубже")
     markup.add("🗣 Обратная связь", "🏠 Домой")
     bot.send_message(message.chat.id, "Выбери, что тебе интересно 👇", reply_markup=markup)
@@ -885,7 +885,7 @@ def respond_to_emotion(message):
         bot.send_message(message.chat.id, "Я не совсем понял, что ты чувствуешь. Выбери одну из эмоций ниже 💛")
 
 
-@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🧩 Полезности')
+@bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🧩 Соцсети')
 def resources(message):
     user_state.pop(message.from_user.id, None)
     text = (
@@ -1072,7 +1072,7 @@ def handle_ultimate_answer(message):
     '🤿 Пойти глубже',
     '🆘 Срочная помощь',
     '🧘 О подходе «Домой, к себе настоящему»',
-    '🧩 Полезности',
+    '🧩 Соцсети',
     '🧶 Заботливости',
     '🛁 Тест глубины'
     '🐳 Еще глубже',
