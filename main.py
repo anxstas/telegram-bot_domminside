@@ -197,8 +197,6 @@ def start_phq9(message):
 def send_phq9_question(chat_id):
     step = user_phq9_state[chat_id]["step"]
     if step >= len(phq9_questions):
-        # Перед тем как показать результат — отправим приглашение на сессию
-        bot.send_message(chat_id, "🟡 Это можно обсудить глубже — сессия-знакомство 👇", reply_markup=main_keyboard)
         show_phq9_result(chat_id)
         return
 
