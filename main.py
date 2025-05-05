@@ -283,11 +283,11 @@ def handle_booking(message):
         slot_id = dt.strftime('%Y-%m-%d_%H:%M')
         markup.add(types.InlineKeyboardButton(text=label, callback_data=f"slot_{slot_id}"))
 
-bot.send_message(
-    message.chat.id,
-    "🟡 Выбери удобное тебе время:\n\nЕсли есть вопросы — можно написать Стасу лично на @anxstas",
-    reply_markup=markup
-)
+    bot.send_message(
+        message.chat.id,
+        "🟡 Выбери удобное тебе время:\n\nЕсли есть вопросы — можно написать Стасу лично на @anxstas",
+        reply_markup=markup
+    )
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith("slot_"))
 def handle_slot_choice(call):
