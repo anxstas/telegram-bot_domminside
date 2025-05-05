@@ -233,13 +233,13 @@ def handle_start(message):
         reply_markup=persistent_keyboard()
     )
 
-    time.sleep(5)
+    human_delay()
     bot.send_message(
         message.chat.id,
         """🧞‍♂️🧞‍♀️ Ты можешь также пройти Тесты тревоги или депрессии. Это займет не больше 2 минут. Увидишь проблемы - записывайся на сессию-знакомство со скидкой. Не игнорь тревогу и депрессию - это твои двери в жизнь.""",
     )
 
-    time.sleep(6)
+    human_delay()
     bot.send_message(
         message.chat.id,
         """А здесь ⤵️ 
@@ -638,7 +638,7 @@ def handle_sea_of_silence(message):
 @bot.callback_query_handler(func=lambda call: call.data == 'just_be_here')
 def handle_just_be_here(call):
     bot.send_chat_action(call.message.chat.id, 'typing')
-    time.sleep(1.5)
+    human_delay()
     bot.send_message(
         call.message.chat.id,
     "Будь здесь, сколько захочешь.\n\nМесто внутри себя — самое прекрасное место на Земле. Зачастую оно испещрено ранами, но от этого оно становится еще и очень-очень ценным. Непохожим ни на кого и уникальным. И оно так хочет твоей заботы. Повтыкай на этого кота, у него точно можно поучиться 💛"
@@ -649,7 +649,7 @@ def handle_diary_start(message):
     user_state.pop(message.from_user.id, None)
     user_state[message.from_user.id] = 'waiting_diary_entry'
     bot.send_chat_action(message.chat.id, 'typing')
-    time.sleep(1.5)
+    human_delay()
     bot.send_message(
         message.chat.id,
         "Хочешь записать, что сейчас внутри?\n\nМожешь написать прямо сюда. А я просто побуду рядом."
@@ -667,7 +667,7 @@ def handle_diary_entry(message):
         )
 
     bot.send_chat_action(message.chat.id, 'typing')
-    time.sleep(1)
+    human_delay()
     bot.send_message(
         message.chat.id,
         "Спасибо, что поделился. Это важно.\nТвои слова здесь навсегда в безопасности. 💛"
