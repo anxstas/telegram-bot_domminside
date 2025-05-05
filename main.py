@@ -88,6 +88,15 @@ gad7_descriptions = {
 @bot.message_handler(func=lambda message: message.text.startswith("🧞‍♂️ Тест тревоги"))
 def start_gad7(message):
     uid = message.chat.id
+
+    user_gad7_state.pop(uid, None)
+    user_phq9_state.pop(uid, None)
+    user_bai_state.pop(uid, None)
+    user_stai_state.pop(uid, None)
+    user_bdi2_state.pop(uid, None)
+    user_hads_state.pop(uid, None)
+    user_cesd_state.pop(uid, None)
+
     user_gad7_state[uid] = {"step": 0, "answers": []}
     send_gad7_question(uid)
 
@@ -162,6 +171,15 @@ phq9_descriptions = {
 @bot.message_handler(func=lambda message: message.text.startswith("🧞‍♀️ Тест депрессии"))
 def start_phq9(message):
     uid = message.chat.id
+
+    user_gad7_state.pop(uid, None)
+    user_phq9_state.pop(uid, None)
+    user_bai_state.pop(uid, None)
+    user_stai_state.pop(uid, None)
+    user_bdi2_state.pop(uid, None)
+    user_hads_state.pop(uid, None)
+    user_cesd_state.pop(uid, None)
+
     user_phq9_state[uid] = {"step": 0, "answers": []}
     send_phq9_question(uid)
 
@@ -889,6 +907,15 @@ stai_trait_interpretation = {
 @bot.message_handler(func=lambda message: message.text.startswith("BAI"))
 def start_bai(message):
     uid = message.chat.id
+
+    user_gad7_state.pop(uid, None)
+    user_phq9_state.pop(uid, None)
+    user_bai_state.pop(uid, None)
+    user_stai_state.pop(uid, None)
+    user_bdi2_state.pop(uid, None)
+    user_hads_state.pop(uid, None)
+    user_cesd_state.pop(uid, None)
+
     user_bai_state[uid] = {"index": 0, "answers": []}
     send_bai_question(uid)
 
@@ -947,6 +974,15 @@ user_stai_state = {}
 @bot.message_handler(func=lambda m: m.text and m.text.strip().startswith("STAI"))
 def start_stai(message):
     uid = message.chat.id
+
+    user_gad7_state.pop(uid, None)
+    user_phq9_state.pop(uid, None)
+    user_bai_state.pop(uid, None)
+    user_stai_state.pop(uid, None)
+    user_bdi2_state.pop(uid, None)
+    user_hads_state.pop(uid, None)
+    user_cesd_state.pop(uid, None)
+
     user_stai_state[uid] = {"index": 0, "answers": [], "questions": stai_state_questions + stai_trait_questions}
     send_stai_question(message.chat.id, uid)
 
@@ -1037,6 +1073,15 @@ bdi2_descriptions = {
 @bot.message_handler(func=lambda message: message.text.startswith("BDI-II"))
 def start_bdi2(message):
     uid = message.chat.id
+
+    user_gad7_state.pop(uid, None)
+    user_phq9_state.pop(uid, None)
+    user_bai_state.pop(uid, None)
+    user_stai_state.pop(uid, None)
+    user_bdi2_state.pop(uid, None)
+    user_hads_state.pop(uid, None)
+    user_cesd_state.pop(uid, None)
+
     user_bdi2_state[uid] = {"index": 0, "answers": []}
     send_bdi2_question(message.chat.id, uid)
 
@@ -1121,6 +1166,15 @@ hads_depression_desc = {
 @bot.message_handler(func=lambda message: message.text.startswith("HADS"))
 def start_hads(message):
     uid = message.chat.id
+
+    user_gad7_state.pop(uid, None)
+    user_phq9_state.pop(uid, None)
+    user_bai_state.pop(uid, None)
+    user_stai_state.pop(uid, None)
+    user_bdi2_state.pop(uid, None)
+    user_hads_state.pop(uid, None)
+    user_cesd_state.pop(uid, None)
+
     user_hads_state[uid] = {"index": 0, "a_score": 0, "d_score": 0}
     send_hads_question(message.chat.id, uid)
 
@@ -1210,6 +1264,15 @@ cesd_descriptions = {
 @bot.message_handler(func=lambda message: message.text.startswith("CES-D"))
 def start_cesd(message):
     uid = message.chat.id
+
+    user_gad7_state.pop(uid, None)
+    user_phq9_state.pop(uid, None)
+    user_bai_state.pop(uid, None)
+    user_stai_state.pop(uid, None)
+    user_bdi2_state.pop(uid, None)
+    user_hads_state.pop(uid, None)
+    user_cesd_state.pop(uid, None)
+
     user_cesd_state[uid] = {"index": 0, "answers": []}
     send_cesd_question(message.chat.id, uid)
 
