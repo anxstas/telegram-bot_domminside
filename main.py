@@ -885,12 +885,12 @@ def send_bai_question(chat_id, uid):
     markup.add("2 — Умеренно", "3 — Сильно")
     bot.send_message(chat_id, f"❓ {bai_questions[idx]}", reply_markup=markup)
 
-@bot.message_handler(func=lambda m: m.chat.id in user_bai_state and m.text.startswith(("0", "1", "2", "3")))
+@bot.message_handler(func=lambda m: m.chat.id in user_bai_state and m.text[0] in "0123")
 def handle_bai_answer(message):
     uid = message.chat.id
     user_bai_state[uid]["answers"].append(int(message.text[0]))
     user_bai_state[uid]["index"] += 1
-    send_bai_question(message.chat.id, uid)
+    send_bai_question(uid)
 
 def show_bai_result(chat_id, uid):
     total = sum(user_bai_state[uid]["answers"])
