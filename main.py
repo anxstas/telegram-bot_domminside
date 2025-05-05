@@ -628,6 +628,7 @@ def handle_deeper(message):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("🧘 О подходе «Домой, к себе настоящему»")
     markup.add("🧩 Социальные сети", "🧶 Заботливости")
+    markup.add("🧞‍♂️ Все тесты Т", "🧞‍♀️ Все тесты Д")
     markup.add("🛁 Тест глубины", "🐳 Еще глубже")
     markup.add("🗣 Обратная связь", "🏠 Домой")
     bot.send_message(message.chat.id, "Выбери, что тебе интересно 👇", reply_markup=markup)
@@ -866,7 +867,41 @@ def resources(message):
     )
     bot.send_message(message.chat.id, text, reply_markup=markup)
 
-from telebot import types
+
+@bot.message_handler(func=lambda message: message.text == "🧞‍♂️ Все тесты Т")
+def handle_all_anxiety_tests(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
+    markup.add("GAD-7 (Generalized Anxiety Disorder)")
+    markup.add("BAI (Beck Anxiety Inventory)")
+    markup.add("STAI (Spielberger State-Trait Anxiety Inventory)")
+    markup.add("🏠 Домой")
+    bot.send_message(message.chat.id, "🧞‍♂️ Тесты на тревожность:", reply_markup=markup)
+
+
+@bot.message_handler(func=lambda message: message.text == "🧞‍♀️ Все тесты Д")
+def handle_all_depression_tests(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
+    markup.add("PHQ-9 (Patient Health Questionnaire)")
+    markup.add("BDI-II (Beck Depression Inventory II)") 
+    markup.add("HADS (Hospital Anxiety and Depression Scale)")
+    markup.add("CES-D (Center for Epid Stud Depression Scale)")
+    markup.add("🏠 Домой")
+    bot.send_message(message.chat.id, "🧞‍♀️ Тесты на депрессию:", reply_markup=markup)
+
+
+# --- Заглушки и переходы для новых тестов ---
+
+@bot.message_handler(func=lambda message: message.text.startswith("GAD-7"))
+def redirect_to_gad7(message):
+    bot.send_message(message.chat.id, "📌 Вы перенаправлены к тесту GAD-7.")
+    handle_gad7_start(message)  # предполагается, что уже есть
+
+@bot.message_handler(func=lambda message: message.text.startswith("PHQ-9"))
+def redirect_to_phq9(message):
+    bot.send_message(message.chat.id, "📌 Вы перенаправлены к тесту PHQ-9.")
+    handle_phq9_start(message)  # предполагается, что уже есть
+
+
 
 # Запуск теста "Какой ты пельмень" из ветки "Пойти глубже"
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == "🛁 Тест глубины")
