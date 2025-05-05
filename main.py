@@ -887,7 +887,8 @@ def send_bai_question(uid):
         return
     q = bai_questions[index]
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
-    markup.add("0 — Совсем нет", "1 — Немного", "2 — Умеренно", "3 — Сильно / почти всегда")
+    markup.add("0 — Совсем нет", "1 — Немного")
+    markup.add("2 — Умеренно", "3 — Сильно/почти всегда")
     bot.send_message(uid, f"{index+1}. {q}", reply_markup=markup)
 
 @bot.message_handler(func=lambda m: m.chat.id in user_bai_state and m.text[0] in "0123")
