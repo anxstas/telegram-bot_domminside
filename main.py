@@ -127,7 +127,7 @@ def show_gad7_result(chat_id):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("🟡 Записаться на сессию-знакомство -40%")
     markup.add("🏠 Домой")
-    bot.send_message(chat_id, "🟡 Это можно обсудить глубже — запишитесь на сессию 👇", reply_markup=markup)
+    bot.send_message(chat_id, "🟡 Также это можно обсудить глубже — запишитесь на сессию 👇", reply_markup=markup)
     user_gad7_state.pop(uid, None)
     # --- Итоговый результат ---
 
@@ -202,7 +202,7 @@ def show_phq9_result(chat_id):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("🟡 Записаться на сессию-знакомство -40%")
     markup.add("🏠 Домой")
-    bot.send_message(chat_id, "🟡 Это можно обсудить глубже — запишитесь на сессию 👇", reply_markup=markup)
+    bot.send_message(chat_id, "🟡 Также это можно обсудить глубже — запишитесь на сессию 👇", reply_markup=markup)
     user_phq9_state.pop(uid, None)
     # --- Итоговый результат ---
 
@@ -931,7 +931,7 @@ def show_bai_result(chat_id):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("🟡 Записаться на сессию-знакомство -40%")
     markup.add("🏠 Домой")
-    bot.send_message(chat_id, "🟡 Это можно обсудить глубже — запишитесь на сессию 👇", reply_markup=markup)
+    bot.send_message(chat_id, "🟡 Также это можно обсудить глубже — запишитесь на сессию 👇", reply_markup=markup)
 
     # Очистка состояния
     user_bai_state.pop(uid, None)
@@ -996,7 +996,7 @@ def show_stai_result(chat_id, uid):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("🟡 Записаться на сессию-знакомство -40%")
     markup.add("🏠 Домой")
-    bot.send_message(chat_id, "🟡 Это можно обсудить глубже — запишитесь на сессию 👇", reply_markup=markup)
+    bot.send_message(chat_id, "🟡 Также это можно обсудить глубже — запишитесь на сессию 👇", reply_markup=markup)
 
     user_stai_state.pop(uid, None)
     # --- Итоговый результат ---
@@ -1071,7 +1071,7 @@ def show_bdi2_result(chat_id, uid):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("🟡 Записаться на сессию-знакомство -40%")
     markup.add("🏠 Домой")
-    bot.send_message(chat_id, "🟡 Это можно обсудить глубже — запишитесь на сессию 👇", reply_markup=markup)
+    bot.send_message(chat_id, "🟡 Также это можно обсудить глубже — запишитесь на сессию 👇", reply_markup=markup)
     user_bdi2_state.pop(uid, None)
     # --- Итоговый результат ---
 
@@ -1170,7 +1170,7 @@ def show_hads_result(chat_id, uid):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("🟡 Записаться на сессию-знакомство -40%")
     markup.add("🏠 Домой")
-    bot.send_message(chat_id, "🟡 Это можно обсудить глубже — запишитесь на сессию 👇", reply_markup=markup)
+    bot.send_message(chat_id, "🟡 Также это можно обсудить глубже — запишитесь на сессию 👇", reply_markup=markup)
 
     user_hads_state.pop(uid, None)
     # --- Итоговый результат ---
@@ -1246,7 +1246,7 @@ def show_cesd_result(chat_id, uid):
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("🟡 Записаться на сессию-знакомство -40%")
     markup.add("🏠 Домой")
-    bot.send_message(chat_id, "🟡 Это можно обсудить глубже — запишитесь на сессию 👇", reply_markup=markup)
+    bot.send_message(chat_id, "🟡 Также это можно обсудить глубже — запишитесь на сессию 👇", reply_markup=markup)
     user_cesd_state.pop(uid, None)
     # --- Итоговый результат ---
 
