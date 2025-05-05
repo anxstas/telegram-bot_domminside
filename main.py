@@ -872,18 +872,17 @@ stai_descriptions = {
 def start_bai(message):
     uid = message.chat.id
     user_bai_state[uid] = {"index": 0, "answers": []}
-    send_bai_question(message.chat.id, uid)
+    send_bai_question(uid)
 
-def send_bai_question(chat_id, uid):
-    idx = user_bai_state[uid]["index"]
-    if idx >= len(bai_questions):
-        show_bai_result(chat_id, uid)
+def send_bai_question(uid):
+    index = user_bai_state[uid]["index"]
+    if index >= len(bai_questions):
+        show_bai_result(uid)
         return
-
+    q = bai_questions[index]
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
-    markup.add("0 — Совсем нет", "1 — Немного")
-    markup.add("2 — Умеренно", "3 — Сильно")
-    bot.send_message(chat_id, f"❓ {bai_questions[idx]}", reply_markup=markup)
+    markup.add("0 — Совсем нет", "1 — Немного", "2 — Умеренно", "3 — Сильно / почти всегда")
+    bot.send_message(uid, f"{index+1}. {q}", reply_markup=markup)
 
 @bot.message_handler(func=lambda m: m.chat.id in user_bai_state and m.text[0] in "0123")
 def handle_bai_answer(message):
@@ -892,7 +891,8 @@ def handle_bai_answer(message):
     user_bai_state[uid]["index"] += 1
     send_bai_question(uid)
 
-def show_bai_result(chat_id, uid):
+def show_bai_result(chat_id):
+    uid = chat_id
     total = sum(user_bai_state[uid]["answers"])
     for minv, maxv, level in bai_levels:
         if minv <= total <= maxv:
@@ -902,7 +902,7 @@ def show_bai_result(chat_id, uid):
                 f"🧠 *Ваш результат (BAI)*: {total}/63\n"
                 f"*Уровень тревожности:* _{level}_\n\n"
                 f"{desc}\n\n"
-                "Сделайте скрин и просто отправьте его Стасу @anxstas, и он ответит в ближайшее время. Это бесплатно",
+                "Сделайте скрин и просто отправьте его Стасу @anxstas — он ответит в ближайшее время. Это бесплатно.",
                 parse_mode="Markdown"
             )
             break
