@@ -871,30 +871,6 @@ stai_trait_interpretation = {
     "Высокий уровень тревожности": "Тревожность — устойчивая черта вашей личности, которая влияет на самоощущение и решения. Это может быть результатом хронического стресса или внутренних убеждений. Важно заняться собой сейчас."
 }
 
-@bot.message_handler(func=lambda message: message.text == "BAI (Beck Anxiety Inventory)")
-def start_bai_from_list(message):
-    start_bai(message)
-
-@bot.message_handler(func=lambda message: message.text == "STAI (Spielberger State-Trait Anxiety Inventory)")
-def start_stai_from_list(message):
-    start_stai(message)
-
-@bot.message_handler(func=lambda message: message.text == "PHQ-9 (Patient Health Questionnaire)")
-def start_phq9_from_list(message):
-    start_phq9(message)
-
-@bot.message_handler(func=lambda message: message.text == "BDI-II (Beck Depression Inventory II)")
-def start_bdi2_from_list(message):
-    start_bdi2(message)
-
-@bot.message_handler(func=lambda message: message.text == "HADS (Hospital Anxiety and Depression Scale)")
-def start_hads_from_list(message):
-    start_hads(message)
-
-@bot.message_handler(func=lambda message: message.text == "CES-D (Center for Epid Stud Depression Scale)")
-def start_cesd_from_list(message):
-    start_cesd(message)
-
 # --- Обработка нажатий на BAI и STAI ---
 @bot.message_handler(func=lambda message: message.text.startswith("BAI"))
 def start_bai(message):
@@ -942,7 +918,7 @@ def show_bai_result(chat_id):
     user_bai_state.pop(uid, None)
     # --- Итоговый результат ---
 
-@bot.message_handler(func=lambda message: message.text.startswith("STAI"))
+@bot.message_handler(func=lambda m: m.text and m.text.strip().startswith("STAI"))
 def start_stai(message):
     uid = message.chat.id
     user_stai_state[uid] = {"index": 0, "answers": []}
