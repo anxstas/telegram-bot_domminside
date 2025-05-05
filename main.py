@@ -28,6 +28,10 @@ bot = telebot.TeleBot(TELEGRAM_TOKEN)
 logging.basicConfig(level=logging.INFO)
 user_state = {}
 
+main_keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
+main_keyboard.add("🟡 Записаться на сессию-знакомство -40%")
+main_keyboard.add("🏠 Домой")
+
 user_selected_slots = {}
 
 def get_next_slots():
@@ -124,9 +128,7 @@ def show_gad7_result(chat_id):
     for minv, maxv, level in gad7_levels:
         if minv <= total <= maxv:
             desc = gad7_descriptions[level]
-            bot.send_message(
-                chat_id,
-                f"🧠 *Ваш результат (GAD-7)*: {total}/21\n"
+            bot.send_message(chat_id, "🧠 *Ваш результат (GAD-7)*: {total}/21", reply_markup=main_keyboard)
                 f"*Уровень тревожности:* _{level}_\n\n"
                 f"{desc}\n\n"
                 "Сделайте скрин и отправьте его Стасу лично на @anxstas — он быстро ответит и подскажет, что можно сделать. Это бесплатно."
@@ -186,8 +188,11 @@ def start_phq9(message):
 def send_phq9_question(chat_id):
     step = user_phq9_state[chat_id]["step"]
     if step >= len(phq9_questions):
+        # Перед тем как показать результат — отправим приглашение на сессию
+        bot.send_message(chat_id, "🟡 Это можно обсудить глубже — сессия-знакомство 👇", reply_markup=main_keyboard)
         show_phq9_result(chat_id)
         return
+
     q = phq9_questions[step]
     markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
     markup.add("0 — Совсем нет", "1 — Иногда")
