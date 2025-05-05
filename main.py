@@ -893,11 +893,11 @@ def handle_all_depression_tests(message):
 
 @bot.message_handler(func=lambda message: message.text.startswith("GAD-7"))
 def redirect_to_gad7(message):
-    def start_gad7(message)
+    def start_gad7(message):
 
 @bot.message_handler(func=lambda message: message.text.startswith("PHQ-9"))
 def redirect_to_phq9(message):
-    def start_phq9(message)
+    def start_phq9(message):
 
 
 # Запуск теста "Какой ты пельмень" из ветки "Пойти глубже"
