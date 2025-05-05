@@ -267,9 +267,11 @@ def handle_booking(message):
         slot_id = dt.strftime('%Y-%m-%d_%H:%M')
         markup.add(types.InlineKeyboardButton(text=label, callback_data=f"slot_{slot_id}"))
 
-    bot.send_message(message.chat.id, "🟡 Выбери удобное тебе время:", reply_markup=markup)
-    bot.send_message(message.chat.id, "Если есть вопросы — можно написать Стасу лично на @anxstas")
-
+bot.send_message(
+    message.chat.id,
+    "🟡 Выбери удобное тебе время:\n\nЕсли есть вопросы — можно написать Стасу лично на @anxstas",
+    reply_markup=markup
+)
 
 @bot.callback_query_handler(func=lambda call: call.data.startswith("slot_"))
 def handle_slot_choice(call):
@@ -338,13 +340,14 @@ def confirm_payment(call):
     time = dt.strftime("%H:%M")
     human_date = f"{day_name}, {day} {month} в {time}"
 
-    bot.send_message(call.message.chat.id, "Вот ссылка, чтобы добавить встречу в календарь:")
-    bot.send_message(call.message.chat.id, calendar_link)
-    bot.send_message(call.message.chat.id, f"Жду тебя в {human_date} 🤗", reply_markup=persistent_keyboard())
-    bot.send_message(call.message.chat.id, "Установи заранее Google Meet для связи, перед сессией я пришлю тебе ссылку на встречу.")
-    bot.send_message(call.message.chat.id, "А пока что загляни в «🤿 Пойти глубже» 👇, у нас там интересно.")
-
-
+bot.send_message(
+    call.message.chat.id,
+    f"Вот ссылка, чтобы добавить встречу в календарь:\n\n{calendar_link}\n\n"
+    f"Жду тебя в {human_date} 🤗\n\n"
+    "Установи заранее Google Meet для связи — перед сессией я пришлю тебе ссылку.\n\n"
+    "А пока что загляни в «🤿 Пойти глубже» 👇, у нас там интересно.",
+    reply_markup=persistent_keyboard()
+)
 
 def get_techniques_block():
     return (
@@ -562,8 +565,11 @@ def about_method(message):
         types.InlineKeyboardButton("🌐 Сайт", url="https://anxstas.github.io/"),
         types.InlineKeyboardButton("📖 Концепция", url="https://page.genspark.site/page/toolu_01MDfAf2WCfQ9Bey23eeESjN/%D0%B4%D0%BE%D0%BC%D0%BE%D0%B9_%D0%BA_%D1%81%D0%B5%D0%B1%D0%B5_%D0%BD%D0%B0%D1%81%D1%82%D0%BE%D1%8F%D1%89%D0%B5%D0%BC%D1%83_%D1%84%D0%B8%D0%BD%D0%B0%D0%BB.html")
     )
-    bot.send_message(message.chat.id, text, reply_markup=markup)
-    bot.send_message(message.chat.id, "И всегда можно вернуться в главное меню 👇", reply_markup=persistent_keyboard())
+bot.send_message(
+    message.chat.id,
+    f"{text}\n\nИ всегда можно вернуться в главное меню 👇",
+    reply_markup=persistent_keyboard()
+)
 
 @bot.message_handler(func=lambda msg: msg.text and msg.text.strip() == '🗣 Обратная связь')
 def handle_feedback_start(message):
