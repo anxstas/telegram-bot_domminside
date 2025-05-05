@@ -125,20 +125,29 @@ def handle_gad7_answer(message):
 def show_gad7_result(chat_id):
     uid = chat_id
     total = sum(user_gad7_state[uid]['answers'])
+
     for minv, maxv, level in gad7_levels:
         if minv <= total <= maxv:
             desc = gad7_descriptions[level]
-            bot.send_message(chat_id, "🧠 *Ваш результат (GAD-7)*: {total}/21", reply_markup=main_keyboard)
-            f"*Уровень тревожности:* _{level}_\n\n"
-            f"{desc}\n\n"
-            "Сделайте скрин и отправьте его Стасу лично на @anxstas — он быстро ответит и подскажет, что можно сделать. Это бесплатно."
-        )
-        break
-    markup = types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
-    markup.add("🟡 Записаться на сессию-знакомство -40%")
-    markup.add("🏠 Домой")
-    bot.send_message(chat_id, "🟡 Также это можно обсудить глубже — запишитесь на сессию 👇", reply_markup=markup)
+
+            bot.send_message(
+                chat_id,
+                f"🧠 *Ваш результат (GAD-7)*: {total}/21\n"
+                f"*Уровень тревожности:* _{level}_\n\n"
+                f"{desc}\n\n"
+                "Сделайте скрин и отправьте его Стасу лично на @anxstas — он быстро ответит и подскажет, что можно сделать. Это бесплатно.",
+                parse_mode="Markdown"
+            )
+            break
+
+    bot.send_message(
+        chat_id,
+        "🟡 Также это можно обсудить глубже — запишитесь на сессию 👇",
+        reply_markup=main_keyboard
+    )
+
     user_gad7_state.pop(uid, None)
+
     # --- Итоговый результат ---
 
 # --- Состояние пользователя PHQ-9 ---
