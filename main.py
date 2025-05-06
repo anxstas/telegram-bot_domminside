@@ -237,7 +237,7 @@ def show_phq9_result(chat_id):
 def social_links_keyboard():
     keyboard = types.InlineKeyboardMarkup(row_width=2)
     tg_btn = types.InlineKeyboardButton("🪶 Мой Telegram", url="https://t.me/domminside")
-    yt_btn = types.InlineKeyboardButton("📺 Мой YouTube", url="https://www.youtube.com/@anxstas")
+    yt_btn = types.InlineKeyboardButton("📸 Моя Insta", url="https://www.instagram.com/verechuk_")
     mu_btn = types.InlineKeyboardButton("🎸 Мой Мьюзик", url="https://www.youtube.com/watch?v=ABcng-PsR3E&list=PLpSP-UgtrTHazZ74PrlSCLLiK82LlPrMH&index=3&pp=gAQBiAQB8AUB")
     keyboard.add(tg_btn, yt_btn, mu_btn)
     return keyboard
@@ -799,20 +799,20 @@ def resources(message):
     text = (
         "Тут - много всего на важные тревожно-депрессивные темы.\n\n"
         "Я буду рад видеть тебя среди своих подписчиков. Только так я смогу развиваться и давать людям больше пользы.\n\n"
-        "▶️ YouTube о тревоге и депрессии (и чуть-чуть личного)\n\n"
         "📸 Instagram о тревоге и депрессии (и побольше личного)\n\n"
         "🪶 Telegram о тревоге и депрессии (и чуть-чуть науки)\n\n"
         "🎸 Моя музыка, где последний альбом и часть предпоследнего написаны в моих ГТР и ТДР\n\n"
         "🐡 Facebook — где личное, и немного о тревоге и депрессии\n\n"
+         "▶️ YouTube о тревоге и депрессии (планирую развитие в 2026)\n\n"
         "📽 Мои музыкальные видео, созданные в тех же состояниях ГТР и ТДР в 2017-2020"
     )
     markup = types.InlineKeyboardMarkup(row_width=2)
     markup.add(
-        types.InlineKeyboardButton("▶️ Мой YouTube", url="https://www.youtube.com/@anxstas"),
         types.InlineKeyboardButton("📸 Моя Insta", url="https://www.instagram.com/verechuk_/"),
         types.InlineKeyboardButton("🪶 Мой Telegram", url="https://www.t.me/domminside"),
         types.InlineKeyboardButton("🎸 Мой Мьюзик", url="https://soundcloud.com/joneser99"),
         types.InlineKeyboardButton("🐡 Мой Facebook", url="https://www.facebook.com/stanislav.verechuk/"),
+        types.InlineKeyboardButton("▶️ Мой YouTube", url="https://www.youtube.com/@anxstas"),
         types.InlineKeyboardButton("📽 Мои Видео", url="https://www.youtube.com/playlist?list=PLpSP-UgtrTHazZ74PrlSCLLiK82LlPrMH")
     )
     bot.send_message(message.chat.id, text, reply_markup=markup)
